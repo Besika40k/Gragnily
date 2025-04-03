@@ -2,15 +2,15 @@ import style from './SideBar.module.css'
 import SideBarIcon from '../SideBarIcon/SideBarIcon';
 import pfp from "../../assets/pfp.png";
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function SideBar() {
     const [hoveredIcon, setHoveredIcon] = useState(null);
 
     const handleMouseEnter = (iconName) => setHoveredIcon(iconName);
-    console.log(hoveredIcon);
     const handleMouseLeave = () => setHoveredIcon(null);
-    console.log(hoveredIcon);
+    
     const icons = [
         { name: "likedSvg", label: "მოწონებული" },
         { name: "bookmarkedSvg", label: "ჩანიშნული" },
@@ -26,37 +26,41 @@ function SideBar() {
                     <img src={pfp} alt="Profile" />
                 </li>
                 {icons.slice(0, 2).map(({ name, label }) => (
-                    <li onMouseEnter={() => handleMouseEnter(name)} 
-                    onMouseLeave={handleMouseLeave} key={name}>
-                        <SideBarIcon 
-                            name={name} 
-                            
-                        />
-                        <div 
-                            className={style.arrowDiv} 
-                            style={{ opacity: hoveredIcon === name ? "100" : "0", visibility: hoveredIcon === name ? "visible" : "hidden" }}
-                        >
-                            <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
-                            <h2>{label}</h2>
-                        </div>
-                    </li>
+                    <Link to={`/${name.slice(0, -3)}`}>
+                        <li onMouseEnter={() => handleMouseEnter(name)} 
+                        onMouseLeave={handleMouseLeave} key={name}>
+                            <SideBarIcon 
+                                name={name} 
+                                
+                            />
+                            <div 
+                                className={style.arrowDiv} 
+                                style={{ opacity: hoveredIcon === name ? "100" : "0", visibility: hoveredIcon === name ? "visible" : "hidden" }}
+                            >
+                                <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
+                                <h2>{label}</h2>
+                            </div>
+                        </li>
+                    </Link>
                 ))}
             </ul>
             <ul>
                 {icons.slice(2).map(({ name, label }) => (
-                    <li onMouseEnter={() => handleMouseEnter(name)} 
-                    onMouseLeave={handleMouseLeave} key={name}>
-                        <SideBarIcon 
-                            name={name}  
-                        />
-                        <div 
-                            className={style.arrowDiv} 
-                            style={{ opacity: hoveredIcon === name ? "100" : "0", visibility: hoveredIcon === name ? "visible" : "hidden" }}
-                        >
-                            <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
-                            <h2>{label}</h2>
-                        </div>
-                    </li>
+                    <Link to={`/${name.slice(0, -3) == "home"? "": name.slice(0, -3)}`}>
+                        <li onMouseEnter={() => handleMouseEnter(name)} 
+                        onMouseLeave={handleMouseLeave} key={name}>
+                            <SideBarIcon 
+                                name={name}  
+                            />
+                            <div 
+                                className={style.arrowDiv} 
+                                style={{ opacity: hoveredIcon === name ? "100" : "0", visibility: hoveredIcon === name ? "visible" : "hidden" }}
+                            >
+                                <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
+                                <h2>{label}</h2>
+                            </div>
+                        </li>
+                    </Link>
                 ))}
             </ul>
         </nav>
