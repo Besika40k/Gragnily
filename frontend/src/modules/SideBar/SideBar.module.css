@@ -1,0 +1,49 @@
+.sidebar{
+    background-color: #E6DBCD;
+    width: 80px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px ;
+}
+.sidebar ul{
+    list-style: none;
+}
+.sidebar ul:nth-child(2){
+    margin-top: 15vh;
+}
+.sidebar li{
+    margin-top: 5px;
+    font-family: "bpg", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.arrowDiv{
+    position: absolute;
+    left: 70px; 
+    width: 200px;
+    height: 200px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(5px);
+    /* delay */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition-delay: 0.1s; 
+    pointer-events: none;
+}
+
+.arrowDiv h2{
+    position: absolute;
+    top: 50%;
+    left: 55%; 
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 15px; 
+}
