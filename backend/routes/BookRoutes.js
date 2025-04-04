@@ -10,14 +10,16 @@ const {
 } = require("../controllers/BooksController")
 
 
+
+
 router.route("/").get(getBooks)
+
 router.route("/:id").get(getBook)
 
-//gotta do author and publisher first
-// router.route("/").post(createBook)
-// router.route("/:id").get(getContact)
-// router.route("/:id").post(updateContact)
-// router.route("/:id").delete(deleteContact)
+router.route("/").post(createBook)
+
+// router.route("/:id").post(updateBook)
+// router.route("/:id").delete(deleteBook)
 
 
 

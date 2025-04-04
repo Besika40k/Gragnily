@@ -1,0 +1,272 @@
+openapi: 3.0.0
+info:
+  title: Book API
+  version: 1.0.0
+  description: API to manage and fetch book records
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/books:
+    get:
+      summary: Get all books
+      tags: [Books]
+      responses:
+        200:
+          description: List of Books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a new book
+      tags: [Books]
+      description: Creates a new book entry with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the book
+                author:
+                  type: array
+                  items:
+                    type: string
+                  description: List of authors' names associated with the book
+                genre:
+                  type: array
+                  items:
+                    type: string
+                  description: List of genres of the book
+                publisher_name:
+                  type: string
+                  description: The publisher of the book
+                publication_year:
+                  type: integer
+                  description: The year the book was published
+                language:
+                  type: string
+                  description: The language of the book
+                cover_image_url:
+                  type: string
+                  format: uri
+                  description: URL to the cover image of the book
+                pdf_url:
+                  type: string
+                  format: uri
+                  description: URL to the PDF version of the book
+                epub_url:
+                  type: string
+                  format: uri
+                  description: URL to the EPUB version of the book
+              required:
+                - title
+                - author
+                - genre
+                - publisher_name
+                - publication_year
+                - language
+                - cover_image_url
+                - pdf_url
+                - epub_url
+      responses:
+        '200':
+          description: Successfully created book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "hell yea"
+        '400':
+          description: Invalid input or missing required fields
+        '500':
+          description: Internal server error
+  /api/books/{id}:
+    get:
+      summary: Get book by title
+      tags: [Books]
+      parameters:
+        - name: title
+          in: query
+          required: true
+          description: Title of the book to retrieve
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: ID of the book to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+        '400':
+          description: Invalid title supplied
+  /api/authors:
+    get:
+      summary: Retrieve a list of authors
+      tags: [author]
+      description: Fetches all authors from the database.
+      responses:
+        '200':
+          description: Successfully retrieved authors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Author'
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new author
+      tags: [author]
+      description: Creates a new author entry with the provided details (name, birth year, nationality).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the author
+                birth_year:
+                  type: integer
+                  description: Year the author was born
+                nationality:
+                  type: string
+                  description: Nationality of the author
+              required:
+                - name
+      responses:
+        '200':
+          description: Author successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "successful"
+        '400':
+          description: Missing or invalid input (name cannot be empty)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "name can't be empty"
+        '500':
+          description: Internal server error
+  /api/authors/{id}:
+    get:
+      summary: Retrieve author by name
+      tags: [author]
+      description: Fetches an author by the provided name (ID) parameter.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The name of the author to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved author
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Author'
+        '404':
+          description: Author not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "Author Not Found"
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique ID of the author
+        name:
+          type: string
+          description: Name of the author
+        bio:
+          type: string
+          description: Biography of the author
+        birth_year:
+          type: integer
+          description: Year the author was born
+    Book:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        author:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+        genre:
+          type: array
+          items:
+            type: string
+        publisher_name:
+          type: string
+        publication_year:
+          type: integer
+        language:
+          type: string
+        page_count:
+          type: integer
+        cover_image_url:
+          type: string
+          format: uri
+        pdf_url:
+          type: string
+          format: uri
+        epub_url:
+          type: string
+          format: uri
+        __v:
+          type: integer

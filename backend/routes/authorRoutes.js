@@ -14,8 +14,8 @@ router.route("/").post(createAuthor)
 
 router.route("/:id").get(getAuthor)
 
-//todo other thing for now
-// router.route("/:id").post(updateContact)
-// router.route("/:id").delete(deleteContact)
+//todo
+// router.route("/:id").post(updateAuthor)
+// router.route("/:id").delete(deleteAuthor)
 
 module.exports = router;
