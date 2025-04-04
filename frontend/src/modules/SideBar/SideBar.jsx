@@ -26,9 +26,9 @@ function SideBar() {
                     <img src={pfp} alt="Profile" />
                 </li>
                 {icons.slice(0, 2).map(({ name, label }) => (
-                    <Link to={`/${name.slice(0, -3)}`}>
+                    <Link to={`/${name.slice(0, -3)}`} key={name}>
                         <li onMouseEnter={() => handleMouseEnter(name)} 
-                        onMouseLeave={handleMouseLeave} key={name}>
+                        onMouseLeave={handleMouseLeave}>
                             <SideBarIcon 
                                 name={name} 
                                 
@@ -46,9 +46,9 @@ function SideBar() {
             </ul>
             <ul>
                 {icons.slice(2).map(({ name, label }) => (
-                    <Link to={`/${name.slice(0, -3) == "home"? "": name.slice(0, -3)}`}>
+                    <Link to={`/${name.slice(0, -3) == "home"? "": name.slice(0, -3)}`} key={name}>
                         <li onMouseEnter={() => handleMouseEnter(name)} 
-                        onMouseLeave={handleMouseLeave} key={name}>
+                        onMouseLeave={handleMouseLeave}>
                             <SideBarIcon 
                                 name={name}  
                             />

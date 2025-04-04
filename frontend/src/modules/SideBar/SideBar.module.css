@@ -7,6 +7,7 @@
     align-items: center;
     padding-top: 20px ;
     position: fixed;
+    z-index: 9999;
 }
 .sidebar ul{
     list-style: none;
@@ -21,6 +22,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    z-index: 2;
 }
 
 .arrowDiv{
@@ -38,6 +40,7 @@
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     transition-delay: 0.1s; 
     pointer-events: none;
+    z-index: 9999; 
 }
 
 .arrowDiv h2{

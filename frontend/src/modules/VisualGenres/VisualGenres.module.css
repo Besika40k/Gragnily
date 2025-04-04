@@ -1,0 +1,54 @@
+/*
+{genres.map((genre) => (
+                <div key={genre.id} className={style.genre}>
+                    {genre.svg}
+                    <img src={genre.img} alt={genre.name} />
+                </div>
+            ))}
+
+*/
+.visualGenres{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0px 20px 0px 20px;
+}
+.visualGenres h2{
+    margin-left: 15px;
+}
+.genresContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+.genre {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+}
+.genre:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+.genre h3{
+    color: #917F74;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.genre img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    transform: translate(-40%, -100%);
+    
+}

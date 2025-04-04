@@ -12,7 +12,6 @@ const Home = () => {
             <SearchBar />
           </div>
           <div className={style.genreSection}>
-            <h2>ჟანრები</h2>
             <VisualGenres />
           </div>
         </div>
