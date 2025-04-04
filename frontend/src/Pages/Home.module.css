@@ -10,7 +10,7 @@
 }
 .homeContent{
     background-color: white;
-    flex-grow: 1;
+    width: 80%;
     height: 100%;
 }
 .topSection{margin-top: 25px;

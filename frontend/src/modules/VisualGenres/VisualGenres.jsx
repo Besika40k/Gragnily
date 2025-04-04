@@ -18,8 +18,11 @@ const VisualGenres = () => {
         }
     ]
     for (let i = 1; i <= 10; i++) {
-        genres.push(genres[0])
-        genres[i].id = i + 1
+        const newGenre = {
+            ...genres[0],
+            id: i + 1
+        }
+        genres.push(newGenre)
     }
     return (
         <div className={style.visualGenres}>

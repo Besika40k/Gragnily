@@ -8,12 +8,37 @@
 
 */
 .visualGenres{
-    margin-top: 50px;
+    margin: 50px 20px 0px 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px 0px 0px;
+    overflow-x: none;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scrollbar-width: thin;            /* Firefox */
+    scrollbar-color: #E6DBCD #fbefe0; /* Firefox thumb and track */
+}
+
+/* Chrome, Edge, Safari */
+.visualGenres::-webkit-scrollbar {
+    height: 10px;
+}
+
+.visualGenres::-webkit-scrollbar-track {
+    background: #E0F0EE;
+    border-radius: 10px;
+}
+
+.visualGenres::-webkit-scrollbar-thumb {
+    background: #E6DBCD;
+    border-radius: 10px;
+    border: 2px solid #E0F0EE; /* Optional border for better contrast */
+}
+
+.visualGenres::-webkit-scrollbar-thumb:hover {
+    background: #E6DBCD;
 }
 .visualGenres h2{
     margin-left: 15px;

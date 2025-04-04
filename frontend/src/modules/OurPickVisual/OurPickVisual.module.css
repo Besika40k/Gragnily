@@ -1,0 +1,132 @@
+/*
+<div className={style.ourPickVisual}>
+            <div className={style.pickTopDiv}>
+                <h2>რჩეულები</h2>
+                <div className={style.buttonsDiv}>
+                    <button className={style.fullButton}>სრულად</button>
+                    <button className={style.scrollLeftButton}><i className="material-icons">keyboard_arrow_left</i></button>
+                    <button className={style.scrollRightButton}><i className="material-icons">keyboard_arrow_right</i></button>
+                </div>
+            </div>
+            <div className={style.pickBottomDiv}>
+                {favs.map((item) => (
+                    <div key={item.id} className={style.item}>
+                        {item.svg}
+                        <img src={item.img} alt={item.name} />
+                        <h3>{item.name}</h3>
+                    </div>
+                ))}
+            </div>
+        </div>
+*/
+.ourPickVisual{
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 25px;
+}
+
+.pickTopDiv{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.buttonsDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+}
+.fullButton{
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: #E6DBCD;
+    cursor: pointer;
+    color: #917F74;
+}
+.scrollLeftButton, .scrollRightButton{
+    background-color: #E6DBCD;
+    border: none;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    cursor: pointer;
+    color: #917F74;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pickTopDiv button:hover{
+    background-color: #D9D0C2;
+}
+
+/*
+<div className={style.pickBottomDiv}>
+                {favs.map((item) => (
+                    <div key={item.id} className={style.item}>
+                        {item.svg}
+                        <img src={item.img} alt={item.name} />
+                        <h3>{item.name}</h3>
+                    </div>
+                ))}
+            </div>
+*/
+.pickBottomDiv{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scrollbar-width: thin;            /* Firefox */
+    scrollbar-color: #E6DBCD #fbefe0; /* Firefox thumb and track */
+}
+
+/* Chrome, Edge, Safari */
+.pickBottomDiv::-webkit-scrollbar {
+    height: 10px;
+}
+
+.pickBottomDiv::-webkit-scrollbar-track {
+    background: #E0F0EE;
+    border-radius: 10px;
+}
+
+.pickBottomDiv::-webkit-scrollbar-thumb {
+    background: #E6DBCD;
+    border-radius: 10px;
+    border: 2px solid #E0F0EE; /* Optional border for better contrast */
+}
+
+.pickBottomDiv::-webkit-scrollbar-thumb:hover {
+    background: #E6DBCD;
+}
+
+.item{
+    position: relative;
+    text-align: center;
+}
+.item img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-42%, -74%);
+}
+.item h3{
+    color: #917F74;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 10px;
+}
