@@ -5,7 +5,8 @@ const cloudinary = require("../config/cdConnection")
 
 const getBooks = asyncHandler(async (req, res) => {
     const books = await book.find()
-    res.json({ books });
+    if(book.length == 0) res.status(404).json({message: "Book(s) Not Found"})
+    else res.json({ books });
 });
 
 const getBook = asyncHandler(async (req, res) => {
@@ -45,7 +46,7 @@ const createBook = asyncHandler(async (req, res) => {
             })
         );
     
-        await book.create({title,
+        const newBook = await book.create({title,
             author: tempAuthors,
             genre,
             publisher_name,
@@ -56,7 +57,7 @@ const createBook = asyncHandler(async (req, res) => {
             pdf_url,
             epub_url})
 
-        res.status(200).json({message: "hell yea"})
+        res.status(200).json({message: "Book Created", book: newBook})
 
     } catch (error) {
         throw error;

@@ -5,7 +5,10 @@ const author = require("../models/author");
 
 const getAuthors = asyncHandler(async (req,res) => {
     const authors = await author.find();
-    res.json({authors});
+    if(authors.length == 0) {
+        res.status(404).json({message: "Author(s) not found"})
+    }
+    else res.json({authors});
 })
 
 const createAuthor = asyncHandler(async (req, res) => {
@@ -16,8 +19,8 @@ const createAuthor = asyncHandler(async (req, res) => {
     }
     else{
         try {
-            await author.create({name, birth_year, nationality})
-            res.status(200).json({comment : "successful"})
+            const newAuthor = await author.create({name, birth_year, nationality})
+            res.status(200).json({comment : "Author creation successful", author: newAuthor})
         } catch (error) {
             console.log(error)
         }
@@ -26,12 +29,10 @@ const createAuthor = asyncHandler(async (req, res) => {
 
 const getAuthor = asyncHandler(async (req,res) => {
     const authors = await author.find({name: req.params.id});
-    if(!authors){
-        res.status(404).json({comment: " Author Not Found"})
+    if(authors.length == 0){
+        res.status(404).json({comment: "Author Not Found"})
     }
-    else {
-        res.status(200).json({authors})
-    }
+    else res.status(200).json({authors})
 })
 
 
