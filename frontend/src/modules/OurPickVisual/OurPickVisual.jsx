@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRef } from 'react';
+
 import style from './OurPickVisual.module.css';
 import bookcover1 from '../../assets/bookcover1.png';
 const OurPickVisual = () => {
@@ -24,6 +26,26 @@ const OurPickVisual = () => {
         favs.push(newFav)
     }
 
+    const scrollRef = useRef(null);
+
+    const scrollRight = () => {
+        if (scrollRef.current) {
+        scrollRef.current.scrollBy({
+            left: 300, // Adjust this value as needed
+            behavior: 'smooth',
+        });
+        }
+    };
+
+    const scrollLeft = () => {
+        if (scrollRef.current) {
+        scrollRef.current.scrollBy({
+            left: -350,
+            behavior: 'smooth',
+        });
+        }
+    };
+    
 
     return (
         <div className={style.ourPickVisual}>
@@ -31,11 +53,11 @@ const OurPickVisual = () => {
                 <h2>რჩეულები</h2>
                 <div className={style.buttonsDiv}>
                     <button className={style.fullButton}>სრულად</button>
-                    <button className={style.scrollLeftButton}><i className="material-icons">keyboard_arrow_left</i></button>
-                    <button className={style.scrollRightButton}><i className="material-icons">keyboard_arrow_right</i></button>
+                    <button onClick={scrollLeft} className={style.scrollLeftButton}><i className="material-icons">keyboard_arrow_left</i></button>
+                    <button onClick={scrollRight} className={style.scrollRightButton}><i className="material-icons">keyboard_arrow_right</i></button>
                 </div>
             </div>
-            <div className={style.pickBottomDiv}>
+            <div style={{scrollBehavior: 'smooth'}}ref={scrollRef} className={style.pickBottomDiv}>
                 {favs.map((item) => (
                     <div key={item.id} className={style.item}>
                         {item.svg}
