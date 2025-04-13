@@ -1,5 +1,6 @@
-.aiSection{
-    width: 20vw;
-    height: 100vh;
-    background-color: #E6DBCD;
+.aiSection {
+  width: 20vw;
+  height: 100vh;
+  background-color: #e6dbcd;
+  position: fixed;
 }
