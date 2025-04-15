@@ -10,7 +10,6 @@
   overflow-x: hidden;
 }
 .homeContent {
-  background-color: white;
   width: 80%;
   height: 100%;
   margin-left: 50px;
@@ -22,4 +21,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 0px 40px 0px 40px;
+}
+.topSection h2 {
+  color: #917f74;
+  font-size: 50px;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.genreSection {
+  min-height: 30%;
 }

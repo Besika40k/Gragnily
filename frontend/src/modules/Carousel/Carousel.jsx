@@ -5,7 +5,7 @@ const Carousel = () => {
     {
       id: 55,
       img: "https://cdn.pixabay.com/photo/2022/07/03/22/00/cat-7300029_1280.jpg",
-      title: "კნუტი 1",
+      title: "კუნტი მეფე მეოთხე მეორადი 1",
       link: "https://example.com/book1",
     },
     {
