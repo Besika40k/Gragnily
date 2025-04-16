@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const book = require("../models/book");
 const authors = require("../models/author")
-const cloudinary = require("../config/cdConnection")
+const cloudinary = require("../config/cdConnection");
+const { uploadCoverImage, uploadFile } = require('../Utils/fileUtils');
 
 const getBooks = asyncHandler(async (req, res) => {
     const books = await book.find()
@@ -27,21 +28,33 @@ const getBook = asyncHandler(async (req, res) => {
 
 const createBook = asyncHandler(async (req, res) => {
     try {
+        const files = req.files;
+
+        const coverImage = files.cover_image?.[0];
+        const pdfFile = files.pdf_file?.[0];
+        const epubFile = files.epub_file?.[0] || "";
+        
+        const cover_image_url = await uploadCoverImage(coverImage.path)
+        const pdf_url = await uploadFile(pdfFile.path)
+        const epub_url = await uploadFile(epubFile.path)
+
         const {title,
             author,
             genre,
             publisher_name,
             publication_year,
-            language,
-            cover_image_url,
-            pdf_url,
-            epub_url
+            language
         } = req.body;
         
+        
+
         const tempAuthors = await Promise.all(
-            author.map(async (authorName) => {
-                const doc = await authors.findOne({ name: authorName});
-                console.log(doc)
+            (Array.isArray(author) ? author : [author]).map(async (authorName) => {
+                const doc = await authors.findOne({ name: authorName });
+                if (!doc) {
+                    throw new Error(`Author not found: ${authorName}`);
+                }
+                console.log(doc);
                 return { author_id: doc._doc._id, name: doc._doc.name };
             })
         );

@@ -28,7 +28,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -39,12 +39,12 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: List of authors' names associated with the book
+                  description: List of authors' names
                 genre:
                   type: array
                   items:
                     type: string
-                  description: List of genres of the book
+                  description: List of genres
                 publisher_name:
                   type: string
                   description: The publisher of the book
@@ -54,18 +54,18 @@ paths:
                 language:
                   type: string
                   description: The language of the book
-                cover_image_url:
+                cover_image:
                   type: string
-                  format: uri
-                  description: URL to the cover image of the book
-                pdf_url:
+                  format: binary
+                  description: Cover image file of the book
+                pdf_file:
                   type: string
-                  format: uri
-                  description: URL to the PDF version of the book
-                epub_url:
+                  format: binary
+                  description: PDF version of the book
+                epub_file:
                   type: string
-                  format: uri
-                  description: URL to the EPUB version of the book
+                  format: binary
+                  description: EPUB version of the book
               required:
                 - title
                 - author
@@ -73,9 +73,9 @@ paths:
                 - publisher_name
                 - publication_year
                 - language
-                - cover_image_url
-                - pdf_url
-                - epub_url
+                - cover_image
+                - pdf_file
+                - epub_file
       responses:
         '200':
           description: Successfully created book
@@ -91,6 +91,7 @@ paths:
           description: Invalid input or missing required fields
         '500':
           description: Internal server error
+
   /api/books/{id}:
     get:
       summary: Get book by title

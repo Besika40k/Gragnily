@@ -1,7 +1,10 @@
 const express = require('express');
-const connectDb = require('./config/dbConnection');
 const errorHandler = require('./middleware/errorHandler');
 const dotenv = require('dotenv').config();
+
+
+const connectDb = require('./config/dbConnection');
+
 
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
