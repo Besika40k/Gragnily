@@ -42,8 +42,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  width: 20%;
+  justify-content: flex-end;
+  width: 50%;
+}
+/* >  -  child operator > * every child*/
+.buttonsDiv > * {
+  margin-left: 20px;
 }
 .fullButton {
   width: 100px;
