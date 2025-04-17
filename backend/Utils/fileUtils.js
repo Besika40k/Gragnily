@@ -29,20 +29,35 @@ const uploadCoverImage = asyncHandler(async (imgPath) => {
  })
 
 
- const uploadFile = asyncHandler(async (filePath) => {
+ const uploadFile = asyncHandler(async (filePath, fileType = "PDF") => {
     
     try {
-        if(!filePath) return "";
+         if(!filePath) return "";
+
+         let rsType = "";
+
+         switch (fileType) {
+            case "PDF":
+               rsType = "auto"
+               break;
+            case "EPUB":
+               rsType = "raw"
+               break;
+            default:
+               throw new Error("Invalid file type")
+               break;
+         }
 
         const result = await cloudinary.uploader.upload(filePath, {
-            folder: "books/PDFs"
+            folder: `books/${fileType}s`,
+            resource_type: rsType
          })
 
          const url = cloudinary.url(result.public_id)
 
          return url;
     } catch (error) {
-        console.error("Error uploading PDF file:", error);
+        console.error("Error uploading file:", error);
        throw error;
     }
 

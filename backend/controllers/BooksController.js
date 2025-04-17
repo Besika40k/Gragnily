@@ -27,26 +27,19 @@ const getBook = asyncHandler(async (req, res) => {
 });
 
 const createBook = asyncHandler(async (req, res) => {
+    const files = req.files;
+    const coverImage = files.cover_image?.[0];
+    const pdfFile = files.pdf_file?.[0];
+    const epubFile = files.epub_file?.[0] || "";
+
+    let cover_image_url, pdf_url, epub_url;
+
     try {
-        const files = req.files;
+        cover_image_url = await uploadCoverImage(coverImage.path);
+        pdf_url = await uploadFile(pdfFile.path, "PDF");
+        epub_url = await uploadFile(epubFile.path, "EPUB");
 
-        const coverImage = files.cover_image?.[0];
-        const pdfFile = files.pdf_file?.[0];
-        const epubFile = files.epub_file?.[0] || "";
-        
-        const cover_image_url = await uploadCoverImage(coverImage.path)
-        const pdf_url = await uploadFile(pdfFile.path)
-        const epub_url = await uploadFile(epubFile.path)
-
-        const {title,
-            author,
-            genre,
-            publisher_name,
-            publication_year,
-            language
-        } = req.body;
-        
-        
+        const { title, author, genre, publisher_name, publication_year, language } = req.body;
 
         const tempAuthors = await Promise.all(
             (Array.isArray(author) ? author : [author]).map(async (authorName) => {
@@ -58,8 +51,9 @@ const createBook = asyncHandler(async (req, res) => {
                 return { author_id: doc._doc._id, name: doc._doc.name };
             })
         );
-    
-        const newBook = await book.create({title,
+
+        const newBook = await book.create({
+            title,
             author: tempAuthors,
             genre,
             publisher_name,
@@ -68,12 +62,16 @@ const createBook = asyncHandler(async (req, res) => {
             page_count: 3,
             cover_image_url,
             pdf_url,
-            epub_url})
+            epub_url,
+        });
 
-        res.status(200).json({message: "Book Created", book: newBook})
-
+        res.status(200).json({ message: "Book Created", book: newBook });
     } catch (error) {
-        throw error;
+        if (cover_image_url) await cloudinary.uploader.destroy(cover_image_url);
+        if (pdf_url) await cloudinary.uploader.destroy(pdf_url);
+        if (epub_url) await cloudinary.uploader.destroy(epub_url);
+
+        res.status(500).json({ message: "Error creating book", error: error.message });
     }
 });
 
