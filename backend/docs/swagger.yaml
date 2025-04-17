@@ -24,7 +24,11 @@ paths:
     post:
       summary: Create a new book
       tags: [Books]
-      description: Creates a new book entry with the provided details.
+      description: >
+        Creates a new book entry with the provided details. 
+        The `epub_file` is uploaded to Cloudinary as a raw file, 
+        therefore it can't directly be viewed with the provided URL
+        (requires some tweaking from the frontend side).
       requestBody:
         required: true
         content:
@@ -81,11 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "hell yea"
+                $ref: '#/components/schemas/Book'
         '400':
           description: Invalid input or missing required fields
         '500':
