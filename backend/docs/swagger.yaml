@@ -93,32 +93,226 @@ paths:
 
   /api/books/{id}:
     get:
-      summary: Get book by title
-      tags: [Books]
+      summary: Get a book by ID
+      description: Retrieve a book by its unique ID.
+      tags:
+        - Books
       parameters:
-        - name: title
-          in: query
-          required: true
-          description: Title of the book to retrieve
-          schema:
-            type: string
         - name: id
           in: path
           required: true
-          description: ID of the book to retrieve
+          description: The ID of the book to retrieve
           schema:
             type: string
       responses:
-        '200':
-          description: Successfully retrieved book
+        200:
+          description: Book retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                type: object
+                properties:
+                  foundBook:
+                    $ref: '#/components/schemas/Book'
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book not found"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error on book.find"
+                  error:
+                    type: string
+                    example: "Error message here"
+
+    put:
+      summary: Update an existing book
+      description: Updates the details of a book by its ID. Write only what has to be changed in JSON
+      tags: [Books]
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the book to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "New Book Title"
+                author:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Author Name"]
+                genre:
+                  type: string
+                  example: "Fiction"
+                publisher_name:
+                  type: string
+                  example: "Publisher Name"
+                publication_year:
+                  type: integer
+                  example: 2023
+                language:
+                  type: string
+                  example: "English"
+      responses:
+        200:
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book updated successfully"
+                  book:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "643d1f9e8f1b2c001c8e4d5a"
+                      title:
+                        type: string
+                        example: "New Book Title"
+                      author:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            author_id:
+                              type: string
+                              example: "643d1f9e8f1b2c001c8e4d5b"
+                            name:
+                              type: string
+                              example: "Author Name"
+                      genre:
+                        type: string
+                        example: "Fiction"
+                      publisher_name:
+                        type: string
+                        example: "Publisher Name"
+                      publication_year:
+                        type: integer
+                        example: 2023
+                      language:
+                        type: string
+                        example: "English"
+        400:
+          description: Book ID is required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book ID is required"
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book Not Found"
+        500:
+          description: Error updating book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error updating Book"
+                  errorMessage:
+                    type: string
+                    example: "Error message here"
+
+    delete:
+      summary: Delete a book
+      description: Deletes a book by its ID.
+      tags:
+        - Books
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to delete.
+          schema:
+            type: string
+            example: "643d1f4e8f1b2c0012345678"
+      responses:
+        '200':
+          description: Book deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book deleted successfully"
+                  book:
+                    type: object
+                    description: The deleted book object (if applicable).
+        '400':
+          description: Bad Request - Missing or invalid book ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book ID is required"
         '404':
           description: Book not found
-        '400':
-          description: Invalid title supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error deleting book"
+                  error:
+                    type: string
+                    example: "Detailed error message"
   /api/authors:
     get:
       summary: Retrieve a list of authors
@@ -219,6 +413,124 @@ paths:
                     example: "Author Not Found"
         '500':
           description: Internal server error
+    put:
+      summary: Update an existing author
+      description: Updates the details of an author by their ID.
+      tags: [author]
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the author to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "John Doe"
+                birth_year:
+                  type: integer
+                  example: 1980
+                nationality:
+                  type: string
+                  example: "American"
+      responses:
+        200:
+          description: Author successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "Author successfully updated"
+                  Author:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "643d1f9e8f1b2c001c8e4d5a"
+                      name:
+                        type: string
+                        example: "John Doe"
+                      birth_year:
+                        type: integer
+                        example: 1980
+                      nationality:
+                        type: string
+                        example: "American"
+        500:
+          description: Error updating author
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "Error Updating Author"
+                  error:
+                    type: string
+                    example: "Error message here"
+
+    delete:
+      summary: Delete an author
+      description: Deletes an author by their ID.
+      tags: [author]
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the author to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Author successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "Author successfully deleted"
+                  Author:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "643d1f9e8f1b2c001c8e4d5a"
+                      name:
+                        type: string
+                        example: "John Doe"
+                      birth_year:
+                        type: integer
+                        example: 1980
+                      nationality:
+                        type: string
+                        example: "American"
+        500:
+          description: Error deleting author
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    example: "Error Deleting Author"
+                  error:
+                    type: string
+                    example: "Error message here"
+
 components:
   schemas:
     Author:
@@ -241,32 +553,59 @@ components:
       properties:
         _id:
           type: string
+          description: The unique ID of the book
         title:
           type: string
+          description: Title of the book
         author:
           type: array
           items:
-            $ref: '#/components/schemas/Author'
+            type: object
+            properties:
+              author_id:
+                type: string
+                description: The unique ID of the author
+              name:
+                type: string
+                description: Name of the author
         genre:
           type: array
           items:
             type: string
+          description: List of genres
         publisher_name:
           type: string
+          description: Name of the publisher
         publication_year:
           type: integer
+          description: Year the book was published
         language:
           type: string
+          description: Language of the book
         page_count:
           type: integer
+          description: Number of pages in the book
         cover_image_url:
           type: string
           format: uri
+          description: URL of the cover image
+        ci_public_id:
+          type: string
+          description: Public ID of the cover image in Cloudinary
         pdf_url:
           type: string
           format: uri
+          description: URL of the PDF file
+        pdf_public_id:
+          type: string
+          description: Public ID of the PDF file in Cloudinary
         epub_url:
           type: string
           format: uri
+          description: URL of the EPUB file
+        epub_public_id:
+          type: string
+          description: Public ID of the EPUB file in Cloudinary
         __v:
           type: integer
+          description: Version key
