@@ -1,7 +1,7 @@
 .outerContainer {
   width: 90%;
   height: 50%;
-  background-color: #e6dbcd;
+  background-color: var(--primary-l);
   margin: 100px 0px 100px 50px;
   display: flex;
   align-items: center;
@@ -71,7 +71,7 @@
 .rightDiv {
   width: 40%;
   height: 80%;
-  color: #917f74;
+  color: var(--text-main-l);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -99,7 +99,7 @@
 }
 
 .moreBtn {
-  background-color: #f18966;
+  background-color: var(--secondary-l);
   color: #ffffff;
   width: 100px;
   height: 40px;
@@ -110,5 +110,5 @@
 }
 .moreBtn:hover {
   cursor: pointer;
-  background-color: #d97b5c;
+  background-color: var(--ternary-l);
 }

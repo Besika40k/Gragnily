@@ -1,27 +1,31 @@
 .home {
-  background-color: #fbf8f6;
+  background-color: var(--background-l);
   width: 100vw;
   height: 100vh;
   padding-left: 100px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   z-index: 1;
   overflow-x: hidden;
+  flex-direction: column;
 }
 .homeContent {
-  width: 100%;
+  width: 80%;
   height: 100%;
 }
 .topSection {
+  width: 80%;
+  height: 60px;
   margin-top: 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0px 40px 0px 40px;
+  position: relative;
 }
 .topSection h2 {
-  color: #917f74;
+  color: var(--text-main-l);
   font-size: 50px;
   font-weight: 700;
   font-size: 28px;

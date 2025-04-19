@@ -1,12 +1,12 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home'
-import Books from './Pages/Books'
-import Articles from './Pages/Articles'
-import Liked from './Pages/Liked'
-import Bookmarked from './Pages/Bookmarked'
-import Layout from './Layout'
-
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import Books from "./Pages/Books";
+import Articles from "./Pages/Articles";
+import Liked from "./Pages/Liked";
+import Bookmarked from "./Pages/Bookmarked";
+import Layout from "./Layout";
+import { useEffect, useState } from "react";
 function App() {
   return (
     <Router>
@@ -20,7 +20,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

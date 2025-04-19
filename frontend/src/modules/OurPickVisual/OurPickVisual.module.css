@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   margin: 25px;
-  color: #917f74;
+  color: var(--text-main-l);
 }
 
 .pickTopDiv {
@@ -54,26 +54,26 @@
   height: 40px;
   border-radius: 20px;
   border: none;
-  background-color: #e6dbcd;
+  background-color: var(--primary-l);
   cursor: pointer;
-  color: #917f74;
+  color: var(--text-main-l);
 }
 .scrollLeftButton,
 .scrollRightButton {
-  background-color: #e6dbcd;
+  background-color: var(--primary-l);
   border: none;
   border-radius: 50%;
   height: 40px;
   width: 40px;
   padding: 10px;
   cursor: pointer;
-  color: #917f74;
+  color: var(--text-main-l);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .pickTopDiv button:hover {
-  background-color: #d9d0c2;
+  background-color: var(--hover-dark-l);
 }
 
 .pickBottomDiv {
@@ -86,7 +86,7 @@
   overflow-y: hidden;
   padding-bottom: 10px;
   scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #e6dbcd #fbefe0; /* Firefox thumb and track */
+  scrollbar-color: var(--primary-l) var(--scrollbar-l); /* Firefox thumb and track */
 }
 
 /* Chrome, Edge, Safari */
@@ -106,7 +106,7 @@
 }
 
 .pickBottomDiv::-webkit-scrollbar-thumb:hover {
-  background: #e6dbcd;
+  background: var(--hover-dark-l);
 }
 
 .item {
