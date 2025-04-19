@@ -12,7 +12,7 @@ const Home = () => {
       <div className={style.homeContent}>
         <div className={style.topSection}>
           <h2>Gragnily</h2>
-          <SearchBar />
+          {/* <SearchBar /> */}
         </div>
         <div className={style.genreSection}>
           <VisualGenres />

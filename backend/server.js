@@ -1,6 +1,7 @@
 const express = require("express");
 const errorHandler = require("./middleware/errorHandler");
 const dotenv = require("dotenv").config();
+const cors = require("cors"); // beso edit
 
 const connectDb = require("./config/dbConnection");
 
@@ -12,6 +13,9 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerDocument = YAML.load(path.join(__dirname, "./docs/swagger.yaml"));
 
 const app = express();
+
+// beso edits
+app.use(cors());
 
 connectDb();
 

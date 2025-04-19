@@ -59,6 +59,7 @@ if not searching style
   border: 2px solid #d0cfcd;
   border-top: none;
   gap: 5px;
+  list-style: square;
 }
 
 /* TODO:  figure out how to wrap words even if they are long*/
