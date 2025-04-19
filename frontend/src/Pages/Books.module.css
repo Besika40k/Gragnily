@@ -1,0 +1,18 @@
+/* <div className={style.allContainer}>
+      <section className={style.filterSection}></section>
+      <section className={style.booksSection}></section>
+    </div> */
+
+.allContainer {
+  width: 90vw;
+  height: 100vh;
+  margin-left: 80px;
+  background-color: black;
+  color: white;
+}
+.book {
+  transform: scale(1);
+  width: auto;
+  height: 200px;
+  width: 400px;
+}
