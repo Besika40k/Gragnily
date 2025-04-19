@@ -29,8 +29,8 @@
   flex-direction: row;
   align-items: center;
   margin-top: 20px;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-x: none;
+  overflow-y: none;
   padding-bottom: 10px;
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #e6dbcd #fbefe0; /* Firefox thumb and track */
@@ -80,4 +80,11 @@
   left: 50%;
   width: 40%;
   transform: translate(-40%, -100%);
+}
+
+@media screen and (max-width: 1450px) {
+  .genresContainer {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 }

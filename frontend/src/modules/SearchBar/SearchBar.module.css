@@ -1,0 +1,93 @@
+.searchOuterContainer {
+  width: 30%;
+  position: absolute;
+  left: 40%;
+  top: 4%;
+  z-index: 100;
+}
+/*
+if not searching style
+.searchInnerContainer{
+  border-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20x;
+}
+.foundItems{
+  display: none
+}
+
+*/
+.searchInnerContainer {
+  width: 100%;
+  background-color: #e6dbcd;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  border-radius: 20px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  color: #917f74;
+  border: 2px solid #d0cfcd;
+}
+.searchBar,
+.searchBar:hover,
+.searchBar:focus {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: black;
+}
+
+.searchIcon {
+  color: black;
+}
+
+.foundItems {
+  width: 100%;
+  height: fit-content;
+  background-color: #e6dbcd;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 0px 30px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color: #917f74;
+  border: 2px solid #d0cfcd;
+  border-top: none;
+  gap: 5px;
+}
+
+/* TODO:  figure out how to wrap words even if they are long*/
+
+.foundItems li {
+  text-wrap: wrap;
+}
+/*
+<div className={style.searchContainer}>
+  <div className={style.searchContainer}>
+    <input
+      placeholder="Search here"
+      className={style.searchBar}
+      type="text"
+      name="seachBar"
+    />
+    <label className={style.searchIcon} htmlFor="seachBar">
+      icon
+    </label>
+  </div>
+  <ul className={style.foundItems}>
+    <li className={style.foundItem}> item 1 pages 55 aithor me</li>
+  </ul>
+</div>
+
+*/
+@media screen and (max-width: 850px) {
+  .searchOuterContainer {
+    width: 30%;
+    left: 250px;
+  }
+}

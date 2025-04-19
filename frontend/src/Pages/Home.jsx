@@ -21,6 +21,9 @@ const Home = () => {
           <OurPickVisual />
         </div>
         <Carousel />
+        <div className={style.ourPickSection}>
+          <OurPickVisual />
+        </div>
       </div>
       {/* <AiSection /> */}
     </div>
