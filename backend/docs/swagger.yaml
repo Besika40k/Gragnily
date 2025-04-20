@@ -530,7 +530,152 @@ paths:
                   error:
                     type: string
                     example: "Error message here"
-
+  /api/auth/signUp:
+    post:
+      summary: Register a new user
+      description: Creates a new user account with optional roles.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the new user
+                  example: "john_doe"
+                email:
+                  type: string
+                  description: The email address of the new user
+                  example: "john.doe@example.com"
+                password:
+                  type: string
+                  description: The password for the new user
+                  example: "password123"
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  description: Optional roles for the user
+                  example: ["admin", "moderator"]
+      responses:
+        200:
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User was registered successfully!"
+        400:
+          description: Bad request (e.g., missing required fields)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Validation error message"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error message here"
+  /api/auth/signin:
+    post:
+      summary: User login
+      description: Authenticates a user and returns a JWT access token.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the user
+                  example: "john_doe"
+                password:
+                  type: string
+                  description: The password of the user
+                  example: "password123"
+      responses:
+        200:
+          description: User authenticated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the user
+                    example: "643d1f9e8f1b2c001c8e4d5a"
+                  username:
+                    type: string
+                    description: The username of the user
+                    example: "john_doe"
+                  email:
+                    type: string
+                    description: The email of the user
+                    example: "john.doe@example.com"
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                    description: List of roles assigned to the user
+                    example: ["ROLE_ADMIN", "ROLE_USER"]
+                  accessToken:
+                    type: string
+                    description: The JWT access token
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        401:
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: null
+                  message:
+                    type: string
+                    example: "Invalid Password!"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User Not Found!"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error message here"
 components:
   schemas:
     Author:
