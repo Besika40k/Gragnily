@@ -36,12 +36,12 @@ if not searching style
   border-radius: 20px;
   height: 50%;
   padding-left: 10px;
-  color: var(--text-main-l);
+  color: var(--searchbar-text);
 }
 .searchBar,
 .searchBar:hover,
 .searchBar:focus {
-  background-color: white;
+  background-color: var(--searchbar-background);
   border: none;
   outline: none;
 }
