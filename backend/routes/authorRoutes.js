@@ -8,15 +8,18 @@ const {
   updateAuthor,
   deleteAuthor,
 } = require("../controllers/authorsController");
+const { verifyToken, isAdmin } = require("../middleware/verifyJwt");
 
-router.route("/").get(getAuthors);
+//user
+router.route("/").get(verifyToken, isAdmin, getAuthors);
 
-router.route("/").post(createAuthor);
+router.route("/:id").get(verifyToken, isAdmin, getAuthor);
 
-router.route("/:id").get(getAuthor);
+//admin
+router.route("/").post(verifyToken, isAdmin, createAuthor);
 
-router.route("/:id").put(updateAuthor);
+router.route("/:id").put(verifyToken, isAdmin, updateAuthor);
 
-router.route("/:id").delete(deleteAuthor);
+router.route("/:id").delete(verifyToken, isAdmin, deleteAuthor);
 
 module.exports = router;

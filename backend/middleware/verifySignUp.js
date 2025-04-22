@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const user = require("../models/user");
-const role = require("../models/role");
 
 checkDuplicate = asyncHandler(async (req, res, next) => {
   try {
@@ -33,21 +32,6 @@ checkDuplicate = asyncHandler(async (req, res, next) => {
   }
 });
 
-checkRolesExisted = asyncHandler(async (req, res, next) => {
-  if (req.body.roles) {
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!role.findOne({ name: req.body.roles[i] })) {
-        res.status(400).json({
-          message: `Role ${req.body.roles[i]} doesn't exist!`,
-        });
-        return;
-      }
-    }
-    next();
-  }
-});
-
 module.exports = {
   checkDuplicate,
-  checkRolesExisted,
 };

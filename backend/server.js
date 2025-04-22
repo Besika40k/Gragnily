@@ -1,14 +1,16 @@
 const express = require("express");
-const errorHandler = require("./middleware/errorHandler");
 const dotenv = require("dotenv").config();
 
 const cors = require("cors");
 const connectDb = require("./config/dbConnection");
 
+const cookieParser = require("cookie-parser")
+
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const path = require("path");
 const swaggerJsdoc = require("swagger-jsdoc");
+const { verifyToken } = require("./middleware/verifyJwt");
 
 const swaggerDocument = YAML.load(path.join(__dirname, "./docs/swagger.yaml"));
 
@@ -19,8 +21,8 @@ connectDb();
 const port = process.env.PORT || 5000;
 const connectionString = process.env.CONNECTION_STRING;
 
+app.use(cookieParser())
 app.use(cors());
-app.use(errorHandler);
 
 //parse the body to json file
 app.use(express.json());
