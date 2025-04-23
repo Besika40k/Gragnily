@@ -30,8 +30,8 @@ router.route("/").post(
   createBook
 );
 
-router.route("/:id").put( deserializeUser, isAdmin, updateBook);
+router.route("/:id").put(deserializeUser, isAdmin, updateBook);
 
-router.route("/:id").delete( deserializeUser, isAdmin, deleteBook);
+router.route("/:id").delete(deserializeUser, isAdmin, deleteBook);
 
 module.exports = router;

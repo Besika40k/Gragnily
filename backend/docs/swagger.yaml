@@ -5,7 +5,7 @@ info:
   description: API to manage and fetch book records
 
 servers:
-  - url: http://localhost:8080
+  - url: https://gragnily-backend.onrender.com
 
 paths:
   /api/books:
@@ -534,8 +534,9 @@ paths:
                     example: "Error message here"
   /api/auth/signUp:
     post:
-      summary: Register a new user
-      description: Creates a new user account with optional roles.
+      summary: User Registration
+      description: Registers a new user and returns authentication tokens in cookies.
+      operationId: signUp
       tags:
         - Authentication
       requestBody:
@@ -544,28 +545,30 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - username
+                - email
+                - password
               properties:
                 username:
                   type: string
-                  description: The username of the new user
-                  example: "john_doe"
+                  example: johndoe
                 email:
                   type: string
-                  description: The email address of the new user
-                  example: "john.doe@example.com"
+                  format: email
+                  example: johndoe@example.com
                 password:
                   type: string
-                  description: The password for the new user
-                  example: "password123"
-                roles:
-                  type: array
-                  items:
-                    type: string
-                  description: Optional roles for the user
-                  example: ["admin", "moderator"]
+                  format: password
+                  example: P@ssw0rd123
       responses:
-        200:
-          description: User registered successfully
+        '200':
+          description: Registration successful
+          headers:
+            Set-Cookie:
+              description: Authentication and refresh tokens
+              schema:
+                type: string
           content:
             application/json:
               schema:
@@ -573,27 +576,11 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "User was registered successfully!"
-        400:
-          description: Bad request (e.g., missing required fields)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Validation error message"
-        500:
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Error message here"
+                    example: Registration successful
+        '400':
+          description: Bad Request (missing or invalid parameters)
+        '500':
+          description: Internal Server Error
   /api/auth/signin:
     post:
       summary: User login

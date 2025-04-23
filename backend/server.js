@@ -24,7 +24,7 @@ const connectionString = process.env.CONNECTION_STRING;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -42,8 +42,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-  console.log(`Swagger docs at http://localhost:${port}/api-docs`);
+  const host = process.env.RENDER_EXTERNAL_HOSTNAME || "localhost";
+  console.log(`Server running on https://${host}:${port}`);
+  console.log(`Swagger docs at https://${host}:${port}/api-docs`);
 });
-
-console.log("Connection String: ", process.env.NODE_ENV);
