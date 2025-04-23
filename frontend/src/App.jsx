@@ -6,7 +6,9 @@ import Articles from "./Pages/Articles";
 import Liked from "./Pages/Liked";
 import Bookmarked from "./Pages/Bookmarked";
 import Layout from "./Layout";
-import { useEffect, useState } from "react";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
+import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   return (
     <Router>
@@ -17,6 +19,10 @@ function App() {
           <Route path="/articles" element={<Articles />} />
           <Route path="/liked" element={<Liked />} />
           <Route path="/bookmarked" element={<Bookmarked />} />
+          /* login/signup pages*/
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </Router>

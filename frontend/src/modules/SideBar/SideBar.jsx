@@ -36,7 +36,7 @@ function SideBar() {
         <button onClick={() => setDarkMode((prev) => !prev)}>
           Switch to {darkMode ? "Light" : "Dark"} Mode
         </button>
-
+        <Link to="/login">Forgot Password?</Link>
         {icons.slice(0, 2).map(({ name, label }) => (
           <Link to={`/${name.slice(0, -3)}`} key={name}>
             <li
