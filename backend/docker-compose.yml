@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    container_name: express_app
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CONNECTION_STRING=${CONNECTION_STRING}
+    env_file:
+      - .env
+    command: node server.js
