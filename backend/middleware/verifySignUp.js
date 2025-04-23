@@ -11,17 +11,18 @@ checkDuplicate = asyncHandler(async (req, res, next) => {
       email: req.body.email,
     });
 
+    if (inUseUser && inUseEmail) {
+      res.status(500).json({ message: `IN_USE_USER, IN_USE_EMAIL` });
+      return;
+    }
+
     if (inUseUser) {
-      res
-        .status(500)
-        .json({ message: `User ${req.body.username} is already in use!` });
+      res.status(500).json({ message: `IN_USE_USER` });
       return;
     }
 
     if (inUseEmail) {
-      res
-        .status(500)
-        .json({ message: `Email ${req.body.email} is already in use!` });
+      res.status(500).json({ message: `IN_USE_EMAIL` });
       return;
     }
     next();
