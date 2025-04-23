@@ -5,7 +5,7 @@ info:
   description: API to manage and fetch book records
 
 servers:
-  - url: https://gragnily-backend.onrender.com
+  - url: https://gragnily.onrender.com
 
 paths:
   /api/books:

@@ -7,12 +7,13 @@ const connectDb = require("./config/dbConnection");
 const cookieParser = require("cookie-parser");
 
 const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
+const fs = require("fs");
+const yaml = require("js-yaml");
 const path = require("path");
-const swaggerJsdoc = require("swagger-jsdoc");
-const { verifyToken } = require("./middleware/verifyJwt");
 
-const swaggerDocument = YAML.load(path.join(__dirname, "./docs/swagger.yaml"));
+const swaggerDocument = yaml.load(
+  fs.readFileSync(path.join(__dirname, "./docs/swagger.yaml"), "utf8")
+);
 
 const app = express();
 
