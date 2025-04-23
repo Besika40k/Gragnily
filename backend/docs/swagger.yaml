@@ -20,7 +20,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: "#/components/schemas/Book"
     post:
       summary: Create a new book
       tags: [Books]
@@ -82,15 +82,15 @@ paths:
                 - cover_image
                 - pdf_file
       responses:
-        '200':
+        "200":
           description: Successfully created book
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
-        '400':
+                $ref: "#/components/schemas/Book"
+        "400":
           description: Invalid input or missing required fields
-        '500':
+        "500":
           description: Internal server error
 
   /api/books/{id}:
@@ -115,7 +115,7 @@ paths:
                 type: object
                 properties:
                   foundBook:
-                    $ref: '#/components/schemas/Book'
+                    $ref: "#/components/schemas/Book"
         404:
           description: Book not found
           content:
@@ -269,7 +269,7 @@ paths:
             type: string
             example: "643d1f4e8f1b2c0012345678"
       responses:
-        '200':
+        "200":
           description: Book deleted successfully
           content:
             application/json:
@@ -282,7 +282,7 @@ paths:
                   book:
                     type: object
                     description: The deleted book object (if applicable).
-        '400':
+        "400":
           description: Bad Request - Missing or invalid book ID
           content:
             application/json:
@@ -292,7 +292,7 @@ paths:
                   message:
                     type: string
                     example: "Book ID is required"
-        '404':
+        "404":
           description: Book not found
           content:
             application/json:
@@ -302,7 +302,7 @@ paths:
                   message:
                     type: string
                     example: "Book not found"
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -321,7 +321,7 @@ paths:
       tags: [author]
       description: Fetches all authors from the database.
       responses:
-        '200':
+        "200":
           description: Successfully retrieved authors
           content:
             application/json:
@@ -331,8 +331,8 @@ paths:
                   authors:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Author'
-        '500':
+                      $ref: "#/components/schemas/Author"
+        "500":
           description: Internal server error
     post:
       summary: Create a new author
@@ -357,7 +357,7 @@ paths:
               required:
                 - name
       responses:
-        '200':
+        "200":
           description: Author successfully created
           content:
             application/json:
@@ -367,7 +367,7 @@ paths:
                   comment:
                     type: string
                     example: "successful"
-        '400':
+        "400":
           description: Missing or invalid input (name cannot be empty)
           content:
             application/json:
@@ -377,7 +377,7 @@ paths:
                   comment:
                     type: string
                     example: "name can't be empty"
-        '500':
+        "500":
           description: Internal server error
   /api/authors/{id}:
     get:
@@ -392,7 +392,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successfully retrieved author
           content:
             application/json:
@@ -402,8 +402,8 @@ paths:
                   authors:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Author'
-        '404':
+                      $ref: "#/components/schemas/Author"
+        "404":
           description: Author not found
           content:
             application/json:
@@ -413,7 +413,7 @@ paths:
                   comment:
                     type: string
                     example: "Author Not Found"
-        '500':
+        "500":
           description: Internal server error
     put:
       summary: Update an existing author
@@ -680,10 +680,10 @@ paths:
                     example: "Error message here"
 components:
   securitySchemes:
-      xAccessToken:
-        type: apiKey
-        in: header
-        name: x-access-token
+    xAccessToken:
+      type: apiKey
+      in: header
+      name: x-access-token
   schemas:
     Author:
       type: object

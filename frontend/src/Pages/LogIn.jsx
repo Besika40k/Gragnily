@@ -17,7 +17,7 @@ const LogIn = () => {
         password: password.value,
       };
 
-      fetch("http://localhost:8080/api/auth/signin", {
+      fetch("https://gragnily-backend.onrender.com/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

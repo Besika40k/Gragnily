@@ -42,6 +42,28 @@ function SideBar() {
       document.removeEventListener("mousedown", handler);
     };
   });
+  // logout request
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        "https://gragnily-backend.onrender.com/logout",
+        {
+          method: "POST",
+          credentials: "include", // crucial! this tells the browser to send cookies
+        }
+      );
+
+      if (response.ok) {
+        // Logout success: update frontend state or redirect
+        console.log("Logged out successfully");
+        window.location.reload(); // or redirect to login
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   return (
     <nav className={style.sidebar}>
@@ -89,7 +111,7 @@ function SideBar() {
                 <h2 style={{ textDecoration: "none" }}>Log In</h2>
               </div>
             </Link>
-            <div className="dropdown-item logout-div">
+            <div onClick={handleLogout} className="dropdown-item logout-div">
               <SideBarIcon name={"logOutSVG"} />
               <h2>Log Out</h2>
             </div>

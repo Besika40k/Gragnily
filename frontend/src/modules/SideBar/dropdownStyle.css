@@ -60,6 +60,10 @@
   text-decoration: none;
 }
 
+.logout-div {
+  cursor: pointer;
+}
+
 /*
 dark mod slider css, copied from w3school
 */
