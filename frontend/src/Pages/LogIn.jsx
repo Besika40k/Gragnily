@@ -1,11 +1,56 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../modules/AuthLayout";
 
 const LogIn = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Log In form submitted");
+    console.log("LogIn form submaaaaaitted");
+    let formValid = true;
+    const username = event.target.username;
+    const password = event.target.password;
+
+    if (formValid) {
+      const userData = {
+        username: username.value,
+        password: password.value,
+      };
+
+      fetch("http://localhost:8080/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+        credentials: "include",
+      })
+        .then(async (response) => {
+          const data = await response.json();
+
+          if (response.ok) {
+            console.log("Account created!", data);
+            navigate("/"); // Success – redirect to homepage
+          } else {
+            switch (data.message) {
+              case "User Not Found!":
+                alert("❌ user");
+                break;
+              case "Invalid Password!":
+                alert("❌ Tpassword.");
+                break;
+              default:
+                alert("serverside error");
+                break;
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(" Network error:", error);
+          alert("Something went wrong. Please try again later.");
+        });
+    }
   };
 
   return (
@@ -13,13 +58,13 @@ const LogIn = () => {
       <h2>Welcome Back!</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="username">Username</label>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="text"
+            id="username"
+            name="username"
             required
-            placeholder="you@example.com"
+            placeholder="your name"
           />
         </div>
 

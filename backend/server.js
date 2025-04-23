@@ -24,6 +24,7 @@ const connectionString = process.env.CONNECTION_STRING;
 app.use(cookieParser());
 app.use(
   cors({
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -44,3 +45,5 @@ app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
   console.log(`Swagger docs at http://localhost:${port}/api-docs`);
 });
+
+console.log("Connection String: ", process.env.NODE_ENV);

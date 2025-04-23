@@ -22,18 +22,18 @@ const signUp = asyncHandler(async (req, res) => {
   let refreshToken = jwt.sign({ id: createdUser._id }, config.secret, {
     expiresIn: config.jwtRefreshExpiration,
   });
-
+  const isProd = process.env.NODE_ENV === "production";
   res
     .cookie("x-access-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
       maxAge: config.jwtExpiration * 1000,
     })
     .cookie("x-refresh-token", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
       maxAge: config.jwtRefreshExpiration * 1000,
     })
     .status(200)
@@ -67,18 +67,18 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   let authority = "ROLE_" + foundUser.role;
-
+  const isProd = process.env.NODE_ENV === "production";
   res
     .cookie("x-access-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
       maxAge: config.jwtExpiration * 1000,
     })
     .cookie("x-refresh-token", newRefreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
       maxAge: config.jwtRefreshExpiration * 1000,
     })
     .status(200)

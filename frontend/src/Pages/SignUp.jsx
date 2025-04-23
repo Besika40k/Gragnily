@@ -58,6 +58,7 @@ const SignUp = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
+        credentials: "include",
       })
         .then(async (response) => {
           const data = await response.json();
