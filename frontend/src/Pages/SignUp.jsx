@@ -17,7 +17,7 @@ const SignUp = () => {
     //2 check if the username only contains letters and numbers and does not start with a number
     //3 check if the username is between 3 and 20 characters long
     if (
-      !/^[A-Za-z][A-Za-z0-9]*$/.test(username.value) ||
+      !/^[A-Za-z][A-Za-z0-9_]*$/.test(username.value) ||
       username.value.length < 3 ||
       username.value.length > 20
     ) {
@@ -34,7 +34,7 @@ const SignUp = () => {
     }
 
     // password verification
-    if (password.value.length < 8) {
+    if (password.value.length < 1) {
       alert("Password must be at least 8 characters long!");
       formValid = false;
     }
@@ -52,7 +52,7 @@ const SignUp = () => {
         password: password.value,
       };
 
-      fetch("/api/signup", {
+      fetch("http://localhost:8080/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
