@@ -9,6 +9,9 @@
   position: fixed;
   z-index: 9999;
 }
+.pfp {
+  cursor: pointer;
+}
 .sidebar ul {
   list-style: none;
 }

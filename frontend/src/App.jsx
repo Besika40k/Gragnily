@@ -6,15 +6,17 @@ import Articles from "./Pages/Articles";
 import Liked from "./Pages/Liked";
 import Bookmarked from "./Pages/Bookmarked";
 import Layout from "./Layout";
-import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
-import ForgotPassword from "./pages/ForgotPassword";
+import SignUp from "./Pages/SignUp";
+import LogIn from "./Pages/LogIn";
+import AdminPanel from "./Pages/AdminPanel";
+import ForgotPassword from "./Pages/ForgotPassword";
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
           <Route path="/books" element={<Books />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/liked" element={<Liked />} />

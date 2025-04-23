@@ -7,7 +7,6 @@ const LogIn = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("LogIn form submaaaaaitted");
     let formValid = true;
     const username = event.target.username;
     const password = event.target.password;
@@ -18,7 +17,7 @@ const LogIn = () => {
         password: password.value,
       };
 
-      fetch("http://localhost:8080/api/auth/signin", {
+      fetch("https://gragnily-backend.onrender.com/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +29,7 @@ const LogIn = () => {
           const data = await response.json();
 
           if (response.ok) {
-            console.log("Account created!", data);
+            console.log("login ok!", data);
             navigate("/"); // Success – redirect to homepage
           } else {
             switch (data.message) {
