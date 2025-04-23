@@ -1,6 +1,0 @@
-.env
-node_modules
-.vscode
-.eslintrc.js
-docker-compose.yml
-Dockerfile
