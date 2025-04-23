@@ -20,7 +20,6 @@ const app = express();
 connectDb();
 
 const port = process.env.PORT || 5000;
-const connectionString = process.env.CONNECTION_STRING;
 
 app.use(cookieParser());
 app.use(
@@ -43,7 +42,6 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
-  const host = process.env.RENDER_EXTERNAL_HOSTNAME || "localhost";
-  console.log(`Server running on https://${host}:${port}`);
-  console.log(`Swagger docs at https://${host}:${port}/api-docs`);
+  console.log(`Server running on port: ${port}`);
+  console.log(`Swagger docs at https://gragnily.onrender.com/api-docs`);
 });
