@@ -8,11 +8,19 @@ var bcrypt = require("bcryptjs");
 const signUp = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  user.create({
+  const createdUser = user.create({
     username: username,
     email: email,
     password: await bcrypt.hashSync(password, 8),
     role: "user",
+  });
+
+  let token = jwt.sign({ id: createdUser._id }, config.secret, {
+    expiresIn: config.jwtExpiration,
+  });
+
+  let refreshToken = jwt.sign({ id: createdUser._id }, config.secret, {
+    expiresIn: config.jwtRefreshExpiration,
   });
 
   res
@@ -20,18 +28,16 @@ const signUp = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: config.jwtExpiration * 1000,
     })
     .cookie("x-refresh-token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+      maxAge: config.jwtRefreshExpiration * 1000,
     })
     .status(200)
-    .json({ message: "Logged in" });
-
-  res.send({ message: "User was registered successfully!" });
+    .json({ message: "Registration successful" });
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -56,8 +62,8 @@ const signIn = asyncHandler(async (req, res) => {
     expiresIn: config.jwtExpiration,
   });
 
-  let newRefreshToken = jwt.sign({id: foundUser._id}, config.secret, {
-    expiresIn: config.jwtRefreshExpiration
+  let newRefreshToken = jwt.sign({ id: foundUser._id }, config.secret, {
+    expiresIn: config.jwtRefreshExpiration,
   });
 
   let authority = "ROLE_" + foundUser.role;
@@ -67,13 +73,13 @@ const signIn = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: config.jwtExpiration * 1000,
     })
     .cookie("x-refresh-token", newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+      maxAge: config.jwtRefreshExpiration * 1000,
     })
     .status(200)
     .json({

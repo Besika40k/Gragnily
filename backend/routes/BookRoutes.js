@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "/tmp/" });
-const { verifyToken, isAdmin } = require("../middleware/verifyJwt");
+const {  isAdmin } = require("../middleware/verifyJwt");
 
 const {
   getBooks,
@@ -11,6 +11,7 @@ const {
   updateBook,
   deleteBook,
 } = require("../controllers/BooksController");
+const deserializeUser = require("../middleware/deserializeUser");
 
 //user
 router.route("/").get(getBooks);
@@ -24,13 +25,13 @@ router.route("/").post(
     { name: "pdf_file", maxCount: 1 },
     { name: "epub_file", maxCount: 1 },
   ]),
-  verifyToken,
+  deserializeUser,
   isAdmin,
   createBook
 );
 
-router.route("/:id").put(verifyToken, isAdmin, updateBook);
+router.route("/:id").put( deserializeUser, isAdmin, updateBook);
 
-router.route("/:id").delete(verifyToken, isAdmin, deleteBook);
+router.route("/:id").delete( deserializeUser, isAdmin, deleteBook);
 
 module.exports = router;

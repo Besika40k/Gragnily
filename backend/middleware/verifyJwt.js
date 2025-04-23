@@ -13,19 +13,6 @@ catchError = (err, res) => {
   return res.sendStatus(401).send({ message: "Unauthorized!" });
 };
 
-const verifyToken = asyncHandler(async (req, res, next) => {
-  let token = await req.cookies["x-access-token"];
-  console.log(req.cookies["x-access-token"]);
-
-  if (!token) {
-    return res.status(403).json({ message: "no token provided!" });
-  }
-
-  const decodedToken = jwt.verify(token, config.secret);
-  req.userId = decodedToken.id;
-  next();
-});
-
 const verifyJWT = (token) => {
   try {
     const decoded = jwt.verify(token, config.secret);
@@ -50,7 +37,6 @@ isSomething = (Role) =>
 const isAdmin = isSomething("admin");
 
 module.exports = {
-  verifyToken,
   isAdmin,
   verifyJWT,
 };
