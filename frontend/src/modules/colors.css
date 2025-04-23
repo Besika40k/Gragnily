@@ -1,0 +1,53 @@
+:root {
+  --primary-l: #e6dbcd;
+  --secondary-l: #f18966;
+  --ternary-l: #d97b5c;
+  --accent-l: #e19571;
+  --text-main-l: #917f74;
+  --background-l: #fbf8f6;
+  --scrollbar-l: #fbefe0;
+  --hover-dark-l: #d9d0c2;
+}
+
+.light {
+  --primary-l: #e6dbcd;
+  --secondary-l: #f18966;
+  --ternary-l: #d97b5c;
+  --accent-l: #e19571;
+  --text-main-l: #917f74;
+  --background-l: #fbf8f6;
+  --scrollbar-l: #fbefe0;
+  --hover-dark-l: #d9d0c2;
+
+  --icon-line: #917f74;
+  --icon-background: #fbf8f6;
+  --icon-outline-color: #fbf8f6;
+
+  --searchbar-background: white;
+
+  --search-icon-color: #917f74;
+
+  --button-border: none;
+}
+
+.dark {
+  --primary-l: #373737;
+  --secondary-l: #f18966;
+  --ternary-l: #d97b5c;
+  --accent-l: #719ee15c;
+  --text-main-l: #e6dbcd;
+  --background-l: #2c2c2c;
+  --scrollbar-l: #fbefe0;
+  --hover-dark-l: #464646;
+
+  --icon-line: #e6dbcd;
+  --icon-background: #373737;
+  --icon-outline-color: #e6dbcd;
+
+  --searchbar-background: #2c2c2c;
+  --searchbar-text: #e6dbcd;
+
+  --search-icon-color: #e6dbcd;
+
+  --button-border: 2px solid #e6dbcd;
+}

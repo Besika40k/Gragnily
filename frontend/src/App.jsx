@@ -1,12 +1,14 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home'
-import Books from './Pages/Books'
-import Articles from './Pages/Articles'
-import Liked from './Pages/Liked'
-import Bookmarked from './Pages/Bookmarked'
-import Layout from './Layout'
-
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import Books from "./Pages/Books";
+import Articles from "./Pages/Articles";
+import Liked from "./Pages/Liked";
+import Bookmarked from "./Pages/Bookmarked";
+import Layout from "./Layout";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
+import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   return (
     <Router>
@@ -17,10 +19,14 @@ function App() {
           <Route path="/articles" element={<Articles />} />
           <Route path="/liked" element={<Liked />} />
           <Route path="/bookmarked" element={<Bookmarked />} />
+          /* login/signup pages*/
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

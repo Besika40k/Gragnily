@@ -1,0 +1,289 @@
+/* src/style.css */
+
+/* --- Variables --- */
+:root {
+  --bg-color: #f5f1ea;
+  --container-bg: #eae3d9;
+  --primary-accent: #f78f2e;
+  --secondary-accent: #e8946e;
+  --text-color: #4a443f;
+  --placeholder-color: #a09a94;
+  --white: #ffffff;
+  --border-radius-large: 25px;
+  --border-radius-medium: 15px;
+  --font-family: "Poppins", sans-serif;
+}
+
+/* --- Imports --- */
+/* Placed near top for clarity */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* --- Basic Reset & Body Styling --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.full-auth-page {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/* --- Page Structure --- */
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px; /* Max width for the signup/login form area */
+}
+
+.auth-form-container {
+  background-color: var(--container-bg);
+  padding: 30px 40px; /* Adjusted default vertical padding */
+  border-radius: var(--border-radius-large);
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+/* --- Logo Area --- */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px; /* Adjusted default margin */
+}
+
+.logo-icon {
+  background-color: var(--primary-accent);
+  color: var(--white);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  flex-shrink: 0; /* Prevent icon shrinking */
+}
+
+.logo-icon .fa-book-open {
+  line-height: 1; /* Helps vertical alignment */
+}
+
+.site-name {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* --- Headings & Text --- */
+.auth-form-container h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 25px; /* Adjusted default margin */
+  color: var(--text-color);
+}
+
+.instruction-text {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 25px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* --- Form Elements --- */
+.form-group {
+  margin-bottom: 18px; /* Adjusted default margin */
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+/* Base input styles */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 11px 18px; /* Adjusted default padding */
+  border: 1px solid transparent;
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-medium);
+  font-size: 1rem; /* Size for user-typed text */
+  font-family: var(--font-family);
+  color: var(--text-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Consolidated placeholder styles */
+.form-group input[type="text"]::placeholder,
+.form-group input[type="email"]::placeholder,
+.form-group input[type="password"]::placeholder {
+  color: var(--placeholder-color);
+  font-weight: 400;
+  font-size: 0.85rem; /* Smaller font size for placeholder text */
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--secondary-accent);
+  box-shadow: 0 0 0 3px rgba(232, 148, 110, 0.2);
+}
+
+/* --- Links --- */
+.forgot-password-link {
+  text-align: right;
+  margin-bottom: 18px; /* Align with form-group margin */
+  margin-top: -8px; /* Slightly reduced negative margin */
+}
+
+.forgot-password-link a {
+  color: var(--text-color);
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.toggle-link {
+  /* Bottom links to swap forms */
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.toggle-link a,
+.forgot-password-link a:hover {
+  /* Apply hover effect here too */
+  color: var(--primary-accent);
+  text-decoration: none; /* Remove underline by default */
+}
+
+.toggle-link a:hover,
+.forgot-password-link a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+/* --- Button --- */
+.btn-auth {
+  background-color: var(--secondary-accent);
+  color: var(--white);
+  border: none;
+  padding: 12px 25px; /* Adjusted default padding */
+  border-radius: var(--border-radius-medium);
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px; /* Consistent top margin */
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-auth:hover {
+  background-color: #d9825a; /* Slightly darker accent on hover */
+}
+
+.btn-auth:active {
+  transform: scale(0.98); /* Click feedback */
+}
+
+/* --- Two-Column Layout for Signup --- */
+.form-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 20px; /* Space between columns */
+  margin-bottom: 20px; /* Space below columns, before button */
+  width: 100%;
+}
+
+.form-column {
+  /* Container for form groups within a column */
+  display: flex;
+  flex-direction: column;
+  /* Use form-group margin for spacing within column */
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Stack columns on medium/small screens */
+@media (max-width: 650px) {
+  .form-columns {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 0; /* No horizontal gap */
+    margin-bottom: 0; /* Let form-group margins handle spacing */
+  }
+
+  /* Ensure spacing between the last item of first column and first item of second */
+  .form-column:first-child .form-group:last-child {
+    margin-bottom: 18px; /* Match standard form-group margin */
+  }
+}
+
+/* Further adjustments specifically for very short screens */
+@media (max-height: 750px) {
+  .auth-form-container {
+    padding-top: 20px; /* Reduce padding further */
+    padding-bottom: 20px;
+  }
+  .logo-container {
+    margin-bottom: 15px;
+  }
+  .auth-form-container h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .instruction-text {
+    margin-bottom: 20px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  /* Significantly reduce input/button size on short screens */
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    padding: 9px 15px;
+    font-size: 0.95rem;
+  }
+  .btn-auth {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+  .toggle-link {
+    margin-top: 20px;
+    font-size: 0.85rem;
+  }
+  .forgot-password-link {
+    margin-bottom: 15px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Further padding reduction for very narrow screens */
+@media (max-width: 400px) {
+  .auth-form-container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .site-name {
+    font-size: 2.4rem;
+  } /* Slightly smaller logo text */
+}
