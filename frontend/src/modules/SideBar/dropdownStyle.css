@@ -1,0 +1,155 @@
+.dropdown-menu {
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  background-color: var(--background-l);
+  border-radius: 8px;
+  padding: 10px 20px;
+  width: 250px;
+  border: 3px solid #b9afa3;
+}
+
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: 500ms ease;
+}
+.dropdown-menu.inactive {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: 500ms ease;
+}
+.personal-info-div {
+  display: flex;
+}
+.pfp-div {
+  width: 40px;
+  height: 40px;
+}
+.name-email-div {
+  margin-left: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-main-l);
+}
+
+.dropdown-item {
+  margin-top: 8px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-main-l);
+  gap: 5px;
+}
+
+.profile-details-link {
+  text-decoration: none;
+}
+
+.dropdown-item h2 {
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+/*
+dark mod slider css, copied from w3school
+*/
+
+/* The switch - the box around the slider */
+.switch {
+  margin-left: 10px;
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--text-main-l);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--background-l);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--text-main-l);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*
+<div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
+        <div className="personal-info-div">
+            <img
+                src="https://1000logos.net/wp-content/uploads/2020/09/Half-Life-logo.png"
+                alt="pfp"
+            />
+            <div className=" name-email-div">
+                <h2>Beso Meskhia</h2>
+                <h3>eawdawdw@gmail.com</h3>
+            </div>
+        </div>
+        <div className="dropdown-item dark-mode-div">
+            <SideBarIcon name={"sunSVG"} />
+            h2  Dark Mode 
+        </div>
+        <div className="profile-details-div">
+            <SideBarIcon name={"pfpSVG"} />
+        </div>
+        <div className="logout-div">
+            <SideBarIcon name={"logOutSVG"} />
+        </div>
+    </div>
+
+*/

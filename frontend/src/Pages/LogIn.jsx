@@ -7,7 +7,6 @@ const LogIn = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("LogIn form submaaaaaitted");
     let formValid = true;
     const username = event.target.username;
     const password = event.target.password;
@@ -30,7 +29,7 @@ const LogIn = () => {
           const data = await response.json();
 
           if (response.ok) {
-            console.log("Account created!", data);
+            console.log("login ok!", data);
             navigate("/"); // Success – redirect to homepage
           } else {
             switch (data.message) {

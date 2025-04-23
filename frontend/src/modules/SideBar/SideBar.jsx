@@ -1,9 +1,10 @@
 import style from "./SideBar.module.css";
 import SideBarIcon from "../SideBarIcon/SideBarIcon";
 import pfp from "../../assets/pfp.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../../Layout.css";
+import "./dropdownStyle.css";
 function SideBar() {
   const [hoveredIcon, setHoveredIcon] = useState(null);
 
@@ -26,17 +27,74 @@ function SideBar() {
     root.classList.add(darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  // Dropdown Menu
+  const [open, setOpen] = useState(false);
+  let menuRef = useRef();
+  useEffect(() => {
+    let handler = (e) => {
+      if (!menuRef.current.contains(e.target)) {
+        setOpen(false);
+        console.log(menuRef.current);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+
   return (
     <nav className={style.sidebar}>
       <ul>
-        <li>
-          <img src={pfp} alt="Profile" />
+        <li ref={menuRef}>
+          <img
+            className={style.pfp}
+            src={pfp}
+            alt="Profile"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          />
+          <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
+            <div className="personal-info-div">
+              <div
+                className="pfp-div"
+                style={{
+                  backgroundImage: `url("https://1000logos.net/wp-content/uploads/2020/09/Half-Life-logo.png")`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                key={10000}
+              ></div>
+              <div className="name-email-div">
+                <h2>Beso Meskhia</h2>
+                <h3>eawdawdw@gmail.com</h3>
+              </div>
+            </div>
+            <div className="dropdown-item dark-mode-div">
+              <SideBarIcon name={"sunSVG"} />
+              <h2>Dark Mode</h2>
+
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  onClick={() => setDarkMode((prev) => !prev)}
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <Link className="profile-details-link" to="/login">
+              <div className="dropdown-item profile-details-div">
+                <SideBarIcon name={"pfpSVG"} />
+                <h2 style={{ textDecoration: "none" }}>Log In</h2>
+              </div>
+            </Link>
+            <div className="dropdown-item logout-div">
+              <SideBarIcon name={"logOutSVG"} />
+              <h2>Log Out</h2>
+            </div>
+          </div>
         </li>
-        {/* TEMPORARY THEME CHANGE BUTTON */}
-        <button onClick={() => setDarkMode((prev) => !prev)}>
-          Switch to {darkMode ? "Light" : "Dark"} Mode
-        </button>
-        <Link to="/login">Forgot Password?</Link>
         {icons.slice(0, 2).map(({ name, label }) => (
           <Link to={`/${name.slice(0, -3)}`} key={name}>
             <li
