@@ -12,9 +12,9 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.route("/signUp").post(checkDuplicate, signUp);
+router.route("/signup").post(checkDuplicate, signUp);
 
-router.route("/signIn").post(signIn);
+router.route("/signin").post(signIn);
 
 // router.route("/refreshToken").post(tokenRefresh);
 
