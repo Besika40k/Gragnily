@@ -79,18 +79,20 @@ const OurPickVisual = () => {
           </button>
         </div>
       </div>
-      <div
-        style={{ scrollBehavior: "smooth" }}
-        ref={scrollRef}
-        className={style.pickBottomDiv}
-      >
-        {favs.map((item) => (
-          <div key={item.id} className={style.item}>
-            {item.svg}
-            <img src={item.img} alt={item.name} />
-            <h3>{item.name}</h3>
-          </div>
-        ))}
+      <div className={style.scrollWrapper}>
+        <div
+          style={{ scrollBehavior: "smooth" }}
+          ref={scrollRef}
+          className={style.pickBottomDiv}
+        >
+          {favs.map((item) => (
+            <div key={item.id} className={style.item}>
+              {item.svg}
+              <img src={item.img} alt={item.name} />
+              <h3>{item.name}</h3>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

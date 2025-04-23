@@ -1,7 +1,7 @@
 .searchOuterContainer {
-  width: 30%;
+  width: 70%;
   position: absolute;
-  left: 40%;
+  left: 25%;
   top: 4%;
   z-index: 100;
 }
@@ -19,53 +19,61 @@ if not searching style
 */
 .searchInnerContainer {
   width: 100%;
-  background-color: #e6dbcd;
-  height: 35px;
+  background-color: var(--primary-l);
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0px 20px;
+  border-radius: 40px;
+  /* border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px; */
+  color: var(--text-main-l);
+  border: 2px solid #b9afa3;
+}
+.searchBar {
+  width: 90%;
   border-radius: 20px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  color: #917f74;
-  border: 2px solid #d0cfcd;
+  height: 50%;
+  padding-left: 10px;
+  color: var(--searchbar-text);
 }
 .searchBar,
 .searchBar:hover,
 .searchBar:focus {
-  background-color: transparent;
+  background-color: var(--searchbar-background);
   border: none;
   outline: none;
-  color: black;
 }
 
-.searchIcon {
-  color: black;
+.searchIcon:hover {
+  transform: scale(1.05);
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
 }
 
 .foundItems {
   width: 100%;
   height: fit-content;
-  background-color: #e6dbcd;
+  background-color: var(--primary-l);
   flex-direction: column;
-  display: flex;
+  display: none;
   align-items: flex-start;
   justify-content: space-around;
   padding: 0px 30px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  color: #917f74;
+  color: var(--text-main-l);
   border: 2px solid #d0cfcd;
   border-top: none;
   gap: 5px;
   list-style: square;
+  overflow-wrap: break-word;
 }
 
-/* TODO:  figure out how to wrap words even if they are long*/
-
 .foundItems li {
-  text-wrap: wrap;
+  overflow-wrap: break-word;
+  width: 100%;
 }
 /*
 <div className={style.searchContainer}>
@@ -86,9 +94,9 @@ if not searching style
 </div>
 
 */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1150px) {
   .searchOuterContainer {
-    width: 30%;
-    left: 250px;
+    width: 70%;
+    left: 40%;
   }
 }

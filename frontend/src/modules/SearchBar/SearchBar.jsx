@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./SearchBar.module.css";
+import SearchIcon from "./SearchIcon";
 const SearchBar = () => {
   return (
     <div className={style.searchOuterContainer}>
@@ -11,7 +12,7 @@ const SearchBar = () => {
           name="seachBar"
         />
         <label className={style.searchIcon} htmlFor="seachBar">
-          icon
+          <SearchIcon width={40} height={40} fill="#333" />
         </label>
       </div>
       <ul className={style.foundItems}>

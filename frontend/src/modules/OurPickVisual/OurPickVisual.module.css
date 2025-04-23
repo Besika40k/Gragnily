@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   margin: 25px;
-  color: #917f74;
+  color: var(--text-main-l);
 }
 
 .pickTopDiv {
@@ -53,45 +53,57 @@
   width: 100px;
   height: 40px;
   border-radius: 20px;
-  border: none;
-  background-color: #e6dbcd;
+  border: var(--button-border);
+  background-color: var(--primary-l);
   cursor: pointer;
-  color: #917f74;
+  color: var(--text-main-l);
 }
 .scrollLeftButton,
 .scrollRightButton {
-  background-color: #e6dbcd;
-  border: none;
+  background-color: var(--primary-l);
+  border: var(--button-border);
   border-radius: 50%;
   height: 40px;
   width: 40px;
   padding: 10px;
   cursor: pointer;
-  color: #917f74;
+  color: var(--text-main-l);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .pickTopDiv button:hover {
-  background-color: #d9d0c2;
+  background-color: var(--hover-dark-l);
 }
 
-.pickBottomDiv {
+.scrollWrapper {
   width: 100%;
   height: 100%;
+  position: relative;
+  padding-bottom: 10px; /* Make space for fake scrollbar track if you want */
+  margin-top: 20px;
+}
+.pickBottomDiv {
+  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: row;
   margin-top: 20px;
   overflow-x: scroll;
   overflow-y: hidden;
   padding-bottom: 10px;
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #e6dbcd #fbefe0; /* Firefox thumb and track */
+  scrollbar-width: none;
+  scrollbar-color: var(--primary-l) var(--scrollbar-l); /* Firefox thumb and track */
 }
 
+.pickBottomDiv:hover {
+  overflow-x: overlay;
+}
 /* Chrome, Edge, Safari */
 .pickBottomDiv::-webkit-scrollbar {
   height: 10px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
 }
 
 .pickBottomDiv::-webkit-scrollbar-track {
@@ -102,11 +114,19 @@
 .pickBottomDiv::-webkit-scrollbar-thumb {
   background: #e6dbcd;
   border-radius: 10px;
-  border: 2px solid #e0f0ee; /* Optional border for better contrast */
+  border: 2px solid #e0f0ee;
 }
 
 .pickBottomDiv::-webkit-scrollbar-thumb:hover {
-  background: #e6dbcd;
+  background: var(--hover-dark-l);
+}
+
+.pickBottomDiv:hover::-webkit-scrollbar {
+  opacity: 1;
+  height: 10px;
+}
+.pickBottomDiv:hover {
+  scrollbar-width: thin;
 }
 
 .item {
