@@ -28,6 +28,10 @@
   width: 40px;
   height: 40px;
 }
+.outerpfp {
+  width: 50px;
+  height: 50px;
+}
 .name-email-div {
   margin-left: 20px;
   display: flex;
@@ -51,7 +55,7 @@
   gap: 5px;
 }
 
-.profile-details-link {
+.dropdown-link {
   text-decoration: none;
 }
 
@@ -64,6 +68,15 @@
   cursor: pointer;
 }
 
+.profile-details-div {
+  cursor: pointer;
+}
+.click {
+  cursor: pointer;
+}
+.no-click {
+  display: none;
+}
 /*
 dark mod slider css, copied from w3school
 */

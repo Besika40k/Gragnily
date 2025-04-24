@@ -11,6 +11,8 @@
 }
 .pfp {
   cursor: pointer;
+  width: 50px;
+  border-radius: 50%;
 }
 .sidebar ul {
   list-style: none;

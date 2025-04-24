@@ -6,7 +6,10 @@ const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("https://gragnily-backend.onrender.com/api/books")
+    fetch("https://gragnily.onrender.com/api/books", {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch books");

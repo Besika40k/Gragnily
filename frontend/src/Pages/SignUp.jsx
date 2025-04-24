@@ -52,7 +52,7 @@ const SignUp = () => {
         password: password.value,
       };
 
-      fetch("https://gragnily-backend.onrender.com/api/auth/signup", {
+      fetch("https://gragnily.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

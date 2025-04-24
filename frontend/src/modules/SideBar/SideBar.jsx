@@ -27,13 +27,60 @@ function SideBar() {
     root.classList.add(darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  const defaultUser = {
+    username: "Guest",
+    email: "",
+    profile_picture_url:
+      "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg",
+  };
+
+  const [user, setUser] = useState(defaultUser);
+
+  // on load get user data
+  useEffect(() => {
+    fetch("https://gragnily.onrender.com/api/users/getuser", {
+      method: "GET",
+      credentials: "include", // this allows cookies to be sent
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Not logged in");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data); // Store user data
+      })
+      .catch((err) => {
+        console.log(
+          "User not logged in or error fetching user info:",
+          err.message
+        );
+      });
+  }, []);
+
   // Dropdown Menu
+  const pfpRef = useRef(null);
+  const iconDisplayNone = () => {
+    if (pfpRef.current && pfpRef.current.style.opacity !== "0.5") {
+      pfpRef.current.style.opacity = "0.5";
+      pfpRef.current.style.visibility = "visible";
+    } else {
+      pfpRef.current.style.opacity = "1";
+      pfpRef.current.style.visibility = "visible";
+    }
+  };
   const [open, setOpen] = useState(false);
   let menuRef = useRef();
   useEffect(() => {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpen(false);
+        if (pfpRef.current) {
+          pfpRef.current.style.opacity = "1";
+          pfpRef.current.style.visibility = "visible";
+        }
+
         console.log(menuRef.current);
       }
     };
@@ -46,7 +93,7 @@ function SideBar() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "https://gragnily-backend.onrender.com/logout",
+        "https://gragnily.onrender.com/api/auth/logout",
         {
           method: "POST",
           credentials: "include", // crucial! this tells the browser to send cookies
@@ -69,28 +116,38 @@ function SideBar() {
     <nav className={style.sidebar}>
       <ul>
         <li ref={menuRef}>
-          <img
-            className={style.pfp}
-            src={pfp}
-            alt="Profile"
+          <div
+            className="outerpfp pfp-div"
+            style={{
+              backgroundImage: `url(${user.profile_picture_url})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "50%",
+              border: "none",
+              outline: "none",
+            }}
+            key={10001}
             onClick={() => {
               setOpen(!open);
+              iconDisplayNone();
             }}
+            ref={pfpRef}
           />
           <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
             <div className="personal-info-div">
               <div
                 className="pfp-div"
                 style={{
-                  backgroundImage: `url("https://1000logos.net/wp-content/uploads/2020/09/Half-Life-logo.png")`,
+                  backgroundImage: `url(${user.profile_picture_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  borderRadius: "50%",
                 }}
                 key={10000}
               ></div>
               <div className="name-email-div">
-                <h2>Beso Meskhia</h2>
-                <h3>eawdawdw@gmail.com</h3>
+                <h2>{user.username}</h2>
+                <h3>{user.email}</h3>
               </div>
             </div>
             <div className="dropdown-item dark-mode-div">
@@ -105,20 +162,40 @@ function SideBar() {
                 <span class="slider round"></span>
               </label>
             </div>
-            <Link className="profile-details-link" to="/login">
-              <div className="dropdown-item profile-details-div">
-                <SideBarIcon name={"pfpSVG"} />
-                <h2 style={{ textDecoration: "none" }}>Log In</h2>
+            {user.email === "" ? (
+              <div className="dropdown-link no-click dropdown-item profile-details-div">
+                <SideBarIcon name="pfpSVG" />
+                <h2>Profile Info</h2>
               </div>
-            </Link>
-            <div onClick={handleLogout} className="dropdown-item logout-div">
-              <SideBarIcon name={"logOutSVG"} />
-              <h2>Log Out</h2>
-            </div>
+            ) : (
+              <Link
+                to="/user-page"
+                className="dropdown-link dropdown-item profile-details-div"
+              >
+                <SideBarIcon name="pfpSVG" />
+                <h2>Profile Info</h2>
+              </Link>
+            )}
+            {user.email === "" ? (
+              <Link className="dropdown-link" to="/login">
+                <div className="dropdown-item logout-div">
+                  <SideBarIcon name={"pfpSVG"} />
+                  <h2 style={{ textDecoration: "none" }}>Log In</h2>
+                </div>
+              </Link>
+            ) : (
+              <div onClick={handleLogout} className="dropdown-item logout-div">
+                <SideBarIcon name={"logOutSVG"} />
+                <h2>Log Out</h2>
+              </div>
+            )}
           </div>
         </li>
         {icons.slice(0, 2).map(({ name, label }) => (
-          <Link to={`/${name.slice(0, -3)}`} key={name}>
+          <Link
+            to={user.email === "" ? "/" : `/${name.slice(0, -3)}`}
+            key={name}
+          >
             <li
               onMouseEnter={() => handleMouseEnter(name)}
               onMouseLeave={handleMouseLeave}
