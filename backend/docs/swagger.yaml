@@ -5,8 +5,8 @@ info:
   description: API to manage and fetch book records
 
 servers:
-  # - url: gragnily.onrender.com
-  - url: http://localhost:8080
+  - url: gragnily.onrender.com
+  # - url: http://localhost:8080
 
 paths:
   /api/books:
