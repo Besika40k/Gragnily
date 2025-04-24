@@ -17,6 +17,7 @@ const Books = () => {
         return response.json();
       })
       .then((data) => {
+        console.log("CHAOS", data);
         setBooks(data);
         setLoading(false);
       })
@@ -33,7 +34,7 @@ const Books = () => {
       <section className={style.filterSection}></section>
       <h1>BOOKS</h1>
       <section className={style.booksSection}>
-        {books.books.map((book) => (
+        {books.map((book) => (
           <li key={book.id || book._id}>
             {book.title}
             <div
