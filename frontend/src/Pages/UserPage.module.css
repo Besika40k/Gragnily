@@ -1,0 +1,6 @@
+.userPage {
+  width: 80vw;
+  height: 100vh;
+  background-color: var(--background-l);
+  margin-left: 80px;
+}

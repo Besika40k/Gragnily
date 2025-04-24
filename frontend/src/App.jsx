@@ -6,7 +6,8 @@ import Articles from "./Pages/Articles";
 import Liked from "./Pages/Liked";
 import Bookmarked from "./Pages/Bookmarked";
 import Layout from "./Layout";
-import SignUp from "./Pages/SignUp";
+import UserPage from "./Pages/UserPage";
+import SignUp from "./pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import AdminPanel from "./Pages/AdminPanel";
 import ForgotPassword from "./Pages/ForgotPassword";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="/user-page" element={<UserPage />} />
         </Route>
       </Routes>
     </Router>
