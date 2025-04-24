@@ -65,7 +65,7 @@ const SignUp = () => {
 
           if (response.ok) {
             console.log("Account created!", data);
-            navigate("/"); // Success – redirect to homepage
+            navigate("/login"); // Success – redirect to homepage
           } else {
             switch (data.message) {
               case "IN_USE_USER":

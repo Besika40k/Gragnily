@@ -49,6 +49,7 @@ function SideBar() {
         return response.json();
       })
       .then((data) => {
+        console.log(data.profile_picture_url);
         setUser(data); // Store user data
       })
       .catch((err) => {
@@ -119,14 +120,14 @@ function SideBar() {
           <div
             className="outerpfp pfp-div"
             style={{
-              backgroundImage: `url(${user.profile_picture_url})`,
+              backgroundImage: `url("${user.profile_picture_url}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: "50%",
               border: "none",
               outline: "none",
             }}
-            key={10001}
+            key={10201}
             onClick={() => {
               setOpen(!open);
               iconDisplayNone();
