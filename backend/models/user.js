@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["admin", "user"],
     },
+    profile_picture_url: String,
+    profile_picture_public_id: String
   },
   {
     timestamps: true,

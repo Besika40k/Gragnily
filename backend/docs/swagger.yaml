@@ -5,7 +5,8 @@ info:
   description: API to manage and fetch book records
 
 servers:
-  - url: https://gragnily.onrender.com
+  - url: gragnily.onrender.com
+  # - url: http://localhost:8080
 
 paths:
   /api/books:
@@ -665,6 +666,115 @@ paths:
                   message:
                     type: string
                     example: "Error message here"
+  /api/auth/logout:
+    post:
+      summary: Logs the user out
+      description: Clears the refresh and access token cookies if they exist.
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: User successfully logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Logged Out
+        '201':
+          description: User was already logged out (no tokens to clear)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Already Logged Out
+  /api/users/:
+    get:
+      summary: Get all users (admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of users
+        '404':
+          description: Users Not Found
+
+  /api/users/getuser:
+    get:
+      summary: Get current user (lite version)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns username, email, and profile picture
+        '401':
+          description: User Not Registered
+        '404':
+          description: User Not Found
+
+  /api/users/updateuser:
+    put:
+      summary: Update text fields of current user
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: User updated successfully
+        '401':
+          description: User Not Signed In
+
+  /api/users/updateuserprofile:
+    put:
+      summary: Upload or update user profile picture
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                new_profile:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Profile Picture Updated
+        '401':
+          description: User Not Signed In
+        '500':
+          description: Can't read profile uploaded
+
+  /api/users/deleteuser:
+    delete:
+      summary: Delete current user
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User Deleted Successfully
+        '401':
+          description: User Not Signed In
+        '404':
+          description: User Not Found
 components:
   securitySchemes:
     xAccessToken:

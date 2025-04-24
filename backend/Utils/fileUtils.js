@@ -53,8 +53,8 @@ const uploadFile = asyncHandler(async (filePath, fileType = "PDF") => {
       resource_type: rsType,
     });
 
-    const url = cloudinary.url(result.public_id);
     const public_id = result.public_id;
+    const url = cloudinary.url(public_id);
 
     return { url, public_id };
   } catch (error) {
@@ -63,4 +63,18 @@ const uploadFile = asyncHandler(async (filePath, fileType = "PDF") => {
   }
 });
 
-module.exports = { uploadCoverImage, uploadFile };
+const uploadProfilePicture = asyncHandler(async (filePath) => {
+  if (!filePath) return { url: "", public_id: "" };
+
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: `users/profile_picture`,
+    resource_type: "image",
+  });
+
+  const public_id = result.public_id;
+  const url = cloudinary.url(public_id);
+
+  return { url, public_id };
+});
+
+module.exports = { uploadCoverImage, uploadFile, uploadProfilePicture };

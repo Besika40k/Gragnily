@@ -7,10 +7,17 @@ const deserializeUser = asyncHandler(async (req, res, next) => {
   const accessToken = req.cookies["x-access-token"];
   const refreshToken = req.cookies["x-refresh-token"];
 
-  if (!refreshToken)
-    return res.status(500).json({ message: "No refresh access Token" });
+  if (!refreshToken) {
+    console.log("No refresh access Token");
+    return next();
+  }
 
   const { payload } = verifyJWT(accessToken);
+
+  if (payload) {
+    req.userId = payload.id;
+    return next();
+  }
 
   // If access token is expired and refresh token exists
   if (!accessToken && refreshToken) {
@@ -19,19 +26,18 @@ const deserializeUser = asyncHandler(async (req, res, next) => {
     // Create new access token
     const newAccessToken = jwt.sign(refreshPayload, config.secret);
 
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("x-access-token", newAccessToken, {
       maxAge: config.jwtExpiration * 1000,
       httpOnly: true,
-      sameSite: "Strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
 
     req.userId = refreshPayload.id;
     return next();
   }
-
-  req.userId = payload.id;
-  next();
 });
 
 module.exports = deserializeUser;

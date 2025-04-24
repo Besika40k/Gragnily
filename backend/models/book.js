@@ -18,12 +18,12 @@ const bookSchema = new mongoose.Schema(
     publication_year: { type: Number, required: true },
     language: { type: String, required: true },
     page_count: { type: Number, required: true },
-    cover_image_url: { type: String },
-    ci_public_id: { type: String },
-    pdf_url: { type: String },
-    pdf_public_id: { type: String },
-    epub_url: { type: String },
-    epub_public_id: { type: String },
+    cover_image_url: String,
+    ci_public_id: String,
+    pdf_url: String,
+    pdf_public_id: String,
+    epub_url: String,
+    epub_public_id: String,
   },
   { timestamp: true }
 );

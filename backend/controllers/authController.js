@@ -8,36 +8,16 @@ var bcrypt = require("bcryptjs");
 const signUp = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  const createdUser = user.create({
+  user.create({
     username: username,
     email: email,
-    password: await bcrypt.hashSync(password, 8),
+    password: bcrypt.hashSync(password, 8),
     role: "user",
+    profile_picture_url: process.env.PROFILE_PICTURE_URL,
+    profile_picture_public_id: process.env.PROFILE_PICTURE_ID,
   });
 
-  let token = jwt.sign({ id: createdUser._id }, config.secret, {
-    expiresIn: config.jwtExpiration,
-  });
-
-  let refreshToken = jwt.sign({ id: createdUser._id }, config.secret, {
-    expiresIn: config.jwtRefreshExpiration,
-  });
-  const isProd = process.env.NODE_ENV === "production";
-  res
-    .cookie("x-access-token", token, {
-      httpOnly: true,
-      sameSite: isProd ? "None" : "Lax",
-      secure: isProd,
-      maxAge: config.jwtExpiration * 1000,
-    })
-    .cookie("x-refresh-token", refreshToken, {
-      httpOnly: true,
-      sameSite: isProd ? "None" : "Lax",
-      secure: isProd,
-      maxAge: config.jwtRefreshExpiration * 1000,
-    })
-    .status(200)
-    .json({ message: "Registration successful" });
+  res.status(200).json({ message: "Registration successful" });
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -93,7 +73,23 @@ const signIn = asyncHandler(async (req, res) => {
     });
 });
 
+const logOut = asyncHandler(async (req, res) => {
+  if (req.cookies["x-refresh-token"] || req.cookies["x-access-token"]) {
+    return res
+      .clearCookie("x-refresh-token", {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(200)
+      .json({ message: "User Logged Out" });
+  }
+
+  res.status(201).json({ message: "User Already Logged Out" });
+});
+
 module.exports = {
   signUp,
   signIn,
+  logOut,
 };

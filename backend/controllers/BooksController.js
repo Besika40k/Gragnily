@@ -6,8 +6,8 @@ const { uploadCoverImage, uploadFile } = require("../Utils/fileUtils");
 
 const getBooks = asyncHandler(async (req, res) => {
   const books = await book.find();
-  if (book.length == 0) res.status(404).json({ message: "Book(s) Not Found" });
-  else res.json({ books });
+  if (book.length == 0) res.status(404).json({ message: "Books Not Found" });
+  else res.status(200).json(books);
 });
 
 const getBook = asyncHandler(async (req, res) => {
@@ -19,7 +19,7 @@ const getBook = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    res.status(200).json({ foundBook });
+    res.status(200).json(foundBook);
   } catch (error) {
     res
       .status(500)
@@ -105,7 +105,6 @@ const updateBook = asyncHandler(async (req, res) => {
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });
 
-  try {
     // const foundBook = await book.findById(id);
     // if (!foundBook) return res.status(404).json({ message: "Book Not Found" });
     console.log(req.body);
@@ -119,12 +118,6 @@ const updateBook = asyncHandler(async (req, res) => {
     res
       .status(200)
       .json({ message: "Book updated successfully", book: updatedBook });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ message: "Error updating Book", errorMessage: error });
-  }
 });
 
 const deleteBook = asyncHandler(async (req, res) => {

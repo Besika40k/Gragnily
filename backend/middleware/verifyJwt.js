@@ -26,9 +26,12 @@ isSomething = (Role) =>
   asyncHandler(async (req, res, next) => {
     const foundUser = await user.findById(req.userId);
 
+    if (!foundUser) {
+      return res.status(401).json({ message: "user Not Signed In" });
+    }
+
     if (foundUser.role == Role) {
-      next();
-      return;
+      return next();
     }
 
     res.status(403).send({ message: `Requires ${Role} Role!` });

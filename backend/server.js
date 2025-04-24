@@ -38,10 +38,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/books", require("./routes/BookRoutes"));
 app.use("/api/authors", require("./routes/authorRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
-  console.log(`Swagger docs at https://gragnily.onrender.com/api-docs`);
+  console.log(
+    `Swagger docs at https://gragnily.onrender.com/api-docs`,
+    `or http://localhost:${port}/api-docs`
+  );
 });
