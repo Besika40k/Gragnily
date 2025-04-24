@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "/tmp/" });
-const {  isAdmin } = require("../middleware/verifyJwt");
+const { isAdmin } = require("../middleware/verifyJwt");
 
 const {
   getBooks,
@@ -10,13 +10,17 @@ const {
   getBook,
   updateBook,
   deleteBook,
+  getBooksPreview,
 } = require("../controllers/BooksController");
 const deserializeUser = require("../middleware/deserializeUser");
 
 //user
 router.route("/").get(getBooks);
 
+router.route("/search").get(getBooksPreview);
+
 router.route("/:id").get(getBook);
+
 
 //admin
 router.route("/").post(

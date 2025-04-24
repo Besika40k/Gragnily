@@ -12,19 +12,47 @@ const getBooks = asyncHandler(async (req, res) => {
 
 const getBook = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  try {
-    const foundBook = await book.findById(id);
 
-    if (foundBook.length === 0) {
-      return res.status(404).json({ message: "Book not found" });
-    }
+  const foundBook = await book.findById(id);
 
-    res.status(200).json(foundBook);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error on book.find", error: error.message });
+  if (foundBook.length === 0) {
+    return res.status(404).json({ message: "Book not found" });
   }
+
+  res.status(200).json(foundBook);
+});
+
+const getBooksPreview = asyncHandler(async (req, res) => {
+  const { searchInput, page = 1, limit = 10 } = req.query;
+
+  const pageNumber = parseInt(page);
+  const pageSize = parseInt(limit);
+  const skip = (pageNumber - 1) * pageSize;
+
+  const results = await book.aggregate([
+    {
+      $search: {
+        index: "titleSearchIndex",
+        text: {
+          query: searchInput,
+          path: "title",
+          fuzzy: { maxEdits: 2 },
+        },
+      },
+    },
+    {
+      $project: {
+        title: 1, // Include 'title' in the result
+        cover_image_url: 1,
+        score: { $meta: "searchScore" }, // Include relevance score
+      },
+    },
+    { $sort: { score: -1 } }, // Sort by relevance score in descending order
+    { $skip: skip },
+    { $limit: pageSize },
+  ]);
+
+  res.json(200).json(results);
 });
 
 const createBook = asyncHandler(async (req, res) => {
@@ -105,19 +133,19 @@ const updateBook = asyncHandler(async (req, res) => {
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });
 
-    // const foundBook = await book.findById(id);
-    // if (!foundBook) return res.status(404).json({ message: "Book Not Found" });
-    console.log(req.body);
+  // const foundBook = await book.findById(id);
+  // if (!foundBook) return res.status(404).json({ message: "Book Not Found" });
+  console.log(req.body);
 
-    const updatedBook = await book.findOneAndUpdate(
-      { _id: id }, // Filter
-      { $set: req.body }, // Update
-      { new: true } // Return the updated document
-    );
+  const updatedBook = await book.findOneAndUpdate(
+    { _id: id }, // Filter
+    { $set: req.body }, // Update
+    { new: true } // Return the updated document
+  );
 
-    res
-      .status(200)
-      .json({ message: "Book updated successfully", book: updatedBook });
+  res
+    .status(200)
+    .json({ message: "Book updated successfully", book: updatedBook });
 });
 
 const deleteBook = asyncHandler(async (req, res) => {
@@ -153,6 +181,7 @@ const deleteBook = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getBooksPreview,
   getBooks,
   createBook,
   getBook,

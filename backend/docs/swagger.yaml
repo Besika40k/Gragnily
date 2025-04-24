@@ -5,8 +5,10 @@ info:
   description: API to manage and fetch book records
 
 servers:
-  - url: gragnily.onrender.com
-  # - url: http://localhost:8080
+  - url: https://gragnily.onrender.com
+    description: Production server
+  - url: http://localhost:8080
+    description: Local development server
 
 paths:
   /api/books:
@@ -316,6 +318,54 @@ paths:
                   error:
                     type: string
                     example: "Detailed error message"
+
+  /api/books/search:
+    get:
+      summary: Search and preview books by title
+      tags:
+        - Books
+      parameters:
+        - in: query
+          name: searchInput
+          schema:
+            type: string
+          required: true
+          description: Search keyword for book titles
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          required: false
+          description: Page number for pagination
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          required: false
+          description: Number of items per page
+      responses:
+        '200':
+          description: A list of books matching the search input
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: "10 Tips for Better Sleep"
+                    cover_image_url:
+                      type: string
+                      example: "https://cdn.example.com/images/book-cover.jpg"
+                    score:
+                      type: number
+                      example: 12.34
+        '500':
+          description: Server error
   /api/authors:
     get:
       summary: Retrieve a list of authors
