@@ -46,7 +46,8 @@ const getBooksPreview = asyncHandler(async (req, res) => {
     },
     {
       $project: {
-        title: 1, // Include 'title' in the result
+        title: 1,
+        title_ge: 1,
         cover_image_url: 1,
         score: { $meta: "searchScore" }, // Include relevance score
       },
