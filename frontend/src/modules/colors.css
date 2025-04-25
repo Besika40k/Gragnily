@@ -5,12 +5,14 @@
   --accent-l: #e19571;
   --text-main-l: #917f74;
   --background-l: #fbf8f6;
+  --background-transperant: #fbf8f6a4;
   --scrollbar-l: #fbefe0;
   --hover-dark-l: #d9d0c2;
 }
 
 .light {
   --primary-l: #e6dbcd;
+  --primary-shadow: #37373715;
   --secondary-l: #f18966;
   --ternary-l: #d97b5c;
   --accent-l: #e19571;
@@ -32,6 +34,8 @@
 
 .dark {
   --primary-l: #373737;
+
+  --primary-shadow: #e6dbcd1b;
   --secondary-l: #f18966;
   --ternary-l: #d97b5c;
   --accent-l: #719ee15c;

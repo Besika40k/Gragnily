@@ -2,10 +2,10 @@ import React from "react";
 import style from "./UserPage.module.css";
 
 import { useState, useEffect } from "react";
-
+import Loading from "../modules/Loading";
 const UserPage = () => {
   const [user, setUser] = useState("");
-
+  const [loading, setLoading] = useState(false);
   // on load get user data
   useEffect(() => {
     fetch("https://gragnily.onrender.com/api/users/getuser", {
@@ -19,7 +19,6 @@ const UserPage = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.profile_picture_url);
         setUser(data); // Store user data
       })
       .catch((err) => {
@@ -44,18 +43,22 @@ const UserPage = () => {
 
   const handleUpload = () => {
     if (!image) return;
+    setLoading(true);
     const formData = new FormData();
     formData.append("new_profile", image);
 
     fetch("https://gragnily.onrender.com/api/users/updateuserprofile", {
-      method: "POST",
+      method: "PUT",
       body: formData,
+      credentials: "include",
     })
       .then(async (res) => {
         const contentType = res.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
           const data = await res.json();
           console.log("Success:", data);
+          window.location.reload();
+          setLoading(false);
         } else {
           const text = await res.text();
           console.warn("Non-JSON response:", text);
@@ -65,50 +68,56 @@ const UserPage = () => {
   };
 
   return (
-    <div className={style.userPage}>
-      <div className={style.userInfo}>
-        <div
-          style={{
-            backgroundImage: `url(${user.profile_picture_url})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: "50%",
-            flexShrink: 0,
-            width: "100px",
-            height: "100px",
-            minHeight: "10vh",
-          }}
-          key={10030}
-        ></div>
-        <div className={style.textInfo}>
-          <h2>Username: {user.username}</h2>
-          <h2>Email: {user.email}</h2>
-          <h2>Password: *******</h2>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={style.userPage}>
+          <div className={style.userInfo}>
+            <div
+              style={{
+                backgroundImage: `url(${user.profile_picture_url})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                borderRadius: "50%",
+                flexShrink: 0,
+                width: "100px",
+                height: "100px",
+                minHeight: "10vh",
+              }}
+              key={10030}
+            ></div>
+            <div className={style.textInfo}>
+              <h2>Username: {user.username}</h2>
+              <h2>Email: {user.email}</h2>
+              <h2>Password: *******</h2>
+            </div>
+          </div>
+          <div>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {preview && (
+              <img src={preview} alt="Preview" style={{ maxWidth: "200px" }} />
+            )}
+            <button onClick={handleUpload}>Upload</button>
+          </div>
+          <form action="sumbit">
+            <div className={style.formGroup}>
+              <label htmlFor="username">Change Username</label>
+              <input type="text" id="username" name="username" />
+            </div>
+            <div className={style.formGroup}>
+              <label htmlFor="email">Change Email</label>
+              <input type="email" id="email" name="email" />
+            </div>
+            <div className={style.formGroup}>
+              <label htmlFor="password">Change Password</label>
+              <input type="password" id="password" name="password" />
+            </div>
+            <button type="submit">Update</button>
+          </form>
         </div>
-      </div>
-      <div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {preview && (
-          <img src={preview} alt="Preview" style={{ maxWidth: "200px" }} />
-        )}
-        <button onClick={handleUpload}>Upload</button>
-      </div>
-      <form action="sumbit">
-        <div className={style.formGroup}>
-          <label htmlFor="username">Change Username</label>
-          <input type="text" id="username" name="username" />
-        </div>
-        <div className={style.formGroup}>
-          <label htmlFor="email">Change Email</label>
-          <input type="email" id="email" name="email" />
-        </div>
-        <div className={style.formGroup}>
-          <label htmlFor="password">Change Password</label>
-          <input type="password" id="password" name="password" />
-        </div>
-        <button type="submit">Update</button>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 

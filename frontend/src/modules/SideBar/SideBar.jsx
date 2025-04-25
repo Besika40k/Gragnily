@@ -124,8 +124,6 @@ function SideBar() {
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: "50%",
-              border: "none",
-              outline: "none",
             }}
             key={10201}
             onClick={() => {
