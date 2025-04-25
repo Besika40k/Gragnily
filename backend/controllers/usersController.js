@@ -3,7 +3,7 @@ const cloudinary = require("../config/cdConnection");
 const config = require("../config/auth.config");
 const user = require("../models/user");
 const { uploadProfilePicture } = require("../Utils/fileUtils");
-const fs = require("fs");
+const fs = require("fs").promises;
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await user.find();

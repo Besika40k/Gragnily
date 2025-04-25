@@ -380,7 +380,7 @@ paths:
   /api/authors:
     get:
       summary: Retrieve a list of authors
-      tags: [author]
+      tags: [Authors]
       description: Fetches all authors from the database.
       responses:
         "200":
@@ -398,29 +398,32 @@ paths:
           description: Internal server error
     post:
       summary: Create a new author
-      tags: [author]
-      description: Creates a new author entry with the provided details (name, birth year, nationality).
+      tags:
+        - Authors
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - name
               properties:
                 name:
                   type: string
-                  description: Name of the author
+                  example: "George Orwell"
+                name_ge:
+                  type: string
+                  example: "ჯორჯ ორუელი"
                 birth_year:
                   type: integer
-                  description: Year the author was born
+                  example: 1903
                 nationality:
                   type: string
-                  description: Nationality of the author
-              required:
-                - name
+                  example: "British"
       responses:
-        "200":
-          description: Author successfully created
+        '200':
+          description: Author creation successful
           content:
             application/json:
               schema:
@@ -428,9 +431,10 @@ paths:
                 properties:
                   comment:
                     type: string
-                    example: "successful"
-        "400":
-          description: Missing or invalid input (name cannot be empty)
+                  author:
+                    $ref: '#/components/schemas/Author'
+        '400':
+          description: Validation error
           content:
             application/json:
               schema:
@@ -438,13 +442,21 @@ paths:
                 properties:
                   comment:
                     type: string
-                    example: "name can't be empty"
-        "500":
-          description: Internal server error
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                  error:
+                    type: string
   /api/authors/{id}:
     get:
       summary: Retrieve author by name
-      tags: [author]
+      tags: [Authors]
       description: Fetches an author by the provided name (ID) parameter.
       parameters:
         - name: id
@@ -480,7 +492,7 @@ paths:
     put:
       summary: Update an existing author
       description: Updates the details of an author by their ID.
-      tags: [author]
+      tags: [Authors]
       parameters:
         - name: id
           in: path
@@ -547,7 +559,7 @@ paths:
     delete:
       summary: Delete an author
       description: Deletes an author by their ID.
-      tags: [author]
+      tags: [Authors]
       parameters:
         - name: id
           in: path
@@ -848,16 +860,14 @@ components:
       properties:
         _id:
           type: string
-          description: The unique ID of the author
         name:
           type: string
-          description: Name of the author
-        bio:
+        name_ge:
           type: string
-          description: Biography of the author
         birth_year:
           type: integer
-          description: Year the author was born
+        nationality:
+          type: string
     Book:
       type: object
       properties:

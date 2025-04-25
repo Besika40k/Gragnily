@@ -15,7 +15,9 @@ const getBooks = asyncHandler(async (req, res) => {
 const getBook = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const foundBook = await book.findById(id);
+  const foundBook = await book
+    .findById(id)
+    .select("-ci_public_id -epub_public_id -pdf_public_id");
 
   if (foundBook.length === 0) {
     return res.status(404).json({ message: "Book not found" });
@@ -44,7 +46,8 @@ const getBooksPreview = asyncHandler(async (req, res) => {
     },
     {
       $project: {
-        title: 1, // Include 'title' in the result
+        title: 1,
+        title_ge: 1,
         cover_image_url: 1,
         score: { $meta: "searchScore" }, // Include relevance score
       },

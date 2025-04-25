@@ -9,12 +9,12 @@ const getAuthors = asyncHandler(async (req, res) => {
 });
 
 const createAuthor = asyncHandler(async (req, res) => {
-  const { name, birth_year, nationality } = req.body;
+  const { name, name_ge, birth_year, nationality } = req.body;
   if (!name) {
     res.status(400).json({ comment: "name can't be empty" });
   } else {
     try {
-      const newAuthor = await author.create({ name, birth_year, nationality });
+      const newAuthor = await author.create({ name, name_ge, birth_year, nationality });
       res
         .status(200)
         .json({ comment: "Author creation successful", author: newAuthor });
