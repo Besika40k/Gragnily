@@ -3,6 +3,7 @@ const cloudinary = require("../config/cdConnection");
 const config = require("../config/auth.config");
 const user = require("../models/user");
 const { uploadProfilePicture } = require("../Utils/fileUtils");
+const fs = require("fs");
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await user.find();
@@ -44,30 +45,45 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: "User Not Signed In" });
 
   const files = req.files;
-
   const newProfile = files.new_profile?.[0];
 
-  const User = await user.findById(req.userId);
-
-  if (User.profile_picture_url !== process.env.PROFILE_PICTURE_URL) {
-    await cloudinary.uploader.destroy(User.epub_public_id);
-  }
-
   if (!newProfile) {
-    return res.status(500).json("Can't read profile uploaded");
+    return res.status(400).json("No profile image uploaded");
   }
 
-  const { url, public_id } = await uploadProfilePicture(newProfile.path);
+  try {
+    const User = await user.findById(req.userId);
 
-  if (!url || !public_id) {
-    return res.status(500).json("Not Uploaded");
+    if (User.profile_picture_url !== process.env.PROFILE_PICTURE_URL) {
+      await cloudinary.uploader.destroy(User.profile_picture_public_id);
+    }
+
+    const { url, public_id } = await uploadProfilePicture(newProfile.path);
+
+    if (!url || !public_id) {
+      return res.status(500).json("Upload to Cloudinary failed");
+    }
+
+    await user.findByIdAndUpdate(req.userId, {
+      profile_picture_url: url,
+      profile_picture_public_id: public_id,
+    });
+
+    res.status(200).json({ message: "Profile Picture Updated" });
+  } catch (err) {
+    console.error("Profile update error:", err);
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: err.message });
+  } finally {
+    if (newProfile?.path) {
+      try {
+        await fs.unlink(newProfile.path);
+      } catch (err) {
+        console.warn(`Failed to delete temp profile image: ${err.message}`);
+      }
+    }
   }
-  await user.findByIdAndUpdate(req.userId, {
-    profile_picture_url: url,
-    profile_picture_public_id: public_id,
-  });
-
-  res.status(200).json({ message: "Profile Picture Updated" });
 });
 
 const deleteUser = asyncHandler(async (req, res) => {

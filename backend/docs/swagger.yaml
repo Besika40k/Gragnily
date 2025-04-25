@@ -25,15 +25,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Book"
     post:
+      tags:
+        - Books
       summary: Create a new book
-      tags: [Books]
-      description: >
-        Creates a new book entry with the provided details. 
-        The epub_file is uploaded to Cloudinary as a raw file, 
-        therefore it can't directly be viewed with the provided URL
-        (requires some tweaking from the frontend side).
+      description: Uploads a book with cover image, PDF(s), and optional EPUB file. Supports multilingual fields.
+      operationId: createBook
       security:
-        - xAccessToken: []
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -43,59 +41,72 @@ paths:
               properties:
                 title:
                   type: string
-                  description: The title of the book
+                title_ge:
+                  type: string
                 author:
                   type: array
                   items:
                     type: string
-                  description: List of authors' names
                 genre:
                   type: array
                   items:
                     type: string
-                  description: List of genres
+                genre_ge:
+                  type: array
+                  items:
+                    type: string
                 publisher_name:
                   type: string
-                  description: The publisher of the book
                 publication_year:
                   type: integer
-                  description: The year the book was published
                 language:
                   type: string
-                  description: The language of the book
+                language_ge:
+                  type: string
                 cover_image:
                   type: string
                   format: binary
-                  description: Cover image file of the book
                 pdf_file:
-                  type: string
-                  format: binary
-                  description: PDF version of the book
+                  type: array
+                  items:
+                    type: string
+                    format: binary
                 epub_file:
                   type: string
                   format: binary
-                  description: EPUB version of the book
               required:
                 - title
+                - title_ge
                 - author
                 - genre
-                - publisher_name
-                - publication_year
+                - genre_ge
                 - language
+                - language_ge
                 - cover_image
                 - pdf_file
       responses:
-        "200":
-          description: Successfully created book
+        '200':
+          description: Book created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Book"
-        "400":
-          description: Invalid input or missing required fields
-        "500":
-          description: Internal server error
-
+                type: object
+                properties:
+                  message:
+                    type: string
+                  book:
+                    $ref: '#/components/schemas/Book'
+        '500':
+          description: Failed to create book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: string
   /api/books/{id}:
     get:
       summary: Get a book by ID
@@ -852,10 +863,10 @@ components:
       properties:
         _id:
           type: string
-          description: The unique ID of the book
         title:
           type: string
-          description: Title of the book
+        title_ge:
+          type: string
         author:
           type: array
           items:
@@ -863,48 +874,37 @@ components:
             properties:
               author_id:
                 type: string
-                description: The unique ID of the author
-              name:
-                type: string
-                description: Name of the author
         genre:
           type: array
           items:
             type: string
-          description: List of genres
+        genre_ge:
+          type: array
+          items:
+            type: string
         publisher_name:
           type: string
-          description: Name of the publisher
         publication_year:
           type: integer
-          description: Year the book was published
         language:
           type: string
-          description: Language of the book
+        language_ge:
+          type: string
         page_count:
           type: integer
-          description: Number of pages in the book
         cover_image_url:
           type: string
-          format: uri
-          description: URL of the cover image
         ci_public_id:
           type: string
-          description: Public ID of the cover image in Cloudinary
         pdf_url:
-          type: string
-          format: uri
-          description: URL of the PDF file
+          type: array
+          items:
+            type: string
         pdf_public_id:
-          type: string
-          description: Public ID of the PDF file in Cloudinary
+          type: array
+          items:
+            type: string
         epub_url:
           type: string
-          format: uri
-          description: URL of the EPUB file
         epub_public_id:
           type: string
-          description: Public ID of the EPUB file in Cloudinary
-        __v:
-          type: integer
-          description: Version key

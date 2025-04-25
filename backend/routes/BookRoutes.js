@@ -15,18 +15,17 @@ const {
 const deserializeUser = require("../middleware/deserializeUser");
 
 //user
-router.route("/").get(getBooks);
+router.route("/").get(deserializeUser, isAdmin, getBooks);
 
 router.route("/search").get(getBooksPreview);
 
 router.route("/:id").get(getBook);
 
-
 //admin
 router.route("/").post(
   upload.fields([
     { name: "cover_image", maxCount: 1 },
-    { name: "pdf_file", maxCount: 1 },
+    { name: "pdf_file", maxCount: 2 },
     { name: "epub_file", maxCount: 1 },
   ]),
   deserializeUser,

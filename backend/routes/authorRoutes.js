@@ -12,7 +12,7 @@ const { isAdmin } = require("../middleware/verifyJwt");
 const deserializeUser = require("../middleware/deserializeUser");
 
 //user
-router.route("/").get(getAuthors);
+router.route("/").get(deserializeUser, isAdmin, getAuthors);
 
 router.route("/:id").get(getAuthor);
 

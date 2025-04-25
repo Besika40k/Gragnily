@@ -3,6 +3,8 @@ const book = require("../models/book");
 const authors = require("../models/author");
 const cloudinary = require("../config/cdConnection");
 const { uploadCoverImage, uploadFile } = require("../Utils/fileUtils");
+const pdf = require("pdf-parse");
+const fs = require("fs").promises;
 
 const getBooks = asyncHandler(async (req, res) => {
   const books = await book.find();
@@ -52,7 +54,7 @@ const getBooksPreview = asyncHandler(async (req, res) => {
     { $limit: pageSize },
   ]);
 
-  res.json(200).json(results);
+  res.status(200).json(results);
 });
 
 const createBook = asyncHandler(async (req, res) => {
@@ -61,26 +63,53 @@ const createBook = asyncHandler(async (req, res) => {
 
   //Names are From BookRoutes.js
   const coverImage = files.cover_image?.[0];
-  const pdfFile = files.pdf_file?.[0];
+  const pdfFile1 = files.pdf_file?.[0];
+  const pdfFile2 = files.pdf_file?.[1];
   const epubFile = files.epub_file?.[0] || "";
 
-  let cover_image_url, pdf_url, epub_url;
+  let newBook;
+
+  let cover_image_url,
+    pdf_url = [],
+    epub_url;
   // To later delete if anything goes wrong
-  let ci_public_id, pdf_public_id, epub_public_id;
+  let ci_public_id,
+    pdf_public_id = [],
+    epub_public_id;
+  let page_count;
 
   try {
-    const { title, author, genre, publisher_name, publication_year, language } =
-      req.body;
+    let {
+      title,
+      title_ge,
+      author,
+      genre,
+      genre_ge,
+      publisher_name,
+      publication_year,
+      language,
+      language_ge,
+    } = req.body;
+
+    if (pdfFile1) {
+      try {
+        const pdfBuffer = await fs.readFile(pdfFile1.path);
+        const pdfData = await pdf(pdfBuffer);
+        page_count = pdfData.numpages;
+      } catch (error) {
+        console.error("PDF processing failed:", error);
+      }
+    }
 
     const tempAuthors = await Promise.all(
-      //author with single element is interpreted as element not array
-      (Array.isArray(author) ? author : [author]).map(async (authorName) => {
-        const doc = await authors.findOne({ name: authorName });
-
+      // Ensure `author` is an array (handle single ID case)
+      (Array.isArray(author) ? author : [author]).map(async (authorId) => {
+        const doc = await authors.findById(authorId);
         if (!doc) {
-          throw new Error(`Author not found: ${authorName}`);
+          throw new Error(`Author not found: ${authorId}`);
         }
-        return { author_id: doc._doc._id, name: doc._doc.name };
+
+        return { author_id: doc._id };
       })
     );
 
@@ -88,23 +117,38 @@ const createBook = asyncHandler(async (req, res) => {
       coverImage.path
     ));
 
-    ({ url: pdf_url, public_id: pdf_public_id } = await uploadFile(
-      pdfFile.path,
+    ({ url: pdf_url[0], public_id: pdf_public_id[0] } = await uploadFile(
+      pdfFile1.path,
       "PDF"
     ));
+
+    if (pdfFile2) {
+      ({ url: pdf_url[1], public_id: pdf_public_id[1] } = await uploadFile(
+        pdfFile2.path,
+        "PDF"
+      ));
+    }
+
     ({ url: epub_url, public_id: epub_public_id } = await uploadFile(
       epubFile.path,
       "EPUB"
     ));
 
-    const newBook = await book.create({
+    if (!publisher_name) publisher_name = "";
+
+    if (!publication_year) publication_year = 0;
+
+    newBook = await book.create({
       title,
+      title_ge,
       author: tempAuthors,
       genre,
+      genre_ge,
       publisher_name,
       publication_year,
       language,
-      page_count: 3,
+      language_ge,
+      page_count,
       cover_image_url,
       ci_public_id,
       pdf_url,
@@ -117,14 +161,29 @@ const createBook = asyncHandler(async (req, res) => {
   } catch (error) {
     // prettier-ignore
     if (ci_public_id) await cloudinary.uploader.destroy(ci_public_id);
-    if (pdf_public_id) await cloudinary.uploader.destroy(pdf_public_id);
+    if (pdf_public_id[0]) await cloudinary.uploader.destroy(pdf_public_id[0]);
+    if (pdf_public_id[1]) await cloudinary.uploader.destroy(pdf_public_id[1]);
     if (epub_public_id) await cloudinary.uploader.destroy(epub_public_id);
 
-    await book.findByIdAndDelete(newBook._id);
+    if (newBook) {
+      await book.findByIdAndDelete(newBook._id);
+    }
 
     res
       .status(500)
       .json({ message: "Error creating book", error: error.message });
+  } finally {
+    const tempFiles = [coverImage, pdfFile1, pdfFile2, epubFile].filter(
+      Boolean
+    );
+
+    for (const file of tempFiles) {
+      try {
+        await fs.unlink(file.path);
+      } catch (err) {
+        console.warn(`Failed to delete temp file: ${file.path}`, err.message);
+      }
+    }
   }
 });
 
@@ -133,8 +192,6 @@ const updateBook = asyncHandler(async (req, res) => {
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });
 
-  // const foundBook = await book.findById(id);
-  // if (!foundBook) return res.status(404).json({ message: "Book Not Found" });
   console.log(req.body);
 
   const updatedBook = await book.findOneAndUpdate(
@@ -163,8 +220,10 @@ const deleteBook = asyncHandler(async (req, res) => {
     // prettier-ignore
     if (foundBook.ci_public_id)
       await cloudinary.uploader.destroy(foundBook.ci_public_id);
-    if (foundBook.pdf_public_id)
-      await cloudinary.uploader.destroy(foundBook.pdf_public_id);
+    if (foundBook.pdf_public_id[0])
+      await cloudinary.uploader.destroy(foundBook.pdf_public_id[0]);
+    if (foundBook.pdf_public_id[1])
+      await cloudinary.uploader.destroy(foundBook.pdf_public_id[1]);
     if (foundBook.epub_public_id)
       await cloudinary.uploader.destroy(foundBook.epub_public_id);
 
