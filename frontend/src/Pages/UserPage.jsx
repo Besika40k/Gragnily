@@ -47,7 +47,7 @@ const UserPage = () => {
     const formData = new FormData();
     formData.append("new_profile", image);
 
-    fetch("https://gragnily.onrender.com/api/users/updateuserprofie", {
+    fetch("https://gragnily.onrender.com/api/users/updateuserprofile", {
       method: "POST",
       body: formData,
     })
