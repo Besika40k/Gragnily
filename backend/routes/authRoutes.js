@@ -1,8 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { checkDuplicate } = require("../middleware/verifySignUp");
+const {
+  checkDuplicate,
+  isUserVerified,
+} = require("../middleware/verifySignUp");
 
-const { signUp, signIn, logOut } = require("../controllers/authController");
+const {
+  signUp,
+  signIn,
+  logOut,
+  verifyUserEmail,
+} = require("../controllers/authController");
 
 router.use(function (req, res, next) {
   res.header(
@@ -15,6 +23,8 @@ router.use(function (req, res, next) {
 router.route("/signup").post(checkDuplicate, signUp);
 
 router.route("/signin").post(signIn);
+
+router.route("/emailVerification").get(verifyUserEmail);
 
 router.route("/logout").post(logOut);
 

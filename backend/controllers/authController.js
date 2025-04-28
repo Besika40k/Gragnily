@@ -4,11 +4,15 @@ const user = require("../models/user");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const {
+  generateVerificationToken,
+  sendVerificationEmail,
+} = require("../Utils/verifyEmail");
 
 const signUp = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  user.create({
+  const User = await user.create({
     username: username,
     email: email,
     password: bcrypt.hashSync(password, 8),
@@ -17,7 +21,43 @@ const signUp = asyncHandler(async (req, res) => {
     profile_picture_public_id: process.env.PROFILE_PICTURE_ID,
   });
 
+  sendVerificationEmail(email, generateVerificationToken(User._id));
+
   res.status(200).json({ message: "Registration successful" });
+});
+
+const verifyUserEmail = asyncHandler(async (req, res) => {
+  const { token } = req.query;
+  console.log("Token received:", token);
+
+  if (!token) {
+    return res.status(400).send("Verification token is missing");
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.EMAIL_SECRET_KEY);
+  } catch (err) {
+    console.error("JWT error:", err);
+    return res.status(400).send("Invalid or expired token");
+  }
+
+  if (!decoded.userId) {
+    return res.status(400).send("Invalid or expired token");
+  }
+
+  const updatedUser = await user.findByIdAndUpdate(
+    decoded.userId,
+    { isVerified: true },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    return res.status(404).send("User not found");
+  }
+
+  console.log("Updated user:", updatedUser);
+  res.send("Email successfully verified!");
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -28,7 +68,8 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   if (!foundUser) return res.status(404).json({ message: "User Not Found!" });
-
+  else if (!foundUser.isVerified)
+    return res.status(403).json({ message: "User's Email Not Verified!" });
   var passwordIsValid = bcrypt.compareSync(password, foundUser.password);
 
   if (!passwordIsValid) {
@@ -92,4 +133,5 @@ module.exports = {
   signUp,
   signIn,
   logOut,
+  verifyUserEmail,
 };
