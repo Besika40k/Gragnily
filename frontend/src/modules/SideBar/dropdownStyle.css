@@ -25,12 +25,14 @@
   display: flex;
 }
 .pfp-div {
+  box-sizing: border-box;
   width: 40px;
   height: 40px;
+  outline: 1.7px solid var(--text-main-l);
 }
 .outerpfp {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
 }
 .name-email-div {
   margin-left: 20px;

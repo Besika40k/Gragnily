@@ -1,5 +1,5 @@
 .userPage {
-  width: 80vw;
+  width: 100vw;
   height: 100vh;
   background-color: var(--background-l);
   padding: 80px 0px 80px 80px;
@@ -32,8 +32,7 @@
 .profilePicture {
   height: 50%;
 }
-.textInfo {
-}
+
 /* <div className={style.userPage}>
 <div className={style.userInfo}>
   <div className={style.userPfp}></div>
