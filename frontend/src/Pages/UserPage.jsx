@@ -3,31 +3,39 @@ import style from "./UserPage.module.css";
 
 import { useState, useEffect } from "react";
 import Loading from "../modules/Loading";
+
+// user dat
+import { useUser } from "../contexts/UserContext";
+
 const UserPage = () => {
-  const [user, setUser] = useState("");
+  const { user, updateUser } = useUser();
+
   const [loading, setLoading] = useState(false);
   // on load get user data
-  useEffect(() => {
-    fetch("https://gragnily.onrender.com/api/users/getuser", {
-      method: "GET",
-      credentials: "include", // this allows cookies to be sent
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Not logged in");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setUser(data); // Store user data
-      })
-      .catch((err) => {
-        console.log(
-          "User not logged in or error fetching user info:",
-          err.message
-        );
-      });
-  }, []);
+
+  // IMPORTANT: depricated, don't need this call anymore, user data is in context
+  // const [user, setUser] = useState("");
+  // useEffect(() => {
+  //   fetch("https://gragnily.onrender.com/api/users/getuser", {
+  //     method: "GET",
+  //     credentials: "include", // this allows cookies to be sent
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Not logged in");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       updateUser(data); // Store user data
+  //     })
+  //     .catch((err) => {
+  //       console.log(
+  //         "User not logged in or error fetching user info:",
+  //         err.message
+  //       );
+  //     });
+  // }, []);
 
   // image upload
   const [image, setImage] = useState(null);
@@ -57,7 +65,9 @@ const UserPage = () => {
         if (contentType && contentType.includes("application/json")) {
           const data = await res.json();
           console.log("Success:", data);
-          window.location.reload();
+          // user.profile_picture_url = data.profile_picture_url;
+          const newUser = { ...user, profile_picture_url: data.url };
+          updateUser(newUser); // Update the user context with the new profile picture URL
           setLoading(false);
         } else {
           const text = await res.text();

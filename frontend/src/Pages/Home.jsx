@@ -6,7 +6,18 @@ import VisualGenres from "../modules/VisualGenres/VisualGenres";
 import OurPickVisual from "../modules/OurPickVisual/OurPickVisual";
 import Carousel from "../modules/Carousel/Carousel";
 
+//test
+import { useEffect } from "react";
+import { useUser } from "../contexts/UserContext";
+//test
 const Home = () => {
+  //test
+  const { user } = useUser();
+  useEffect(() => {
+    console.log("User data from context:", user);
+  }, [user]);
+
+  //test
   return (
     <div className={style.home}>
       <div className={style.homeContent}>

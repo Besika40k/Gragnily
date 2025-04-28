@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../modules/AuthLayout";
+import { useUser } from "../contexts/UserContext"; // Import the context
 
 const LogIn = () => {
+  const { updateUser } = useUser(); // Access updateUser function from context
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -23,30 +25,48 @@ const LogIn = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-        credentials: "include",
+        credentials: "include", // Allow cookies to be sent
       })
         .then(async (response) => {
           const data = await response.json();
 
           if (response.ok) {
-            console.log("login ok!", data);
-            navigate("/"); // Success – redirect to homepage
+            console.log("Login successful!", data);
+
+            // Fetch and update the user data in the context after login
+            fetch("https://gragnily.onrender.com/api/users/getuser", {
+              method: "GET",
+              credentials: "include", // This will allow cookies to be sent
+            })
+              .then((userResponse) => {
+                if (!userResponse.ok) {
+                  throw new Error("Error fetching user data");
+                }
+                return userResponse.json();
+              })
+              .then((userData) => {
+                updateUser(userData); // Update the user context with the fetched data
+                navigate("/"); // Success – redirect to homepage
+              })
+              .catch((err) => {
+                console.log("Error fetching user data:", err.message);
+              });
           } else {
             switch (data.message) {
               case "User Not Found!":
-                alert("❌ user");
+                alert("❌ User not found");
                 break;
               case "Invalid Password!":
-                alert("❌ Tpassword.");
+                alert("❌ Invalid password.");
                 break;
               default:
-                alert("serverside error");
+                alert("Server-side error");
                 break;
             }
           }
         })
         .catch((error) => {
-          console.error(" Network error:", error);
+          console.error("Network error:", error);
           alert("Something went wrong. Please try again later.");
         });
     }
