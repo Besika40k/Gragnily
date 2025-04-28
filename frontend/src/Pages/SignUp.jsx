@@ -2,8 +2,11 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../modules/AuthLayout";
 import "../style.css"; // Make sure CSS is imported
+import { useUser } from "../contexts/UserContext"; // Import the context
 
 const SignUp = () => {
+  const { updateUser } = useUser(); // Access updateUser function from context
+
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,7 +54,6 @@ const SignUp = () => {
         email: email.value,
         password: password.value,
       };
-
       fetch("https://gragnily.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {
@@ -65,6 +67,11 @@ const SignUp = () => {
 
           if (response.ok) {
             console.log("Account created!", data);
+            const tempUserData = {
+              username: username.value,
+              email: email.valu,
+            };
+            updateUser(tempUserData);
             navigate("/login"); // Success – redirect to homepage
           } else {
             switch (data.message) {
