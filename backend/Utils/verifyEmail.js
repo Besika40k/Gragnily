@@ -16,7 +16,7 @@ const generateVerificationToken = (userId) => {
 };
 
 const sendVerificationEmail = (userEmail, token) => {
-  const verificationUrl = `https://gragnily.onrender.com/emailVerification?token=${token}`;
+  const verificationUrl = `https://gragnily.onrender.com/api/auth/emailVerification?token=${token}`;
 
   const mailOptions = {
     from: "gragnily@gmail.com",

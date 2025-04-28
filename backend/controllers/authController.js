@@ -39,7 +39,7 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
     }
 
     user.findByIdAndUpdate(decoded.userId, { isVerified: true });
-
+    console.log(decoded.userId)
     res.send("Email successfully verified!");
   });
 });

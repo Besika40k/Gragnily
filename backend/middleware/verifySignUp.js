@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const user = require("../models/user");
 
-const isUserVerified = (userId) => async (req,res,next) => {
-  User.findByIdAndUpdate(userId, { isVerified: true }, (err, user) => {
+const isUserVerified = (userId) => asyncHandler(async (next) => {
+  user.findByIdAndUpdate(userId, { isVerified: true }, (err, user) => {
       if (err) {
           console.error(err);
       } else {
@@ -10,7 +10,8 @@ const isUserVerified = (userId) => async (req,res,next) => {
           next();
       }
   });
-};
+  next();
+})
 
 checkDuplicate = asyncHandler(async (req, res, next) => {
   try {
