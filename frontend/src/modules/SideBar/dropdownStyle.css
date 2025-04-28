@@ -5,7 +5,9 @@
   background-color: var(--background-l);
   border-radius: 8px;
   padding: 10px 20px;
-  width: 250px;
+  width: fit-content;
+  min-width: 250px;
+  max-width: 400px;
   border: 3px solid #b9afa3;
 }
 
@@ -23,6 +25,7 @@
 }
 .personal-info-div {
   display: flex;
+  width: 100%;
 }
 .pfp-div {
   box-sizing: border-box;
@@ -35,6 +38,7 @@
   height: 44px;
 }
 .name-email-div {
+  width: fit-content;
   margin-left: 20px;
   display: flex;
   align-items: flex-start;

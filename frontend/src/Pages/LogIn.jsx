@@ -12,7 +12,7 @@ const LogIn = () => {
     let formValid = true;
     const username = event.target.username;
     const password = event.target.password;
-
+    console.log(username.value, password.value);
     if (formValid) {
       const userData = {
         username: username.value,
@@ -29,7 +29,7 @@ const LogIn = () => {
       })
         .then(async (response) => {
           const data = await response.json();
-
+          console.log(response, data);
           if (response.ok) {
             console.log("Login successful!", data);
 

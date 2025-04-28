@@ -7,7 +7,7 @@ import Liked from "./Pages/Liked";
 import Bookmarked from "./Pages/Bookmarked";
 import Layout from "./Layout";
 import UserPage from "./Pages/UserPage";
-import SignUp from "./pages/SignUp";
+import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import AdminPanel from "./Pages/AdminPanel";
 import ForgotPassword from "./Pages/ForgotPassword";
