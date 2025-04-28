@@ -69,7 +69,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       profile_picture_public_id: public_id,
     });
 
-    res.status(200).json({ message: "Profile Picture Updated" });
+    res.status(200).json({ message: "Profile Picture Updated", url: profile_picture_url });
   } catch (err) {
     console.error("Profile update error:", err);
     res

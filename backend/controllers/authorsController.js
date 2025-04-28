@@ -14,7 +14,12 @@ const createAuthor = asyncHandler(async (req, res) => {
     res.status(400).json({ comment: "name can't be empty" });
   } else {
     try {
-      const newAuthor = await author.create({ name, name_ge, birth_year, nationality });
+      const newAuthor = await author.create({
+        name,
+        name_ge,
+        birth_year,
+        nationality,
+      });
       res
         .status(200)
         .json({ comment: "Author creation successful", author: newAuthor });
@@ -27,7 +32,7 @@ const createAuthor = asyncHandler(async (req, res) => {
 });
 
 const getAuthor = asyncHandler(async (req, res) => {
-  const authors = await author.find({ name: req.params.id });
+  const authors = await author.findById(req.params.id);
   if (authors.length == 0) {
     res.status(404).json({ comment: "Author Not Found" });
   } else res.status(200).json(authors);
