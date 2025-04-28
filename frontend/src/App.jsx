@@ -11,25 +11,31 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import AdminPanel from "./Pages/AdminPanel";
 import ForgotPassword from "./Pages/ForgotPassword";
+
+// provider for user data centralization
+import { UserProvider } from "./contexts/UserContext";
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin-panel" element={<AdminPanel />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/liked" element={<Liked />} />
-          <Route path="/bookmarked" element={<Bookmarked />} />
-          /* login/signup pages*/
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="/user-page" element={<UserPage />} />
-        </Route>
-      </Routes>
-    </Router>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin-panel" element={<AdminPanel />} />
+            <Route path="/books" element={<Books />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/liked" element={<Liked />} />
+            <Route path="/bookmarked" element={<Bookmarked />} />
+            /* login/signup pages*/
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="/user-page" element={<UserPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 

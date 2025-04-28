@@ -5,6 +5,11 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../../Layout.css";
 import "./dropdownStyle.css";
+
+// user data
+
+import { useUser } from "../../contexts/UserContext";
+
 function SideBar() {
   const [hoveredIcon, setHoveredIcon] = useState(null);
 
@@ -33,8 +38,11 @@ function SideBar() {
     profile_picture_url:
       "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg",
   };
+  const { user, updateUser } = useUser();
 
-  const [user, setUser] = useState(defaultUser);
+  // IMPORTANT: depricated, don't need this call anymore, user data is in context
+
+  // const [user, setUser] = useState(defaultUser);
 
   // on load get user data
   useEffect(() => {
@@ -50,7 +58,7 @@ function SideBar() {
       })
       .then((data) => {
         console.log(data.profile_picture_url);
-        setUser(data); // Store user data
+        updateUser(data); // Store user data
       })
       .catch((err) => {
         console.log(
