@@ -12,7 +12,7 @@ const {
 const signUp = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  const User = user.create({
+  const User = await user.create({
     username: username,
     email: email,
     password: bcrypt.hashSync(password, 8),
@@ -28,21 +28,38 @@ const signUp = asyncHandler(async (req, res) => {
 
 const verifyUserEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
+  console.log("Token received:", token);
 
   if (!token) {
     return res.status(400).send("Verification token is missing");
   }
 
-  jwt.verify(token, process.env.EMAIL_SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(400).send("Invalid or expired token");
-    }
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.EMAIL_SECRET_KEY);
+  } catch (err) {
+    console.error("JWT error:", err);
+    return res.status(400).send("Invalid or expired token");
+  }
 
-    user.findByIdAndUpdate(decoded.userId, { isVerified: true });
-    console.log(decoded.userId)
-    res.send("Email successfully verified!");
-  });
+  if (!decoded.userId) {
+    return res.status(400).send("Invalid or expired token");
+  }
+
+  const updatedUser = await user.findByIdAndUpdate(
+    decoded.userId,
+    { isVerified: true },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    return res.status(404).send("User not found");
+  }
+
+  console.log("Updated user:", updatedUser);
+  res.send("Email successfully verified!");
 });
+
 
 const signIn = asyncHandler(async (req, res) => {
   const { username, password } = req.body;

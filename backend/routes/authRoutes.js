@@ -22,7 +22,7 @@ router.use(function (req, res, next) {
 
 router.route("/signup").post(checkDuplicate, signUp);
 
-router.route("/signin").post(isUserVerified, signIn);
+router.route("/signin").post(signIn);
 
 router.route("/emailVerification").get(verifyUserEmail);
 
