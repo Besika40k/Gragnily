@@ -60,7 +60,6 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
   res.send("Email successfully verified!");
 });
 
-
 const signIn = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
@@ -69,7 +68,8 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   if (!foundUser) return res.status(404).json({ message: "User Not Found!" });
-
+  else if (!foundUser.isVerified)
+    return res.status(403).json({ message: "User's Email Not Verified!" });
   var passwordIsValid = bcrypt.compareSync(password, foundUser.password);
 
   if (!passwordIsValid) {
