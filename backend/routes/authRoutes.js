@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {
   checkDuplicate,
-  isUserVerified,
 } = require("../middleware/verifySignUp");
 
 const {
@@ -10,7 +9,6 @@ const {
   signIn,
   logOut,
   verifyUserEmail,
-  verifyOTP,
 } = require("../controllers/authController");
 const deserializeUser = require("../middleware/deserializeUser");
 
@@ -27,8 +25,6 @@ router.route("/signup").post(checkDuplicate, signUp);
 router.route("/signin").post(signIn);
 
 router.route("/emailverification").get(verifyUserEmail);
-
-router.route("/otpverification").post(deserializeUser, verifyOTP);
 
 router.route("/logout").post(logOut);
 

@@ -7,6 +7,7 @@ const fs = require("fs").promises;
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/otp");
 const { sendOTPEmail } = require("../Utils/changePassword");
+const bcrypt = require("bcryptjs");
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await user.find();
@@ -90,8 +91,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserPassword = asyncHandler(async (req, res) => {
-  if(!req.userId)
-    return res.status(500).send("User not signed in");
+  if (!req.userId) return res.status(500).send("User not signed in");
 
   const User = await user.findById(req.userId);
 
@@ -111,6 +111,29 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Error sending OTP");
+  }
+});
+
+const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
+  const User = await user.findById(req.userId);
+  const { otp, password } = req.body;
+
+  try {
+    const otpRecord = await OTP.findOne({ email: User.email, otp });
+
+    if (otpRecord) {
+      res.status(200).send("OTP verified successfully");
+
+      user.findByIdAndUpdate(req.userId, {
+        password: bcrypt.hashSync(password, 8),
+      });
+      
+    } else {
+      res.status(400).send("Invalid OTP");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error verifying OTP");
   }
 });
 
@@ -144,5 +167,6 @@ module.exports = {
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
-  updateUserPassword
+  updateUserPassword,
+  verifyUpdateUserPassword,
 };
