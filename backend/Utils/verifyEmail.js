@@ -11,7 +11,7 @@ const transporter = nodeMailer.createTransport({
 
 const generateVerificationToken = (userId) => {
   return jwt.sign({ userId }, process.env.EMAIL_SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: "10m",
   });
 };
 

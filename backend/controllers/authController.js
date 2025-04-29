@@ -65,24 +65,6 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
   res.send("Email successfully verified!");
 });
 
-const verifyOTP = asyncHandler(async (req, res) => {
-  const User = await user.findById(req.userId);
-  const { otp } = req.body;
-
-  try {
-    const otpRecord = await OTP.findOne({ email: User.email, otp });
-
-    if (otpRecord) {
-      res.status(200).send("OTP verified successfully");
-    } else {
-      res.status(400).send("Invalid OTP");
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error verifying OTP");
-  }
-});
-
 const signIn = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
@@ -157,5 +139,4 @@ module.exports = {
   signIn,
   logOut,
   verifyUserEmail,
-  verifyOTP,
 };
