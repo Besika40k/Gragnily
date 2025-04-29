@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./SearchBar.module.css";
 import SearchIcon from "./SearchIcon";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [search, setSearch] = React.useState("");
@@ -83,30 +84,22 @@ const SearchBar = () => {
       <ul className={foundItemsClass}>
         {loading && <p>Loading...</p>}
         {books.map((book, index) => (
-          <li
+          <Link
             key={index}
-            style={{ display: "flex", gap: "10px", alignItems: "center" }}
+            className={style.bookLinkStyling}
+            to={`/books/:${book._id}`}
           >
-            {/* <div
-              style={{
-                backgroundImage: `url("${book.cover_image_url}")`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                borderRadius: "5px",
-                width: "50px",
-                height: "50px",
-              }}
-              key={index + 5}
-            /> */}
-            <img
-              src={`${book.cover_image_url}`}
-              alt="bookimg"
-              style={{ borderRadius: "5px", width: "30px" }}
-            />
-            <p>
-              {book.title} | {book.title_ge}
-            </p>
-          </li>
+            <li style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <img
+                src={`${book.cover_image_url}`}
+                alt="bookimg"
+                style={{ borderRadius: "5px", width: "30px" }}
+              />
+              <p>
+                {book.title} | {book.title_ge}
+              </p>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

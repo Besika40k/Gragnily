@@ -36,8 +36,8 @@ function App() {
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="/user-page" element={<UserPage />} />
             {/* individual book/articles pages */}
-            <Route path="/book/:id" element={<BookPage />} />
-            <Route path="/article/:id" element={<ArticlePage />} />
+            <Route path="/books/:id" element={<BookPage />} />
+            <Route path="/articles/:id" element={<ArticlePage />} />
           </Route>
         </Routes>
       </Router>
