@@ -4,6 +4,9 @@ const config = require("../config/auth.config");
 const user = require("../models/user");
 const { uploadProfilePicture } = require("../Utils/fileUtils");
 const fs = require("fs").promises;
+const otpGenerator = require("otp-generator");
+const OTP = require("../models/otp");
+const { sendOTPEmail } = require("../Utils/changePassword");
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await user.find();
@@ -86,6 +89,31 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const updateUserPassword = asyncHandler(async (req, res) => {
+  if(!req.userId)
+    return res.status(500).send("User not signed in");
+
+  const User = await user.findById(req.userId);
+
+  const otp = otpGenerator.generate(6, {
+    digits: true,
+    alphabets: false,
+    upperCase: false,
+    specialChars: false,
+  });
+
+  try {
+    await OTP.create({ email: User.email, otp });
+
+    sendOTPEmail(User.email, otp);
+
+    res.status(200).send("OTP sent successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error sending OTP");
+  }
+});
+
 const deleteUser = asyncHandler(async (req, res) => {
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
@@ -116,4 +144,5 @@ module.exports = {
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
+  updateUserPassword
 };

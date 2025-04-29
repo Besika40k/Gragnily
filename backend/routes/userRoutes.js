@@ -11,6 +11,7 @@ const {
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
+  updateUserPassword,
 } = require("../controllers/usersController");
 
 //user
@@ -26,7 +27,10 @@ router
     updateUserProfile
   );
 
+router.route("/updateuserpassword").put(deserializeUser, updateUserPassword);
+
 router.route("/updateuser").put(deserializeUser, updateUserTextFields);
+
 router.route("/deleteuser").delete(deserializeUser, deleteUser);
 
 module.exports = router;

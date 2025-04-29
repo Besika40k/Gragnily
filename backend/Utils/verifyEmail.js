@@ -27,7 +27,7 @@ const sendVerificationEmail = (userEmail, token) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      throw new Error("Email Doesn't Exist!");
     } else {
       console.log("Email sent: " + info.response);
     }

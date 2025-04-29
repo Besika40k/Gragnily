@@ -46,6 +46,7 @@ const getBooksPreview = asyncHandler(async (req, res) => {
     },
     {
       $project: {
+        _id: 1,
         title: 1,
         title_ge: 1,
         cover_image_url: 1,

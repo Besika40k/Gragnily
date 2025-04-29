@@ -10,7 +10,9 @@ const {
   signIn,
   logOut,
   verifyUserEmail,
+  verifyOTP,
 } = require("../controllers/authController");
+const deserializeUser = require("../middleware/deserializeUser");
 
 router.use(function (req, res, next) {
   res.header(
@@ -24,7 +26,9 @@ router.route("/signup").post(checkDuplicate, signUp);
 
 router.route("/signin").post(signIn);
 
-router.route("/emailVerification").get(verifyUserEmail);
+router.route("/emailverification").get(verifyUserEmail);
+
+router.route("/otpverification").post(deserializeUser, verifyOTP);
 
 router.route("/logout").post(logOut);
 
