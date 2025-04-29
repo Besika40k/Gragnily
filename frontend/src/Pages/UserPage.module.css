@@ -32,14 +32,118 @@
 .profilePicture {
   height: 50%;
 }
+.userPfpSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.userPfp {
+  width: 300px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--border-color);
+}
+.userPfpSection div input {
+  position: absolute;
+}
+.userPfpSection div label {
+  background-color: var(--background-transperant);
+  color: #917f74;
+  padding: 0.75rem;
+  border: 2px solid var(--icon-line);
+  font-family: sans-serif;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+.userPfpSection div label:hover {
+  background-color: var(--icon-line);
+  color: rgb(76, 76, 76);
+  transform: scale(1.1);
+}
 
-/* <div className={style.userPage}>
-<div className={style.userInfo}>
-  <div className={style.userPfp}></div>
-  <div className={style.textInfo}>
-    <h2>Username</h2>
-    <h2>Email</h2>
-    <h2>*******</h2>
-  </div>
-</div>
-</div> */
+.userPfpSection button {
+  background-color: var(--background-transperant);
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid var(--icon-line);
+  transition: all 0.3s ease;
+}
+.uploadBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+.uploadBtnContainer button {
+  position: relative;
+  width: 30%;
+  cursor: pointer;
+}
+.uploadBtnContainer button:hover {
+  background-color: var(--icon-line);
+  color: rgb(76, 76, 76);
+  transform: scale(1.1);
+  color: white;
+}
+
+/* form */
+.changeInfoForm {
+  width: 80%;
+  height: fit-content;
+  background-color: var(--background-l);
+}
+.formGroup {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup label {
+  font-size: 30px;
+  color: var(--text-main-l);
+}
+.formGroup input {
+  width: 50%;
+  min-width: 200px;
+  max-width: 400px;
+  height: 50px;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid var(--icon-line);
+  padding-left: 20px;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--text-main-l);
+}
+
+.sumbitButton {
+  width: 20%;
+  max-width: 200px;
+  min-width: 100px;
+  height: 40px;
+  max-height: 50px;
+  min-height: 30px;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid var(--icon-line);
+  background-color: var(--primary-l);
+  margin-top: 30px;
+  transition: all 0.3s ease;
+}
+.sumbitButton:hover {
+  background-color: var(--icon-line);
+  color: rgb(76, 76, 76);
+  transform: scale(1.05);
+  color: white;
+}

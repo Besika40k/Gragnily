@@ -74,9 +74,9 @@ if not searching style
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   color: var(--text-main-l);
-  border: 2px solid #d0cfcd;
+  border: 2px solid #b9afa3;
   border-top: none;
-  gap: 5px;
+  gap: 7px;
   list-style: none;
   overflow-wrap: break-word;
 }

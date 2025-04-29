@@ -9,7 +9,7 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (!search.trim()) return;
-
+    console.log("searching for", search);
     // c
 
     setLoading(true);
@@ -39,7 +39,7 @@ const SearchBar = () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching books:", error);
+        console.error("yle Error fetching books:", error);
         setLoading(false);
       });
   };
@@ -66,6 +66,7 @@ const SearchBar = () => {
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              console.log("Enter pressed");
               handleSearch();
             }
           }}

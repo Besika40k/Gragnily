@@ -30,6 +30,8 @@
   --search-icon-color: #917f74;
 
   --button-border: none;
+
+  --border-color: #b9afa3;
 }
 
 .dark {
@@ -54,4 +56,6 @@
   --search-icon-color: #e6dbcd;
 
   --button-border: 2px solid #e6dbcd;
+
+  --border-color: #a49b91;
 }

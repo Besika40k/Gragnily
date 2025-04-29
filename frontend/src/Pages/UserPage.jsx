@@ -49,12 +49,15 @@ const UserPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    setPreview(null);
+  };
   const handleUpload = () => {
     if (!image) return;
     setLoading(true);
     const formData = new FormData();
     formData.append("new_profile", image);
-
+    setPreview(null);
     fetch("https://gragnily.onrender.com/api/users/updateuserprofile", {
       method: "PUT",
       body: formData,
@@ -77,53 +80,143 @@ const UserPage = () => {
       .catch((err) => console.error("Error:", err));
   };
 
+  const updateUserInfo = (e) => {
+    e.preventDefault(); // prevent reload
+
+    const form = e.target; // the form element
+    const username = form.elements.username.value;
+    const email = form.elements.email.value;
+    // const password = form.elements.password.value;
+    let updatedUser = {
+      username: username == "" ? user.username : username,
+      email: email == "" ? user.email : email,
+    };
+    // updatedUser.password = password;
+    fetch("https://gragnily.onrender.com/api/users/updateuser", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+      credentials: "include", // Allow cookies to be sent
+    })
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log("User updated successful!", data);
+
+          // Fetch and update the user data in the context after info update
+          fetch("https://gragnily.onrender.com/api/users/getuser", {
+            method: "GET",
+            credentials: "include", // This will allow cookies to be sent
+          })
+            .then((userResponse) => {
+              if (!userResponse.ok) {
+                throw new Error("Error fetching user data");
+              }
+              return userResponse.json();
+            })
+            .then((userData) => {
+              updateUser(userData); // Update the user context with the fetched data
+              window.location.reload(); // Reload the page to reflect changes
+            })
+            .catch((err) => {
+              console.log("Error fetching user data:", err.message);
+            });
+        } else {
+          switch (data.message) {
+            case "User Not Found!":
+              alert("❌ User not found");
+              break;
+            case "Invalid Password!":
+              alert("❌ Invalid password.");
+              break;
+            default:
+              alert("Server-side error");
+              break;
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Network error:", error);
+        alert("Something went wrong. Please try again later.");
+      });
+  };
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <div className={style.userPage}>
-          <div className={style.userInfo}>
+          <section className={style.userPfpSection}>
             <div
               style={{
-                backgroundImage: `url(${user.profile_picture_url})`,
+                backgroundImage: `url(
+                ${preview ? preview : user.profile_picture_url})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                borderRadius: "50%",
-                flexShrink: 0,
-                width: "100px",
-                height: "100px",
-                minHeight: "10vh",
               }}
+              className={style.userPfp}
               key={10030}
-            ></div>
-            <div className={style.textInfo}>
-              <h2>Username: {user.username}</h2>
-              <h2>Email: {user.email}</h2>
-              <h2>Password: *******</h2>
+            >
+              {!preview && (
+                <>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    id="upload-btn"
+                    hidden
+                  />
+                  <label htmlFor="upload-btn">Choose Photo</label>
+                </>
+              )}
+              {preview && (
+                <div className={style.uploadBtnContainer}>
+                  <button onClick={handleUpload}>Save</button>
+                  <button onClick={handleCancel}>Cancel</button>
+                </div>
+              )}
             </div>
-          </div>
-          <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            {preview && (
-              <img src={preview} alt="Preview" style={{ maxWidth: "200px" }} />
-            )}
-            <button onClick={handleUpload}>Upload</button>
-          </div>
-          <form action="sumbit">
+          </section>
+
+          <form
+            className={style.changeInfoForm}
+            action="sumbit"
+            onSubmit={updateUserInfo}
+          >
             <div className={style.formGroup}>
               <label htmlFor="username">Change Username</label>
-              <input type="text" id="username" name="username" />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder={user.username}
+              />
             </div>
             <div className={style.formGroup}>
               <label htmlFor="email">Change Email</label>
-              <input type="email" id="email" name="email" />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder={user.email}
+              />
             </div>
             <div className={style.formGroup}>
               <label htmlFor="password">Change Password</label>
-              <input type="password" id="password" name="password" />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="********"
+                disabled
+              />
             </div>
-            <button type="submit">Update</button>
+            <button className={style.sumbitButton} type="submit">
+              Update
+            </button>
           </form>
         </div>
       )}
