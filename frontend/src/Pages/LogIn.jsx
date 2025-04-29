@@ -70,6 +70,7 @@ const LogIn = () => {
                 break;
               case "User's Email Not Verified!":
                 const errorPopup = document.getElementById("emailVerify");
+                console.log(userData.username);
                 errorPopup.style.display = "flex"; // Show the error popup
                 break;
               default:
