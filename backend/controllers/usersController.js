@@ -127,7 +127,6 @@ const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
       user.findByIdAndUpdate(req.userId, {
         password: bcrypt.hashSync(password, 8),
       });
-      
     } else {
       res.status(400).send("Invalid OTP");
     }
