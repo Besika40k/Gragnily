@@ -5,18 +5,7 @@
   top: 4%;
   z-index: 100;
 }
-/*
-if not searching style
-.searchInnerContainer{
-  border-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20x;
-}
-.foundItems{
-  display: none
-}
 
-*/
 .searchInnerContainer {
   width: 100%;
   background-color: var(--primary-l);
@@ -88,6 +77,10 @@ if not searching style
 .foundItems li {
   overflow-wrap: break-word;
   width: 100%;
+}
+.bookLinkStyling {
+  color: var(--text-l);
+  text-decoration: none;
 }
 /*
 <div className={style.searchContainer}>
