@@ -11,7 +11,7 @@ const {
   updateBook,
   deleteBook,
   getBooksPreview,
-} = require("../controllers/BooksController");
+} = require("../controllers/booksController");
 const deserializeUser = require("../middleware/deserializeUser");
 
 //user
