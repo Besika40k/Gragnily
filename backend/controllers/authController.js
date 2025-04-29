@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const config = require("../config/auth.config");
 const user = require("../models/user");
-
+const OTP = require("../models/otp");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const {
@@ -11,24 +11,31 @@ const {
 
 const signUp = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
+  let User;
+  try {
+    User = await user.create({
+      username: username,
+      email: email,
+      password: bcrypt.hashSync(password, 8),
+      role: "user",
+      profile_picture_url: process.env.PROFILE_PICTURE_URL,
+      profile_picture_public_id: process.env.PROFILE_PICTURE_ID,
+    });
 
-  const User = await user.create({
-    username: username,
-    email: email,
-    password: bcrypt.hashSync(password, 8),
-    role: "user",
-    profile_picture_url: process.env.PROFILE_PICTURE_URL,
-    profile_picture_public_id: process.env.PROFILE_PICTURE_ID,
-  });
-
-  sendVerificationEmail(email, generateVerificationToken(User._id));
+    sendVerificationEmail(email, generateVerificationToken(User._id));
+  } catch (error) {
+    user.findByIdAndDelete(User._id);
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong in signUp", err: error });
+  }
 
   res.status(200).json({ message: "Registration successful" });
 });
 
 const verifyUserEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
-  console.log("Token received:", token);
 
   if (!token) {
     return res.status(400).send("Verification token is missing");
@@ -38,7 +45,6 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.EMAIL_SECRET_KEY);
   } catch (err) {
-    console.error("JWT error:", err);
     return res.status(400).send("Invalid or expired token");
   }
 
@@ -56,8 +62,25 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
     return res.status(404).send("User not found");
   }
 
-  console.log("Updated user:", updatedUser);
   res.send("Email successfully verified!");
+});
+
+const verifyOTP = asyncHandler(async (req, res) => {
+  const User = await user.findById(req.userId);
+  const { otp } = req.body;
+
+  try {
+    const otpRecord = await OTP.findOne({ email: User.email, otp });
+
+    if (otpRecord) {
+      res.status(200).send("OTP verified successfully");
+    } else {
+      res.status(400).send("Invalid OTP");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error verifying OTP");
+  }
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -134,4 +157,5 @@ module.exports = {
   signIn,
   logOut,
   verifyUserEmail,
+  verifyOTP,
 };
