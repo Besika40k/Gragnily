@@ -7,13 +7,15 @@ import "./Login.css"; // Make sure CSS is imported
 const LogIn = () => {
   const { user, updateUser } = useUser(); // Access updateUser function from context
   const navigate = useNavigate();
-  console.log(user);
-
+  let noclose = false;
   const closePopup = () => {
+    if (noclose) {
+      noclose = false;
+      return;
+    }
     const errorPopup = document.getElementById("emailVerify");
     errorPopup.style.display = "none"; // Hide the error popup
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     let formValid = true;
@@ -83,11 +85,39 @@ const LogIn = () => {
         });
     }
   };
+  const handleEmailResend = () => {
+    //resend verification email
+    console.log("Resending verification email...");
+    //make the button on 30 s cooldown
 
+    const button = document.querySelector(".btn-verify-email");
+    button.disabled = true;
+    button.style.pointerEvents = "none";
+    button.style.opacity = "0.5";
+
+    const btnText = document.getElementById("btn-verify-email-inner-text");
+    let countdown = 30;
+    btnText.innerHTML = `You can resend in... ${countdown}s`;
+    const interval = setInterval(() => {
+      countdown--;
+      btnText.innerHTML = `You can resend in... ${countdown}s`;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        button.disabled = false;
+        button.style.pointerEvents = "auto";
+        button.style.opacity = "1";
+        btnText.innerText = "Click me";
+      }
+    }, 1000);
+  };
   return (
     <div className="login-container">
-      <div id="emailVerify" className="verify-email-container">
-        <div className="verify-email-contnet">
+      <div
+        onClick={closePopup}
+        id="emailVerify"
+        className="verify-email-container"
+      >
+        <div className="verify-email-contnet" onClick={() => (noclose = true)}>
           <div className="button-div">
             <button onClick={closePopup} className="close-button">
               X
@@ -100,10 +130,13 @@ const LogIn = () => {
             BUTTON below ☻
           </p>
           {/* ADD ON CLICK EVENT THAT AFTER A SECOND OF DELAY MAKES DISPLAY NONE AND RE-SENDS A VERIFICATION CODE AND THEN DISABLE THE BUTTON */}
-          <button className="btn-verify-email">
-            <span class="shadow"></span>
-            <span class="edge"></span>
-            <span class="front text"> Click me</span>
+          <button onClick={handleEmailResend} className="btn-verify-email">
+            <span className="shadow"></span>
+            <span className="edge"></span>
+            <span id="btn-verify-email-inner-text" className="front text">
+              {" "}
+              Click me
+            </span>
           </button>
         </div>
       </div>

@@ -161,12 +161,12 @@ function SideBar() {
               <SideBarIcon name={"sunSVG"} />
               <h2>Dark Mode</h2>
 
-              <label class="switch">
+              <label className="switch">
                 <input
                   type="checkbox"
                   onClick={() => setDarkMode((prev) => !prev)}
                 />
-                <span class="slider round"></span>
+                <span className="slider round"></span>
               </label>
             </div>
             {user.email === "" ? (

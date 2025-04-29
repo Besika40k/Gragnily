@@ -11,6 +11,9 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import AdminPanel from "./Pages/AdminPanel";
 import ForgotPassword from "./Pages/ForgotPassword";
+// book and article
+import BookPage from "./Pages/BookPage";
+import ArticlePage from "./Pages/ArticlePage";
 
 // provider for user data centralization
 import { UserProvider } from "./contexts/UserContext";
@@ -32,6 +35,9 @@ function App() {
             <Route path="/login" element={<LogIn />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="/user-page" element={<UserPage />} />
+            {/* individual book/articles pages */}
+            <Route path="/book/:id" element={<BookPage />} />
+            <Route path="/article/:id" element={<ArticlePage />} />
           </Route>
         </Routes>
       </Router>
