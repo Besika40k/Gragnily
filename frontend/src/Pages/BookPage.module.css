@@ -1,3 +1,159 @@
 .outerDivContainer {
-  margin-left: 200px;
+  margin-left: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.innerDivContainer {
+  background-color: var(--primary-l);
+  margin-top: 50px;
+  width: 80%;
+  border-radius: 20px;
+  padding: 5%;
+}
+.bookSection {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+.bookImg {
+  height: 500px;
+  width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 0px 40px rgba(0, 0, 0, 0);
+}
+.bookRightDiv {
+  width: 40%;
+}
+.bookRightDiv h1 {
+  font-size: 30px;
+}
+/* .bookRightDiv h3 {
+} */
+/*
+<div className={style.bookRightDiv}>
+            <h1>{book.title}</h1>
+            <h3>{author}</h3>
+            <div className={style.buttonsDiv}>
+              <button className={style.readButton}>Read</button>
+              <BookPageSVGS name="downloadSvg" />
+              <BookPageSVGS name="bookmarkSvg" />
+            </div>
+            <h2>Description</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+              alias velit harum facere minima. Sint magni maiores nesciunt
+              placeat, fugit deserunt alias, vel molestias tenetur culpa
+              eveniet. Sapiente non vero asperiores, omnis inventore maxime eius
+              ipsa nemo voluptate nobis illo possimus totam aut quaerat eaque
+              provident doloremque, ducimus distinctio ipsam.
+            </p>
+          </div>
+*/
+
+/*
+  return (
+    <div className={style.outerDivContainer}>
+      <div className={style.innerDivContainer}>
+        <section className={style.bookSection}>
+          <div
+            className={style.bookImg}
+            style={{
+              backgroundImage: `url('${book.cover_image_url}')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              height: "300px",
+              width: "200px",
+            }}
+          ></div>
+          <div className={style.bookRightDiv}>
+            <h1>{book.title}</h1>
+            <h3>{author}</h3>
+            <div className={style.buttonsDiv}>
+              <button className={style.readButton}>Read</button>
+              <BookPageSVGS name="downloadSvg" />
+              <BookPageSVGS name="bookmarkSvg" />
+            </div>
+            <h2>Description</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+              alias velit harum facere minima. Sint magni maiores nesciunt
+              placeat, fugit deserunt alias, vel molestias tenetur culpa
+              eveniet. Sapiente non vero asperiores, omnis inventore maxime eius
+              ipsa nemo voluptate nobis illo possimus totam aut quaerat eaque
+              provident doloremque, ducimus distinctio ipsam.
+            </p>
+          </div>
+        </section>
+        {authorArr.map((author) => {
+          return (
+            <section className={style.authorSection}>
+              <h2>{author.name}</h2>
+              <div className={style.authorLeftDiv}>
+                <div
+                  className={style.authorImg}
+                  style={{
+                    backgroundImage: `url('${
+                      author.profile_picture_url
+                        ? author.profile_picture_url
+                        : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
+                    }')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    height: "100px",
+                    width: "100px",
+                    borderRadius: "50%",
+                    border: "2px solid var(--icon-line)",
+                  }}
+                ></div>
+              </div>
+              <div className={style.authorRightDiv}>
+                <div className={style.authorTopDiv}>
+                  <div className={style.authorTextDiv}>
+                    <h3>{author.name}</h3>
+                    <div>
+                      <p>{author.bio}</p>
+                      <p>{author.bio}</p>
+                    </div>
+                    <p>{author.bio}</p>
+                  </div>
+                  <button className={style.viewWorkButton}>
+                    View Other Work
+                  </button>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
+                  vitae id? Omnis.
+                </p>
+              </div>
+            </section>
+          );
+        })}
+
+        <section className={style.infoSection}>
+          <InfoItem title="Published" description={book.publication_year} />
+          <InfoItem title="Genre" description={book.genre.join(",")} />
+          <InfoItem
+            title="Details"
+            description={`Language: ${book.language}`}
+          />
+          <InfoItem title="Publisher" description={book.publisher_name} />
+        </section>
+      </div>
+    </div>
+
+*/
+
+/*
+<div className={style.infoItem}>
+        <h3>{props.title}</h3>
+        <p>{props.description}</p>
+      </div>
+*/
