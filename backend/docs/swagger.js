@@ -1,6 +1,5 @@
-const swaggerAutogen = require('swagger-autogen')({openapi: '3.0.0'});
+const swaggerAutogen = require("swagger-autogen")({ openapi: "3.0.0" });
 require("dotenv").config();
-
 
 const doc = {
   info: {
@@ -33,8 +32,12 @@ const doc = {
           _id: { type: "string" },
           name: { type: "string" },
           name_ge: { type: "string" },
+          biography: { type: "string" },
+          biography_ge: { type: "string" },
           birth_year: { type: "integer" },
           nationality: { type: "string" },
+          profile_picture_url: { type: "string" },
+          profile_picture_public_id: { type: "string" },
         },
       },
       Book: {
@@ -60,6 +63,8 @@ const doc = {
             type: "array",
             items: { type: "string" },
           },
+          description: { type: "string" },
+          description_ge: { type: "string" },
           publisher_name: { type: "string" },
           publication_year: { type: "integer" },
           language: { type: "string" },

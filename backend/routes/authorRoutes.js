@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "/tmp/" });
 
 const {
   getAuthors,
@@ -17,7 +19,9 @@ router.route("/").get(deserializeUser, isAdmin, getAuthors);
 router.route("/:id").get(getAuthor);
 
 //admin
-router.route("/").post(deserializeUser, isAdmin, createAuthor);
+router
+  .route("/")
+  .post(upload.single("cover_image"), deserializeUser, isAdmin, createAuthor);
 
 router.route("/:id").put(deserializeUser, isAdmin, updateAuthor);
 

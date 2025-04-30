@@ -62,11 +62,11 @@ const uploadFile = asyncHandler(async (filePath, fileType = "PDF") => {
   }
 });
 
-const uploadProfilePicture = asyncHandler(async (filePath) => {
+const uploadProfilePicture = asyncHandler(async (filePath, place) => {
   if (!filePath) return { url: "", public_id: "" };
 
   const result = await cloudinary.uploader.upload(filePath, {
-    folder: `users/profile_picture`,
+    folder: `${place}/profile_picture`,
     resource_type: "image",
   });
 

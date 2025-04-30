@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const author = require("../models/author");
+const { uploadProfilePicture } = require("../Utils/fileUtils");
+const cloudinary = require("../config/cdConnection");
 
 const getAuthors = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get All Authors' */
@@ -10,8 +12,82 @@ const getAuthors = asyncHandler(async (req, res) => {
 });
 
 const createAuthor = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Create new Author' */
-  const { name, name_ge, birth_year, nationality } = req.body;
+  /*
+    #swagger.tags = ['Authors']
+    #swagger.summary = 'Create new Author'
+    #swagger.description = 'Creates a new author with optional profile picture'
+    #swagger.consumes = ['multipart/form-data']
+    #swagger.requestBody = {
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              cover_image: {
+                type: 'string',
+                format: 'binary',
+                description: 'Optional author profile picture'
+              },
+              name: {
+                type: 'string',
+                example: 'J.K. Rowling'
+              },
+              name_ge: {
+                type: 'string',
+                example: 'ჯეი კეი როულინგი'
+              },
+              birth_year: {
+                type: 'integer',
+                example: 1965
+              },
+              nationality: {
+                type: 'string',
+                example: 'British'
+              },
+              biography: {
+                type: 'string',
+                example: 'Famous author of Harry Potter.'
+              },
+              biography_ge: {
+                type: 'string',
+                example: 'ჰარი პოტერის ავტორი.'
+              }
+            },
+            required: ['name']
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: 'Author created successfully',
+      content: {
+        'application/json': {
+          schema: { $ref: '#/components/schemas/Author' }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: 'Bad request - missing required fields'
+    }
+    #swagger.responses[500] = {
+      description: 'Internal server error'
+    }
+  */
+  const { name, name_ge, birth_year, nationality, biography, biography_ge } =
+    req.body;
+
+  const coverImage = req.file;
+
+  console.log("Uploaded files:", req.file);
+
+  let url, public_id;
+
+  if (coverImage)
+    ({ url, public_id } = await uploadProfilePicture(
+      coverImage.path,
+      "authors"
+    ));
+
   if (!name) {
     res.status(400).json({ comment: "name can't be empty" });
   } else {
@@ -21,6 +97,10 @@ const createAuthor = asyncHandler(async (req, res) => {
         name_ge,
         birth_year,
         nationality,
+        biography,
+        biography_ge,
+        profile_picture_url: url || process.env.AUTHOR_PICTURE_URL,
+        profile_picture_public_id: public_id || process.env.AUTHOR_PICTURE_ID,
       });
       res
         .status(200)
@@ -42,24 +122,18 @@ const getAuthor = asyncHandler(async (req, res) => {
 });
 
 const updateAuthor = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Update Author by ID' 
+  /* #swagger.summary = 'Update Author by ID'
+    #swagger.description = 'send only what needs to be updated EXCEPT public_url, public_id'
   #swagger.requestBody = {
-  required: true,
-  content: {
-    "application/json": {
-      schema: {
-        type: "object",
-        properties: {
-          name: { type: "string", example: "John Doe" },
-          name_ge: {type: "string", example: "გიორგი კაპანაძე"},
-          birth_year: { type: "integer", example: 1980 },
-          nationality: { type: "string", example: "American" }
-        },
-        required: ["name", "birth_year", "nationality"]
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          $ref: '#/components/schemas/Author'
+        }
       }
     }
   }
-}
   */
   console.log(req.body);
   try {
@@ -86,6 +160,10 @@ const deleteAuthor = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const deletedAuthor = await author.findByIdAndDelete(id);
+
+    if (deleteAuthor.profile_picture_url !== process.env.AUTHOR_PICTURE_URL)
+      await cloudinary.uploader.destroy(deleteAuthor.profile_picture_public_id);
+
     res
       .status(200)
       .json({ comment: "Author successfully deleted", Author: deletedAuthor });

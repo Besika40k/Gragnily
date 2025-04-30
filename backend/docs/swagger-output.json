@@ -263,37 +263,64 @@
           "Authors"
         ],
         "summary": "Create new Author",
-        "description": "",
+        "description": "Creates a new author with optional profile picture",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Author created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad request - missing required fields"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error"
           }
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "cover_image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Optional author profile picture"
+                  },
                   "name": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "J.K. Rowling"
                   },
                   "name_ge": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "ჯეი კეი როულინგი"
                   },
                   "birth_year": {
-                    "example": "any"
+                    "type": "integer",
+                    "example": 1965
                   },
                   "nationality": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "British"
+                  },
+                  "biography": {
+                    "type": "string",
+                    "example": "Famous author of Harry Potter."
+                  },
+                  "biography_ge": {
+                    "type": "string",
+                    "example": "ჰარი პოტერის ავტორი."
                   }
-                }
+                },
+                "required": [
+                  "name"
+                ]
               }
             }
           }
@@ -331,7 +358,7 @@
           "Authors"
         ],
         "summary": "Update Author by ID",
-        "description": "",
+        "description": "send only what needs to be updated EXCEPT public_url, public_id",
         "parameters": [
           {
             "name": "id",
@@ -355,30 +382,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                  },
-                  "name_ge": {
-                    "type": "string",
-                    "example": "გიორგი კაპანაძე"
-                  },
-                  "birth_year": {
-                    "type": "integer",
-                    "example": 1980
-                  },
-                  "nationality": {
-                    "type": "string",
-                    "example": "American"
-                  }
-                },
-                "required": [
-                  "name",
-                  "birth_year",
-                  "nationality"
-                ]
+                "$ref": "#/components/schemas/Author"
               }
             }
           }
@@ -749,6 +753,24 @@
                   }
                 }
               },
+              "biography": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "biography_ge": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
               "birth_year": {
                 "type": "object",
                 "properties": {
@@ -873,6 +895,24 @@
                         "example": "string"
                       }
                     }
+                  }
+                }
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "description_ge": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
                   }
                 }
               },
