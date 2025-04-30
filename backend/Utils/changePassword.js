@@ -9,6 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendOTPEmail = async (toEmail, otp) => {
+  // cSpell:disable
   const mailOptions = {
     from: "gragnily@gmail.com",
     to: toEmail,
@@ -25,6 +26,7 @@ const sendOTPEmail = async (toEmail, otp) => {
       </div>
     `,
   };
+  /* cSpell:enable */
 
   await transporter.sendMail(mailOptions);
 };
