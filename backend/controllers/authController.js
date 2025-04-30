@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const config = require("../config/auth.config");
 const user = require("../models/user");
-const OTP = require("../models/otp");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const {
@@ -10,6 +9,7 @@ const {
 } = require("../Utils/verifyEmail");
 
 const signUp = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Register User' */
   const { username, email, password } = req.body;
   let User;
   try {
@@ -35,6 +35,7 @@ const signUp = asyncHandler(async (req, res) => {
 });
 
 const verifyUserEmail = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Verify Users Email with Token' */
   const { token } = req.query;
 
   if (!token) {
@@ -45,7 +46,9 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.EMAIL_SECRET_KEY);
   } catch (err) {
-    return res.status(400).send("Invalid or expired token");
+    return res
+      .status(400)
+      .send({ message: "Invalid or expired token", error: err });
   }
 
   if (!decoded.userId) {
@@ -66,6 +69,7 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
 });
 
 const signIn = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'SignIn User ' */
   const { username, password } = req.body;
 
   const foundUser = await user.findOne({
@@ -93,6 +97,7 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   let authority = "ROLE_" + foundUser.role;
+
   const isProd = process.env.NODE_ENV === "production";
   res
     .cookie("x-access-token", token, {
@@ -120,6 +125,7 @@ const signIn = asyncHandler(async (req, res) => {
 });
 
 const logOut = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'LogOut Current User' */
   if (req.cookies["x-refresh-token"] || req.cookies["x-access-token"]) {
     return res
       .clearCookie("x-refresh-token", {

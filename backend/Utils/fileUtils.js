@@ -45,7 +45,6 @@ const uploadFile = asyncHandler(async (filePath, fileType = "PDF") => {
         break;
       default:
         throw new Error("Invalid file type");
-        break;
     }
 
     const result = await cloudinary.uploader.upload(filePath, {

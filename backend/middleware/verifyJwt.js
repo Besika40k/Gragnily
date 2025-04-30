@@ -3,15 +3,6 @@ const config = require("../config/auth.config");
 const user = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
-catchError = (err, res) => {
-  if (err instanceof TokenExpiredError) {
-    return res
-      .status(401)
-      .send({ message: "Unauthorized! Access Token was expired!" });
-  }
-
-  return res.sendStatus(401).send({ message: "Unauthorized!" });
-};
 
 const verifyJWT = (token) => {
   try {
@@ -22,7 +13,7 @@ const verifyJWT = (token) => {
   }
 };
 
-isSomething = (Role) =>
+const isSomething = (Role) =>
   asyncHandler(async (req, res, next) => {
     const foundUser = await user.findById(req.userId);
 

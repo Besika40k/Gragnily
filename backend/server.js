@@ -1,5 +1,5 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 
 const cors = require("cors");
 const connectDb = require("./config/dbConnection");
@@ -7,15 +7,12 @@ const connectDb = require("./config/dbConnection");
 const cookieParser = require("cookie-parser");
 
 const swaggerUi = require("swagger-ui-express");
-const fs = require("fs");
-const yaml = require("js-yaml");
-const path = require("path");
-
-const swaggerDocument = yaml.load(
-  fs.readFileSync(path.join(__dirname, "./docs/swagger.yaml"), "utf8")
-);
-
+const swaggerFile = require("./docs/swagger-output.json");
+const bodyParser = require("body-parser");
 const app = express();
+
+app.use(bodyParser.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 connectDb();
 
@@ -35,12 +32,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //default http requests
-app.use("/api/books", require("./routes/BookRoutes"));
-app.use("/api/authors", require("./routes/authorRoutes"));
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+  "/api/books",
+  require("./routes/BookRoutes")
+  // #swagger.tags = ['Books']
+);
+app.use(
+  "/api/authors",
+  require("./routes/authorRoutes")
+  // #swagger.tags = ['Authors']
+);
+app.use(
+  "/api/auth",
+  require("./routes/authRoutes")
+  // #swagger.tags = ['Authentication']
+);
+app.use(
+  "/api/users",
+  require("./routes/userRoutes")
+  // #swagger.tags = ['Users']
+);
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);

@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const author = require("../models/author");
 
 const getAuthors = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get All Authors' */
   const authors = await author.find();
   if (authors.length == 0) {
     res.status(404).json({ message: "Author(s) not found" });
@@ -9,6 +10,7 @@ const getAuthors = asyncHandler(async (req, res) => {
 });
 
 const createAuthor = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Create new Author' */
   const { name, name_ge, birth_year, nationality } = req.body;
   if (!name) {
     res.status(400).json({ comment: "name can't be empty" });
@@ -32,6 +34,7 @@ const createAuthor = asyncHandler(async (req, res) => {
 });
 
 const getAuthor = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get Author By ID' */
   const authors = await author.findById(req.params.id);
   if (authors.length == 0) {
     res.status(404).json({ comment: "Author Not Found" });
@@ -39,6 +42,25 @@ const getAuthor = asyncHandler(async (req, res) => {
 });
 
 const updateAuthor = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Update Author by ID' 
+  #swagger.requestBody = {
+  required: true,
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        properties: {
+          name: { type: "string", example: "John Doe" },
+          name_ge: {type: "string", example: "გიორგი კაპანაძე"},
+          birth_year: { type: "integer", example: 1980 },
+          nationality: { type: "string", example: "American" }
+        },
+        required: ["name", "birth_year", "nationality"]
+      }
+    }
+  }
+}
+  */
   console.log(req.body);
   try {
     const { id } = req.params;
@@ -60,6 +82,7 @@ const updateAuthor = asyncHandler(async (req, res) => {
 });
 
 const deleteAuthor = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Delete Author by ID' */
   try {
     const { id } = req.params;
     const deletedAuthor = await author.findByIdAndDelete(id);

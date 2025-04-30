@@ -7,12 +7,14 @@ const pdf = require("pdf-parse");
 const fs = require("fs").promises;
 
 const getBooks = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get all Books'*/
   const books = await book.find();
   if (book.length == 0) res.status(404).json({ message: "Books Not Found" });
   else res.status(200).json(books);
 });
 
 const getBook = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get a book by ID' */ 
   const { id } = req.params;
 
   const foundBook = await book
@@ -27,6 +29,7 @@ const getBook = asyncHandler(async (req, res) => {
 });
 
 const getBooksPreview = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Search and Preview Books by Title' */
   const { searchInput, page = 1, limit = 10 } = req.query;
 
   const pageNumber = parseInt(page);
@@ -62,7 +65,69 @@ const getBooksPreview = asyncHandler(async (req, res) => {
 });
 
 const createBook = asyncHandler(async (req, res) => {
-  //Uploaded files here
+  /*  
+    #swagger.summary = "Create a new book"
+    #swagger.description = "Uploads a book with cover image, PDF(s), and optional EPUB file. Supports multilingual fields."
+    #swagger.consumes = ['multipart/form-data']
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "multipart/form-data": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        title: { type: "string" },
+                        title_ge: { type: "string" },
+                        author: {
+                            type: "array",
+                            items: { type: "string" }
+                        },
+                        genre: {
+                            type: "array",
+                            items: { type: "string" }
+                        },
+                        genre_ge: {
+                            type: "array",
+                            items: { type: "string" }
+                        },
+                        publisher_name: { type: "string" },
+                        publication_year: { type: "integer" },
+                        language: { type: "string" },
+                        language_ge: { type: "string" },
+                        cover_image: {
+                            type: "string",
+                            format: "binary"
+                        },
+                        pdf_file: {
+                            type: "array",
+                            items: {
+                                type: "string",
+                                format: "binary"
+                            }
+                        },
+                        epub_file: {
+                            type: "string",
+                            format: "binary"
+                        }
+                    },
+                    required: [
+                        "title",
+                        "title_ge",
+                        "author",
+                        "genre",
+                        "genre_ge",
+                        "language",
+                        "language_ge",
+                        "cover_image",
+                        "pdf_file"
+                    ]
+                }
+            }
+        }
+    } 
+*/
+  
+//Uploaded files here
   const files = req.files;
 
   //Names are From BookRoutes.js
@@ -192,6 +257,7 @@ const createBook = asyncHandler(async (req, res) => {
 });
 
 const updateBook = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Update Book by ID' */
   const { id } = req.params;
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });
@@ -210,6 +276,7 @@ const updateBook = asyncHandler(async (req, res) => {
 });
 
 const deleteBook = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Delete Book by ID' */
   const { id } = req.params;
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });

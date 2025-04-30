@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const user = require("../models/user");
 
-checkDuplicate = asyncHandler(async (req, res, next) => {
+const checkDuplicate = asyncHandler(async (req, res, next) => {
   try {
     const inUseUser = await user.findOne({
       username: req.body.username,

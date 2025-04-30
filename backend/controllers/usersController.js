@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const cloudinary = require("../config/cdConnection");
-const config = require("../config/auth.config");
 const user = require("../models/user");
 const { uploadProfilePicture } = require("../Utils/fileUtils");
 const fs = require("fs").promises;
@@ -10,6 +9,7 @@ const { sendOTPEmail } = require("../Utils/changePassword");
 const bcrypt = require("bcryptjs");
 
 const getUsers = asyncHandler(async (req, res) => {
+  //  #swagger.summary = 'Get All Users'
   const users = await user.find();
 
   if (users.length === 0) {
@@ -20,6 +20,9 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 const getUserLite = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get Current User Lite Version'
+   #swagger.tags = ['Users'] */
+
   if (!req.userId) {
     return res.status(401).json({ message: "User Not Registered" });
   }
@@ -36,6 +39,20 @@ const getUserLite = asyncHandler(async (req, res) => {
 });
 
 const updateUserTextFields = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Update Text Fields of Current User' 
+  #swagger.requestBody = {
+  required: true,
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        additionalProperties: true
+      }
+    }
+  }
+}
+  */
+
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
 
@@ -45,6 +62,25 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Update User Profile Picture' 
+  #swagger.requestBody = {
+  required: true,
+  content: {
+    "multipart/form-data": {
+    schema: {
+      type: "object",
+      properties: {
+      new_profile: {
+        type: "string",
+        format: "binary"
+      }
+      }
+    }
+    }
+  }
+  }
+*/
+
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
 
@@ -91,6 +127,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserPassword = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Send Request for Password Change' */
   if (!req.userId) return res.status(500).send("User not signed in");
 
   const User = await user.findById(req.userId);
@@ -115,6 +152,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 });
 
 const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Check OTP and Change User Password' */
   const User = await user.findById(req.userId);
   const { otp, password } = req.body;
 
@@ -137,6 +175,7 @@ const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Delete Current User' */
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
 
