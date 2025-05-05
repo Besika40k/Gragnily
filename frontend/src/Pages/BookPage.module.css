@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--background-l);
+  color: var(--text-main-l);
 }
 
 .innerDivContainer {
@@ -24,136 +26,321 @@
   height: 500px;
   width: 300px;
   border-radius: 20px;
-  box-shadow: 0 0px 40px rgba(0, 0, 0, 0);
+  box-shadow: 0 0px 40px rgba(0, 0, 0, 0.3);
 }
 .bookRightDiv {
   width: 40%;
 }
+.bookRightDiv * {
+  margin-top: 10px;
+}
 .bookRightDiv h1 {
   font-size: 30px;
 }
-/* .bookRightDiv h3 {
-} */
+.buttonsDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.readButton {
+  width: 100px;
+  height: 50px;
+  border-radius: 20px;
+  border: 2px solid var(--icon-line);
+  background-color: transparent;
+  font-size: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  color: var(--text-main-l);
+  transition: transform 0.1s ease;
+}
+.readButton:hover {
+  transform: scale(1.05);
+  background-color: var(--hover-dark-l);
+}
+.svgButton {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.svgButton:hover {
+  transform: scale(1.1);
+}
+/* end of book section */
+/* author section*/
+
+.authorName {
+  margin-top: 50px;
+}
+.authorSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 5% 0;
+  background-color: var(--bg);
+  border-radius: 12px;
+}
+
+.authorImg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid var(--icon-line);
+}
+
+.authorRightDiv {
+  flex: 1;
+}
+
+.authorRightDiv * {
+  margin-top: 5px;
+}
+
+.authorTopDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.authorTextDiv h3 {
+  font-size: 25px;
+}
+
+.authorTextDiv p {
+  font-size: 18px;
+}
+
+.authorTextDiv div {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.viewWorkButton {
+  width: 210px;
+  height: 45px;
+  border-radius: 20px;
+  background-color: var(--secondary-l);
+  outline: none;
+  border: none;
+  font-size: 1em;
+  transition: transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.viewWorkButton:hover {
+  transform: scale(1.05);
+}
+
+.infoPz {
+  font-size: 24px;
+  margin-top: 15px;
+}
+/* info section */
+
+.infoSection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  padding: 20px 5%;
+}
+
+/* Individual info card style */
+.infoItem {
+  padding: 20px;
+  background-color: var(--bg-light);
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.infoItem:hover {
+  transform: scale(1.03) translateX(3px);
+}
+.infoItem h3 {
+  font-size: 28px;
+  color: black;
+}
+.infoItem p {
+  color: rgb(30, 30, 30);
+  font-size: 18px;
+}
 /*
-<div className={style.bookRightDiv}>
-            <h1>{book.title}</h1>
-            <h3>{author}</h3>
-            <div className={style.buttonsDiv}>
-              <button className={style.readButton}>Read</button>
-              <BookPageSVGS name="downloadSvg" />
-              <BookPageSVGS name="bookmarkSvg" />
-            </div>
-            <h2>Description</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-              alias velit harum facere minima. Sint magni maiores nesciunt
-              placeat, fugit deserunt alias, vel molestias tenetur culpa
-              eveniet. Sapiente non vero asperiores, omnis inventore maxime eius
-              ipsa nemo voluptate nobis illo possimus totam aut quaerat eaque
-              provident doloremque, ducimus distinctio ipsam.
-            </p>
-          </div>
-*/
-
-/*
-  return (
-    <div className={style.outerDivContainer}>
-      <div className={style.innerDivContainer}>
-        <section className={style.bookSection}>
-          <div
-            className={style.bookImg}
-            style={{
-              backgroundImage: `url('${book.cover_image_url}')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              height: "300px",
-              width: "200px",
-            }}
-          ></div>
-          <div className={style.bookRightDiv}>
-            <h1>{book.title}</h1>
-            <h3>{author}</h3>
-            <div className={style.buttonsDiv}>
-              <button className={style.readButton}>Read</button>
-              <BookPageSVGS name="downloadSvg" />
-              <BookPageSVGS name="bookmarkSvg" />
-            </div>
-            <h2>Description</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-              alias velit harum facere minima. Sint magni maiores nesciunt
-              placeat, fugit deserunt alias, vel molestias tenetur culpa
-              eveniet. Sapiente non vero asperiores, omnis inventore maxime eius
-              ipsa nemo voluptate nobis illo possimus totam aut quaerat eaque
-              provident doloremque, ducimus distinctio ipsam.
-            </p>
-          </div>
-        </section>
-        {authorArr.map((author) => {
-          return (
-            <section className={style.authorSection}>
-              <h2>{author.name}</h2>
-              <div className={style.authorLeftDiv}>
-                <div
-                  className={style.authorImg}
-                  style={{
-                    backgroundImage: `url('${
-                      author.profile_picture_url
-                        ? author.profile_picture_url
-                        : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
-                    }')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    height: "100px",
-                    width: "100px",
-                    borderRadius: "50%",
-                    border: "2px solid var(--icon-line)",
-                  }}
-                ></div>
-              </div>
-              <div className={style.authorRightDiv}>
-                <div className={style.authorTopDiv}>
-                  <div className={style.authorTextDiv}>
-                    <h3>{author.name}</h3>
-                    <div>
-                      <p>{author.bio}</p>
-                      <p>{author.bio}</p>
-                    </div>
-                    <p>{author.bio}</p>
-                  </div>
-                  <button className={style.viewWorkButton}>
-                    View Other Work
-                  </button>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
-                  vitae id? Omnis.
-                </p>
-              </div>
-            </section>
-          );
-        })}
-
-        <section className={style.infoSection}>
-          <InfoItem title="Published" description={book.publication_year} />
-          <InfoItem title="Genre" description={book.genre.join(",")} />
-          <InfoItem
-            title="Details"
-            description={`Language: ${book.language}`}
-          />
-          <InfoItem title="Publisher" description={book.publisher_name} />
-        </section>
-      </div>
-    </div>
-
-*/
-
-/*
+infoSection
 <div className={style.infoItem}>
         <h3>{props.title}</h3>
         <p>{props.description}</p>
       </div>
 */
+
+@media screen and (max-width: 1024px) {
+  .authorName {
+    text-align: center;
+  }
+  .bookSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .bookImg {
+    width: 250px;
+    height: 400px;
+  }
+
+  .bookRightDiv {
+    width: 90%;
+  }
+
+  .bookRightDiv h1 {
+    font-size: 24px;
+  }
+
+  .bookRightDiv h3 {
+    font-size: 15px;
+  }
+
+  .bookRightDiv h2 {
+    font-size: 20px;
+  }
+
+  .bookRightDiv p {
+    font-size: 16px;
+  }
+  /* author */
+  .authorSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .authorImg {
+    width: 120px;
+    height: 120px;
+  }
+
+  .authorTextDiv h3,
+  .authorTextDiv p,
+  .infoPz {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .authorTextDiv div {
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .viewWorkButton {
+    width: 180px;
+    height: 40px;
+  }
+
+  .authorRightDiv {
+    width: 90%;
+    text-align: center;
+  }
+
+  .authorTopDiv {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* info */
+  .infoSection {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .bookSection {
+    padding: 5% 0;
+    gap: 40px;
+  }
+
+  .bookRightDiv h1 {
+    font-size: 32px;
+  }
+
+  .bookRightDiv h3 {
+    font-size: 18px;
+  }
+
+  .bookRightDiv h2 {
+    font-size: 26px;
+  }
+
+  .bookRightDiv p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  /* author */
+  .authorSection {
+    padding: 5% 0;
+    gap: 40px;
+  }
+
+  .authorTextDiv h3 {
+    font-size: 25px;
+  }
+
+  .authorTextDiv p {
+    font-size: 18px;
+  }
+
+  .infoPz {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+}
+
+@media screen and (min-width: 1325px) {
+  .bookSection {
+    padding: 0 5%;
+    gap: 0px;
+  }
+  .bookImg {
+    width: 400px;
+    height: 600px;
+  }
+  .bookRightDiv h1 {
+    font-size: 32px;
+  }
+
+  .bookRightDiv h3 {
+    font-size: 18px;
+  }
+
+  .bookRightDiv h2 {
+    font-size: 26px;
+  }
+
+  .bookRightDiv p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  /* author div */
+  .authorImg {
+    width: 150px;
+    height: 150px;
+  }
+
+  .authorTextDiv h3 {
+    font-size: 28px;
+  }
+
+  .authorTextDiv p {
+    font-size: 18px;
+  }
+
+  .infoPz {
+    font-size: 22px;
+  }
+}

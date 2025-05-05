@@ -1,15 +1,4 @@
-const pathStyle = {
-  fill: "var(--icon-background)", // Set the fill color
-  transition: "fill 0.3s ease-in-out", // Smooth transition
-};
-const svgStyle = {
-  width: "173px",
-  height: "55px",
-  filter: "drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.2))", // Apply shadow to the SVG
-};
-
-// fill="var(--icon-background)"
-//         stroke="var(--icon-outline-color)"
+import React from "react";
 const svgIcons = {
   downloadSvg: (
     <svg
@@ -58,8 +47,11 @@ const svgIcons = {
   ),
 };
 
-function BookPageSVGS({ name }) {
-  return svgIcons[name] || <p>Icon not found</p>;
+function BookPageSVGS({ name, className }) {
+  const icon = svgIcons[name];
+  if (!icon) return <p>Icon not found</p>;
+
+  return React.cloneElement(icon, { className });
 }
 
 export default BookPageSVGS;

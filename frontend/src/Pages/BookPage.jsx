@@ -94,8 +94,8 @@ const BookPage = () => {
             <h3>{author}</h3>
             <div className={style.buttonsDiv}>
               <button className={style.readButton}>Read</button>
-              <BookPageSVGS name="downloadSvg" />
-              <BookPageSVGS name="bookmarkSvg" />
+              <BookPageSVGS className={style.svgButton} name="downloadSvg" />
+              <BookPageSVGS className={style.svgButton} name="bookmarkSvg" />
             </div>
             <h2>Description</h2>
             <p>
@@ -111,54 +111,46 @@ const BookPage = () => {
         {authorArr.map((autora) => {
           console.log("Authoraaaaaaaaaaaaaaaaaaaaaaaaaaaa:", autora);
           return (
-            <section key={autora.name} className={style.authorSection}>
-              <h2>{autora.name}</h2>
-              <div className={style.authorLeftDiv}>
-                <div
-                  className={style.authorImg}
-                  style={{
-                    backgroundImage: `url('${
-                      autora.profile_picture_url
-                        ? autora.profile_picture_url
-                        : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
-                    }')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    height: "100px",
-                    width: "100px",
-                    borderRadius: "50%",
-                    border: "2px solid var(--icon-line)",
-                  }}
-                ></div>
-              </div>
-              <div className={style.authorRightDiv}>
-                <div className={style.authorTopDiv}>
-                  <div className={style.authorTextDiv}>
-                    <h3>{autora.name}</h3>
-                    <div>
-                      <p>bbbbbb</p>
-                      {/* {autora.bio} */}
-                      <p>ccccc</p>
+            <>
+              <h2 className={style.authorName}>Author</h2>
+              <section key={autora.name} className={style.authorSection}>
+                <div className={style.authorLeftDiv}>
+                  <div
+                    className={style.authorImg}
+                    style={{
+                      backgroundImage: `url('${
+                        autora.profile_picture_url
+                          ? autora.profile_picture_url
+                          : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
+                      }')`,
+                    }}
+                  ></div>
+                </div>
+                <div className={style.authorRightDiv}>
+                  <div className={style.authorTopDiv}>
+                    <div className={style.authorTextDiv}>
+                      <h3>{autora.name}</h3>
+                      <div>
+                        <p>bbbbbb</p>
+                        {/* {autora.bio} */}
+                        <p>ccccc</p>
+                        {/* {autora.bio} */}
+                      </div>
+
                       {/* {autora.bio} */}
                     </div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Animi, fuga?
-                    </p>{" "}
-                    {/* {autora.bio} */}
+                    <button className={style.viewWorkButton}>
+                      View Other Work
+                    </button>
                   </div>
-                  <button className={style.viewWorkButton}>
-                    View Other Work
-                  </button>
+                  <p className={style.infoPz}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
+                    vitae id? Omnis.
+                  </p>
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
-                  vitae id? Omnis.
-                </p>
-              </div>
-            </section>
+              </section>
+            </>
           );
         })}
 
