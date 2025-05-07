@@ -607,7 +607,7 @@
         }
       }
     },
-    "/api/users/updateuserpassword": {
+    "/api/users/requestPasswordChange": {
       "put": {
         "tags": [
           "Users"
@@ -624,7 +624,7 @@
         }
       }
     },
-    "/api/users/verifyupdateuserpassword": {
+    "/api/users/updateuserpassword": {
       "put": {
         "tags": [
           "Users"
@@ -781,6 +781,24 @@
                 }
               },
               "nationality": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "profile_picture_url": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "profile_picture_public_id": {
                 "type": "object",
                 "properties": {
                   "type": {

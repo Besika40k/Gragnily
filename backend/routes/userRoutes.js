@@ -11,8 +11,8 @@ const {
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
+  requestPasswordChange,
   updateUserPassword,
-  verifyUpdateUserPassword,
 } = require("../controllers/usersController");
 
 //user
@@ -28,11 +28,11 @@ router
     updateUserProfile
   );
 
-router.route("/updateuserpassword").put(deserializeUser, updateUserPassword);
-
 router
-  .route("/verifyupdateuserpassword")
-  .put(deserializeUser, verifyUpdateUserPassword);
+  .route("/requestPasswordChange")
+  .put(deserializeUser, requestPasswordChange);
+
+router.route("/updateuserpassword").put(deserializeUser, updateUserPassword);
 
 router.route("/updateuser").put(deserializeUser, updateUserTextFields);
 

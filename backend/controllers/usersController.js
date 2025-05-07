@@ -126,7 +126,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUserPassword = asyncHandler(async (req, res) => {
+const requestPasswordChange = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Send Request for Password Change' */
   if (!req.userId) return res.status(500).send("User not signed in");
 
@@ -151,7 +151,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   }
 });
 
-const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
+const updateUserPassword = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Check OTP and Change User Password' */
   const User = await user.findById(req.userId);
   const { otp, password } = req.body;
@@ -160,11 +160,14 @@ const verifyUpdateUserPassword = asyncHandler(async (req, res) => {
     const otpRecord = await OTP.findOne({ email: User.email, otp });
 
     if (otpRecord) {
-      res.status(200).send("OTP verified successfully");
+      await OTP.deleteOne({ email: User.email, otp });
 
-      user.findByIdAndUpdate(req.userId, {
-        password: bcrypt.hashSync(password, 8),
+      let hashedPassword = bcrypt.hashSync(password, 8);
+
+      await user.findByIdAndUpdate(req.userId, {
+        password: hashedPassword,
       });
+      res.status(200).send("Password Updated Successfully");
     } else {
       res.status(400).send("Invalid OTP");
     }
@@ -205,6 +208,6 @@ module.exports = {
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
+  requestPasswordChange,
   updateUserPassword,
-  verifyUpdateUserPassword,
 };
