@@ -28,10 +28,12 @@ const Books = () => {
   }, []);
 
   if (loading) return <p>Loading books...</p>;
-
+  const Filters = () => {
+    return <section className={style.filterSection}></section>;
+  };
   return (
     <div className={style.allContainer}>
-      <section className={style.filterSection}></section>
+      <Filters />
       <h1>BOOKS</h1>
       <section className={style.booksSection}>
         {books.map((book) => (
