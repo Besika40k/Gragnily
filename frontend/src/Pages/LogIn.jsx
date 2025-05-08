@@ -118,7 +118,7 @@ const LogIn = () => {
         id="emailVerify"
         className="verify-email-container"
       >
-        <div className="verify-email-contnet" onClick={() => (noclose = true)}>
+        <div className="verify-email-contnet" onClick={() => (noclose = false)}>
           <div className="button-div">
             <button onClick={closePopup} className="close-button">
               X
