@@ -2,7 +2,10 @@ import React from "react";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="full-auth-page">
+    <div
+      style={{ position: "absolute", top: "0", zIndex: "55555" }}
+      className="full-auth-page"
+    >
       <div className="auth-page">
         <div className="logo-container">
           <div className="logo-icon">

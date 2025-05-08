@@ -1,0 +1,13 @@
+.inputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 200px;
+  width: 190px;
+}
+.inputStyle {
+  width: 25px;
+  height: 30px;
+  border: none;
+  border: 2px solid black;
+}

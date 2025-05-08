@@ -4,6 +4,8 @@ import style from "./UserPage.module.css";
 import { useState, useEffect } from "react";
 import Loading from "../modules/Loading";
 
+import PasswordReset from "../modules/UserVerification/PasswordReset.jsx";
+
 // user dat
 import { useUser } from "../contexts/UserContext";
 
@@ -12,30 +14,6 @@ const UserPage = () => {
 
   const [loading, setLoading] = useState(false);
   // on load get user data
-
-  // IMPORTANT: depricated, don't need this call anymore, user data is in context
-  // const [user, setUser] = useState("");
-  // useEffect(() => {
-  //   fetch("https://gragnily.onrender.com/api/users/getuser", {
-  //     method: "GET",
-  //     credentials: "include", // this allows cookies to be sent
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Not logged in");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       updateUser(data); // Store user data
-  //     })
-  //     .catch((err) => {
-  //       console.log(
-  //         "User not logged in or error fetching user info:",
-  //         err.message
-  //       );
-  //     });
-  // }, []);
 
   // image upload
   const [image, setImage] = useState(null);
@@ -86,62 +64,82 @@ const UserPage = () => {
     const form = e.target; // the form element
     const username = form.elements.username.value;
     const email = form.elements.email.value;
-    // const password = form.elements.password.value;
+    const password = form.elements.password.value;
+
     let updatedUser = {
       username: username == "" ? user.username : username,
       email: email == "" ? user.email : email,
     };
-    // updatedUser.password = password;
-    fetch("https://gragnily.onrender.com/api/users/updateuser", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
-      credentials: "include", // Allow cookies to be sent
-    })
-      .then(async (response) => {
-        const data = await response.json();
+    updatedUser.password = password;
+    // fetch("https://gragnily.onrender.com/api/users/updateuser", {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(updatedUser),
+    //   credentials: "include", // Allow cookies to be sent
+    // })
+    //   .then(async (response) => {
+    //     const data = await response.json();
 
-        if (response.ok) {
-          console.log("User updated successful!", data);
+    //     if (response.ok) {
+    //       console.log("User updated successful!", data);
 
-          // Fetch and update the user data in the context after info update
-          fetch("https://gragnily.onrender.com/api/users/getuser", {
-            method: "GET",
-            credentials: "include", // This will allow cookies to be sent
-          })
-            .then((userResponse) => {
-              if (!userResponse.ok) {
-                throw new Error("Error fetching user data");
-              }
-              return userResponse.json();
-            })
-            .then((userData) => {
-              updateUser(userData); // Update the user context with the fetched data
-              window.location.reload(); // Reload the page to reflect changes
-            })
-            .catch((err) => {
-              console.log("Error fetching user data:", err.message);
-            });
-        } else {
-          switch (data.message) {
-            case "User Not Found!":
-              alert("❌ User not found");
-              break;
-            case "Invalid Password!":
-              alert("❌ Invalid password.");
-              break;
-            default:
-              alert("Server-side error");
-              break;
-          }
-        }
+    //       // Fetch and update the user data in the context after info update
+    //       fetch("https://gragnily.onrender.com/api/users/getuser", {
+    //         method: "GET",
+    //         credentials: "include", // This will allow cookies to be sent
+    //       })
+    //         .then((userResponse) => {
+    //           if (!userResponse.ok) {
+    //             throw new Error("Error fetching user data");
+    //           }
+    //           return userResponse.json();
+    //         })
+    //         .then((userData) => {
+    //           updateUser(userData); // Update the user context with the fetched data
+    //           window.location.reload(); // Reload the page to reflect changes
+    //         })
+    //         .catch((err) => {
+    //           console.log("Error fetching user data:", err.message);
+    //         });
+    //     } else {
+    //       switch (data.message) {
+    //         case "User Not Found!":
+    //           alert("❌ User not found");
+    //           break;
+    //         case "Invalid Password!":
+    //           alert("❌ Invalid password.");
+    //           break;
+    //         default:
+    //           alert("Server-side error");
+    //           break;
+    //       }
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Network error:", error);
+    //     alert("Something went wrong. Please try again later.");
+    //   });
+
+    if (password != "") {
+      fetch("https://gragnily.onrender.com/api/users/requestPasswordChange", {
+        method: "PUT",
+        credentials: "include",
       })
-      .catch((error) => {
-        console.error("Network error:", error);
-        alert("Something went wrong. Please try again later.");
-      });
+        .then(async (response) => {
+          const text = await response.text();
+          if (response.ok) {
+            // OTP IS SENT SUCESSFULLY
+            // now i need a pop
+          } else {
+            console.error("Error:", text, response);
+          }
+        })
+        .catch((err) => {
+          console.error("Network error:", err);
+        });
+    }
   };
   return (
     <>
@@ -211,7 +209,6 @@ const UserPage = () => {
                 id="password"
                 name="password"
                 placeholder="********"
-                disabled
               />
             </div>
             <button className={style.sumbitButton} type="submit">
