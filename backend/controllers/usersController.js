@@ -98,7 +98,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       await cloudinary.uploader.destroy(User.profile_picture_public_id);
     }
 
-    const { url, public_id } = await uploadProfilePicture(newProfile.path);
+    const { url, public_id } = await uploadProfilePicture(
+      newProfile.path,
+      "users"
+    );
 
     if (!url || !public_id) {
       return res.status(500).json("Upload to Cloudinary failed");
