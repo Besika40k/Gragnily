@@ -23,7 +23,7 @@ const createAuthor = asyncHandler(async (req, res) => {
           schema: {
             type: 'object',
             properties: {
-              cover_image: {
+              profile_picture: {
                 type: 'string',
                 format: 'binary',
                 description: 'Optional author profile picture'
@@ -76,15 +76,15 @@ const createAuthor = asyncHandler(async (req, res) => {
   const { name, name_ge, birth_year, nationality, biography, biography_ge } =
     req.body;
 
-  const coverImage = req.file;
+  const profile_picture = req.file;
 
   console.log("Uploaded files:", req.file);
 
   let url, public_id;
 
-  if (coverImage)
+  if (profile_picture)
     ({ url, public_id } = await uploadProfilePicture(
-      coverImage.path,
+      profile_picture.path,
       "authors"
     ));
 

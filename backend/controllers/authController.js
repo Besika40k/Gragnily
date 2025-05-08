@@ -3,6 +3,10 @@ const config = require("../config/auth.config");
 const user = require("../models/user");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const otpGenerator = require("otp-generator");
+const OTP = require("../models/otp");
+const { sendOTPEmail } = require("../Utils/changePassword");
+
 const {
   generateVerificationToken,
   sendVerificationEmail,
@@ -66,6 +70,72 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
   }
 
   res.send("Email successfully verified!");
+});
+
+const forgotPassword = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'sends OTP on given email' */
+
+  const { email } = req.body;
+
+  const User = await user.findOne({ email: email });
+
+  if (!User) {
+    return res.status(404).json({ message: "Email Not Found" });
+  }
+
+  const otp = otpGenerator.generate(6, {
+    digits: true,
+    alphabets: false,
+    upperCase: false,
+    specialChars: false,
+  });
+
+  try {
+    await OTP.create({ email, otp });
+
+    sendOTPEmail(email, otp);
+
+    const isProd = process.env.NODE_ENV === "production";
+
+    res
+      .status(200)
+      .cookie("email", email, {
+        httpOnly: true,
+        sameSite: isProd ? "None" : "Lax",
+        secure: isProd,
+        maxAge: 10 * 60 * 1000,
+      })
+      .send("OTP sent successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error sending OTP");
+  }
+});
+
+const updateUserPassword = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Check OTP and Change User Password' */
+  const { otp, password } = req.body;
+
+  const email = req.cookies["email"];
+
+  try {
+    const otpRecord = await OTP.findOne({ email, otp });
+
+    if (otpRecord) {
+      await OTP.deleteOne({ email, otp });
+
+      let hashedPassword = bcrypt.hashSync(password, 8);
+
+      await user.updateOne({ email }, { password: hashedPassword });
+
+      res.status(200).send("Password Updated Successfully");
+    } else {
+      res.status(400).send("Invalid OTP");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error verifying OTP");
+  }
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -145,4 +215,6 @@ module.exports = {
   signIn,
   logOut,
   verifyUserEmail,
+  forgotPassword,
+  updateUserPassword,
 };

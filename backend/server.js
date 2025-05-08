@@ -10,6 +10,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./docs/swagger-output.json");
 const bodyParser = require("body-parser");
 const app = express();
+const logger = require('morgan');
+
+app.use(logger("tiny"));
 
 app.use(bodyParser.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));

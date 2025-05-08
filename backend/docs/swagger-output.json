@@ -288,7 +288,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "cover_image": {
+                  "profile_picture": {
                     "type": "string",
                     "format": "binary",
                     "description": "Optional author profile picture"
@@ -527,6 +527,77 @@
         "responses": {
           "201": {
             "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/auth/forgotPassword": {
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "sends OTP on given email",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/updatePassword": {
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Check OTP and Change User Password",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "otp": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -7,6 +7,8 @@ const {
   signIn,
   logOut,
   verifyUserEmail,
+  forgotPassword,
+  updateUserPassword,
 } = require("../controllers/authController");
 
 router.use(function (req, res, next) {
@@ -24,5 +26,9 @@ router.route("/signin").post(signIn);
 router.route("/emailverification").get(verifyUserEmail);
 
 router.route("/logout").post(logOut);
+
+router.route("/forgotPassword").put(forgotPassword);
+
+router.route("/updatePassword").put(updateUserPassword);
 
 module.exports = router;
