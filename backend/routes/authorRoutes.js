@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "/tmp/" });
+const validate = require("../middleware/validate");
+const { createVal } = require("../Validation/authorValidation");
 
 const {
   getAuthors,
@@ -21,7 +23,13 @@ router.route("/:id").get(getAuthor);
 //admin
 router
   .route("/")
-  .post(upload.single("cover_image"), deserializeUser, isAdmin, createAuthor);
+  .post(
+    upload.single("cover_image"),
+    deserializeUser,
+    isAdmin,
+    validate(createVal),
+    createAuthor
+  );
 
 router.route("/:id").put(deserializeUser, isAdmin, updateAuthor);
 

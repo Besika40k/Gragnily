@@ -14,7 +14,7 @@ const getBooks = asyncHandler(async (req, res) => {
 });
 
 const getBook = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Get a book by ID' */ 
+  /* #swagger.summary = 'Get a book by ID' */
   const { id } = req.params;
 
   const foundBook = await book
@@ -90,6 +90,8 @@ const createBook = asyncHandler(async (req, res) => {
                             type: "array",
                             items: { type: "string" }
                         },
+                        description: { type: "string" },
+                        description_ge:{ type: "string" },
                         publisher_name: { type: "string" },
                         publication_year: { type: "integer" },
                         language: { type: "string" },
@@ -126,8 +128,8 @@ const createBook = asyncHandler(async (req, res) => {
         }
     } 
 */
-  
-//Uploaded files here
+
+  //Uploaded files here
   const files = req.files;
 
   //Names are From BookRoutes.js
@@ -156,6 +158,8 @@ const createBook = asyncHandler(async (req, res) => {
       genre_ge,
       publisher_name,
       publication_year,
+      description,
+      description_ge,
       language,
       language_ge,
     } = req.body;
@@ -213,6 +217,8 @@ const createBook = asyncHandler(async (req, res) => {
       author: tempAuthors,
       genre,
       genre_ge,
+      description,
+      description_ge,
       publisher_name,
       publication_year,
       language,

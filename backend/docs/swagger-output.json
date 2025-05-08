@@ -42,6 +42,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -76,6 +79,12 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "description_ge": {
+                    "type": "string"
                   },
                   "publisher_name": {
                     "type": "string"
@@ -424,6 +433,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"

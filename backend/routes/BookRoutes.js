@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "/tmp/" });
 const { isAdmin } = require("../middleware/verifyJwt");
+const { createVal } = require("../Validation/BookValidation");
+const validate = require("../middleware/validate");
 
 const {
   getBooks,
@@ -31,6 +33,7 @@ router.route("/").post(
   ]),
   deserializeUser,
   isAdmin,
+  validate(createVal),
   createBook
 );
 

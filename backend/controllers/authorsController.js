@@ -78,8 +78,6 @@ const createAuthor = asyncHandler(async (req, res) => {
 
   const profile_picture = req.file;
 
-  console.log("Uploaded files:", req.file);
-
   let url, public_id;
 
   if (profile_picture)
@@ -88,28 +86,24 @@ const createAuthor = asyncHandler(async (req, res) => {
       "authors"
     ));
 
-  if (!name) {
-    res.status(400).json({ comment: "name can't be empty" });
-  } else {
-    try {
-      const newAuthor = await author.create({
-        name,
-        name_ge,
-        birth_year,
-        nationality,
-        biography,
-        biography_ge,
-        profile_picture_url: url || process.env.AUTHOR_PICTURE_URL,
-        profile_picture_public_id: public_id || process.env.AUTHOR_PICTURE_ID,
-      });
-      res
-        .status(200)
-        .json({ comment: "Author creation successful", author: newAuthor });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ comment: "Error Created Author", error: error.message });
-    }
+  try {
+    const newAuthor = await author.create({
+      name,
+      name_ge,
+      birth_year,
+      nationality,
+      biography,
+      biography_ge,
+      profile_picture_url: url || process.env.AUTHOR_PICTURE_URL,
+      profile_picture_public_id: public_id || process.env.AUTHOR_PICTURE_ID,
+    });
+    res
+      .status(200)
+      .json({ comment: "Author creation successful", author: newAuthor });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ comment: "Error Created Author", error: error.message });
   }
 });
 

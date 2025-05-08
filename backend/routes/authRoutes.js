@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { checkDuplicate } = require("../middleware/verifySignUp");
+const { signUpVal } = require("../Validation/authValidation");
+const validate = require("../middleware/validate");
 
 const {
   signUp,
@@ -19,7 +21,7 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.route("/signup").post(checkDuplicate, signUp);
+router.route("/signup").post(validate(signUpVal), checkDuplicate, signUp);
 
 router.route("/signin").post(signIn);
 
