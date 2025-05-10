@@ -4,6 +4,8 @@ const multer = require("multer");
 const upload = multer({ dest: "/tmp/" });
 const { isAdmin } = require("../middleware/verifyJwt");
 const deserializeUser = require("../middleware/deserializeUser");
+const validate = require("../middleware/validate");
+const { updateTextFields } = require("../Validation/userValidation");
 
 const {
   getUsers,
@@ -34,7 +36,9 @@ router
 
 router.route("/updateuserpassword").put(deserializeUser, updateUserPassword);
 
-router.route("/updateuser").put(deserializeUser, updateUserTextFields);
+router
+  .route("/updateuser")
+  .put(deserializeUser, validate(updateTextFields), updateUserTextFields);
 
 router.route("/deleteuser").delete(deserializeUser, deleteUser);
 

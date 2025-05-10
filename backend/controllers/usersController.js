@@ -8,6 +8,11 @@ const OTP = require("../models/otp");
 const { sendOTPEmail } = require("../Utils/changePassword");
 const bcrypt = require("bcryptjs");
 
+const {
+  generateVerificationToken,
+  sendVerificationEmail,
+} = require("../Utils/verifyEmail");
+
 const getUsers = asyncHandler(async (req, res) => {
   //  #swagger.summary = 'Get All Users'
   const users = await user.find();
@@ -53,8 +58,25 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
 }
   */
 
+  const { email } = req.body;
+
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
+
+  if (email) {
+    if (await user.findOne({ email })) {
+      return res.status(409).json({ message: `IN_USE_EMAIL` });
+    }
+
+    await user.findByIdAndUpdate(req.userId, {
+      $set: req.body,
+      isVerified: false,
+    });
+
+    sendVerificationEmail(email,generateVerificationToken(req.userId))
+
+    return res.status(200).json({ message: "User updated successfully, Check Email To Verify" });
+  }
 
   await user.findByIdAndUpdate(req.userId, { $set: req.body });
 

@@ -2,13 +2,13 @@ const cron = require("node-cron");
 const users = require("../models/user");
 
 const deleteUnverifiedUsers = () => {
-  cron.schedule("*/5 * * * *", async () => {
-    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+  cron.schedule("0 * * * *", async () => {
+    const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     try {
       const result = await users.deleteMany({
         isVerified: false,
-        createdAt: { $lt: tenMinutesAgo },
+        updatedAt: { $lt: monthAgo },
       });
 
       if (result.deletedCount > 0) {
