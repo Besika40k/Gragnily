@@ -1,13 +1,17 @@
 .inputContainer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-left: 200px;
-  width: 190px;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
 }
 .inputStyle {
   width: 25px;
   height: 30px;
   border: none;
+  border: 1px solid black;
+}
+.inputStyle:focus {
   border: 2px solid black;
+  outline: none;
 }

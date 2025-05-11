@@ -33,7 +33,14 @@ function App() {
             /* login/signup pages*/
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
-            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="forgot-password-out"
+              element={<ForgotPassword logIn={false} />}
+            />
+            <Route
+              path="forgot-password-in"
+              element={<ForgotPassword logIn={true} />}
+            />
             <Route path="/user-page" element={<UserPage />} />
             {/* individual book/articles pages */}
             <Route path="/books/:id" element={<BookPage />} />

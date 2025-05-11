@@ -118,7 +118,7 @@ const LogIn = () => {
         id="emailVerify"
         className="verify-email-container"
       >
-        <div className="verify-email-contnet" onClick={() => (noclose = false)}>
+        <div className="verify-email-contnet" onClick={() => (noclose = true)}>
           <div className="button-div">
             <button onClick={closePopup} className="close-button">
               X
@@ -167,7 +167,7 @@ const LogIn = () => {
           </div>
 
           <div className="forgot-password-link">
-            <Link to="/forgot-password">Forgot Password?</Link>
+            <Link to="/forgot-password-out">Forgot Password?</Link>
           </div>
 
           <button type="submit" className="btn-auth">

@@ -94,9 +94,23 @@
   color: white;
 }
 
+.formsSection {
+  margin-top: 100px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 10%;
+}
+
 /* form */
 .changeInfoForm {
-  width: 80%;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   height: fit-content;
   background-color: var(--background-l);
 }
@@ -109,12 +123,15 @@
   flex-direction: column;
   gap: 20px;
 }
-
+.rightForm {
+  align-items: flex-end;
+}
 .formGroup label {
   font-size: 30px;
   color: var(--text-main-l);
 }
-.formGroup input {
+
+.leftInput {
   width: 50%;
   min-width: 200px;
   max-width: 400px;
@@ -126,7 +143,9 @@
   font-size: clamp(1rem, 2vw, 1.5rem);
   color: var(--text-main-l);
 }
-
+.rightForm input {
+  background-color: black;
+}
 .sumbitButton {
   width: 20%;
   max-width: 200px;
@@ -140,6 +159,47 @@
   background-color: var(--primary-l);
   margin-top: 30px;
   transition: all 0.3s ease;
+}
+.changeButtons {
+  width: 50%;
+  max-width: 200px;
+  min-width: 100px;
+  height: 60px;
+  max-height: 50px;
+  min-height: 30px;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid var(--icon-line);
+  background-color: var(--primary-l);
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+}
+.changeButtons:hover {
+  background-color: var(--icon-line);
+  color: rgb(76, 76, 76);
+  transform: scale(1.05);
+  color: white;
+}
+.deleteButton {
+  width: 50%;
+  max-width: 200px;
+  min-width: 100px;
+  height: 60px;
+  max-height: 50px;
+  min-height: 30px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  background-color: #f5564a;
+  color: white;
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+}
+.deleteButton:hover {
+  background-color: #f44336;
+  color: rgb(76, 76, 76);
+  transform: scale(1.05);
+  color: white;
 }
 .sumbitButton:hover {
   background-color: var(--icon-line);

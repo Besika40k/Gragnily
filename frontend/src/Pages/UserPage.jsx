@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./UserPage.module.css";
-
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../modules/Loading";
 
@@ -14,6 +14,8 @@ const UserPage = () => {
 
   const [loading, setLoading] = useState(false);
   // on load get user data
+
+  const [deleteVisability, setDeleteVisability] = useState(false);
 
   // image upload
   const [image, setImage] = useState(null);
@@ -179,42 +181,61 @@ const UserPage = () => {
             </div>
           </section>
 
-          <form
-            className={style.changeInfoForm}
-            action="sumbit"
-            onSubmit={updateUserInfo}
-          >
-            <div className={style.formGroup}>
-              <label htmlFor="username">Change Username</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder={user.username}
-              />
-            </div>
-            <div className={style.formGroup}>
-              <label htmlFor="email">Change Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder={user.email}
-              />
-            </div>
-            <div className={style.formGroup}>
-              <label htmlFor="password">Change Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="********"
-              />
-            </div>
-            <button className={style.sumbitButton} type="submit">
-              Update
-            </button>
-          </form>
+          <section className={style.formsSection}>
+            <form
+              className={style.changeInfoForm}
+              action="sumbit"
+              onSubmit={updateUserInfo}
+            >
+              <div className={style.formGroup}>
+                <label htmlFor="username">Change Username</label>
+                <input
+                  className={style.leftInput}
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder={user.username}
+                />
+              </div>
+              <div className={style.formGroup}>
+                <label htmlFor="email">Change Email</label>
+                <input
+                  className={style.leftInput}
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder={user.email}
+                />
+              </div>
+
+              <button className={style.sumbitButton} type="submit">
+                Update
+              </button>
+            </form>
+            <form className={`${style.rightForm}, ${style.changeInfoForm}`}>
+              <div className={style.formGroup}>
+                <label htmlFor="password">Change Password</label>
+                <Link to="/forgot-password-in">
+                  <input
+                    type="button"
+                    id="password"
+                    name="password"
+                    value="Change"
+                    className={style.changeButtons}
+                  />
+                </Link>
+                <label htmlFor="deleteUser">Delete User</label>
+                <input
+                  onClick={() => setDeleteVisability(true)}
+                  className={style.deleteButton}
+                  type="button"
+                  id="deleteUser"
+                  name="deleteUser"
+                  value="DELETE"
+                />
+              </div>
+            </form>
+          </section>
         </div>
       )}
     </>

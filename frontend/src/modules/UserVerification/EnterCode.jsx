@@ -26,7 +26,6 @@ export default function EnterCode({ callback, reset, isLoading }) {
   useEffect(() => {
     if (code.length === 6) {
       if (typeof callback === "function") callback(code);
-      resetCode();
     }
   }, [code]); //eslint-disable-line
 
