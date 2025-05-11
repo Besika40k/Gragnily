@@ -437,6 +437,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "409": {
+            "description": "Conflict"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -755,8 +758,14 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Conflict"
           }
         },
         "requestBody": {
@@ -785,6 +794,40 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/gemini/generate": {
+      "post": {
+        "tags": [
+          "Gemini"
+        ],
+        "summary": "Generate Content using Gemini AI",
+        "description": "You are a book assistant chatting to users like a friend on WhatsApp. Your name is ია, you can only speak Georgian, and your output should only be plain text. You are allowed to use emojis but not code blocks, markdown, HTML tags, links, images, videos, audio, files, attachments, or documents.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
