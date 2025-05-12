@@ -96,4 +96,19 @@ const generateContent = async (req, res) => {
   }
 };
 
-module.exports = generateContent;
+const getHistory = async (req, res) => {
+  try {
+    return res.status(200).json({
+      message: "History fetched successfully",
+      data: await gHistory.findOne({ user_id: req.userId }),
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching history",
+      error: error.message,
+    });
+    console.error("Error in getHistory:", error);
+  }
+};
+
+module.exports = { generateContent, getHistory };
