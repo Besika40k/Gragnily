@@ -66,82 +66,64 @@ const UserPage = () => {
     const form = e.target; // the form element
     const username = form.elements.username.value;
     const email = form.elements.email.value;
-    const password = form.elements.password.value;
 
-    let updatedUser = {
-      username: username == "" ? user.username : username,
-      email: email == "" ? user.email : email,
-    };
-    updatedUser.password = password;
-    // fetch("https://gragnily.onrender.com/api/users/updateuser", {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(updatedUser),
-    //   credentials: "include", // Allow cookies to be sent
-    // })
-    //   .then(async (response) => {
-    //     const data = await response.json();
-
-    //     if (response.ok) {
-    //       console.log("User updated successful!", data);
-
-    //       // Fetch and update the user data in the context after info update
-    //       fetch("https://gragnily.onrender.com/api/users/getuser", {
-    //         method: "GET",
-    //         credentials: "include", // This will allow cookies to be sent
-    //       })
-    //         .then((userResponse) => {
-    //           if (!userResponse.ok) {
-    //             throw new Error("Error fetching user data");
-    //           }
-    //           return userResponse.json();
-    //         })
-    //         .then((userData) => {
-    //           updateUser(userData); // Update the user context with the fetched data
-    //           window.location.reload(); // Reload the page to reflect changes
-    //         })
-    //         .catch((err) => {
-    //           console.log("Error fetching user data:", err.message);
-    //         });
-    //     } else {
-    //       switch (data.message) {
-    //         case "User Not Found!":
-    //           alert("❌ User not found");
-    //           break;
-    //         case "Invalid Password!":
-    //           alert("❌ Invalid password.");
-    //           break;
-    //         default:
-    //           alert("Server-side error");
-    //           break;
-    //       }
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Network error:", error);
-    //     alert("Something went wrong. Please try again later.");
-    //   });
-
-    if (password != "") {
-      fetch("https://gragnily.onrender.com/api/users/requestPasswordChange", {
-        method: "PUT",
-        credentials: "include",
-      })
-        .then(async (response) => {
-          const text = await response.text();
-          if (response.ok) {
-            // OTP IS SENT SUCESSFULLY
-            // now i need a pop
-          } else {
-            console.error("Error:", text, response);
-          }
-        })
-        .catch((err) => {
-          console.error("Network error:", err);
-        });
+    let updatedUser = {};
+    if (username != "") {
+      updatedUser.username = username;
     }
+    if (email != "") {
+      updatedUser.email = email;
+    }
+    fetch("https://gragnily.onrender.com/api/users/updateuser", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+      credentials: "include", // Allow cookies to be sent
+    })
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log("User updated successful!", data);
+
+          // Fetch and update the user data in the context after info update
+          fetch("https://gragnily.onrender.com/api/users/getuser", {
+            method: "GET",
+            credentials: "include", // This will allow cookies to be sent
+          })
+            .then((userResponse) => {
+              if (!userResponse.ok) {
+                throw new Error("Error fetching user data");
+              }
+              return userResponse.json();
+            })
+            .then((userData) => {
+              updateUser(userData); // Update the user context with the fetched data
+              window.location.reload(); // Reload the page to reflect changes
+            })
+            .catch((err) => {
+              console.log("Error fetching user data:", err.message);
+            });
+        } else {
+          switch (data.message) {
+            case "User Not Found!":
+              alert("❌ User not found");
+              break;
+            case "Invalid Password!":
+              alert("❌ Invalid password.");
+              break;
+            default:
+              alert("Server-side error");
+              break;
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Network error:", error);
+        alert("Something went wrong. Please try again later.");
+      });
   };
   return (
     <>

@@ -1,0 +1,39 @@
+.containerBubbleRight,
+.containerBubbleLeft {
+  width: 90%;
+  height: fit-content;
+  max-height: 8;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 20px;
+}
+.containerBubbleLeft {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.containerBubbleRight {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.messageLeftDiv,
+.messageRightDiv {
+  background-color: #679089;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  font-size: 0.7em;
+}
+.messageLeftDiv {
+  border-bottom-left-radius: 0px;
+}
+
+.messageRightDiv {
+  border-top-right-radius: 0px;
+}
+.messageLeftP {
+  text-align: left;
+}
+.messageRightP {
+  text-align: right;
+}
