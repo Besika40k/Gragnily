@@ -5,7 +5,7 @@ const ChatBubble = ({ text = "", ai = false }) => {
     <div
       className={ai ? style.containerBubbleLeft : style.containerBubbleRight}
     >
-      {ai && <img alt="a" />}
+      {ai && <div className={style.imgDiv} />}
       <div className={ai ? style.messageLeftDiv : style.messageRightDiv}>
         <p className={ai ? style.messageLeftP : style.messageRightP}>{text}</p>
       </div>

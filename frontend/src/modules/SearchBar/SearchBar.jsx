@@ -72,6 +72,7 @@ const SearchBar = () => {
             }
           }}
         />
+
         <label
           onClick={handleSearch}
           className={style.searchIcon}

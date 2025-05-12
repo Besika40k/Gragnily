@@ -6,11 +6,21 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  gap: 20px;
+  gap: 5px;
 }
 .containerBubbleLeft {
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: flex-start;
+}
+.imgDiv {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  background: url("../../assets/aiIcon.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .containerBubbleRight {
   align-items: flex-end;
@@ -23,6 +33,9 @@
   padding: 10px;
   color: white;
   font-size: 0.7em;
+  max-width: 65%; /* ✅ limit width of the bubble */
+  word-wrap: break-word; /* ✅ wrap long words */
+  white-space: pre-wrap;
 }
 .messageLeftDiv {
   border-bottom-left-radius: 0px;
