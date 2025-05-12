@@ -24,7 +24,7 @@ const port = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://gragnily.vercel.app/"],
     credentials: true,
   })
 );
