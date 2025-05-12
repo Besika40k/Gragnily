@@ -97,6 +97,13 @@ const generateContent = async (req, res) => {
 };
 
 const getHistory = async (req, res) => {
+  // #swagger.summary = 'Get User History'
+  // #swagger.description = "Fetch the user AI-IA's chat history."
+
+  if (!req.userId) {
+    return res.status(401).json({ message: "User Not Registered" });
+  }
+
   try {
     return res.status(200).json({
       message: "History fetched successfully",
