@@ -10,7 +10,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./docs/swagger-output.json");
 const bodyParser = require("body-parser");
 const app = express();
-const logger = require('morgan');
+const logger = require("morgan");
 
 app.use(logger("tiny"));
 
@@ -54,6 +54,12 @@ app.use(
   "/api/users",
   require("./routes/userRoutes")
   // #swagger.tags = ['Users']
+);
+
+app.use(
+  "/api/gemini",
+  require("./routes/geminiRoutes")
+  // #swagger.tags = ['Gemini']
 );
 
 app.listen(port, () => {
