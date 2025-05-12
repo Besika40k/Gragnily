@@ -2,13 +2,14 @@ import style from "./PasswordReset.module.css";
 import { useState, useRef } from "react";
 import EnterCode from "./EnterCode.jsx";
 import AuthLayout from "../AuthLayout.jsx";
+import { useNavigate } from "react-router-dom";
 
-const PasswordReset = () => {
+const PasswordReset = ({ isLoggedIn = false }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [codeFinal, setCodeFinal] = useState();
   const newPassword = useRef();
-  const isLoggedIn = false;
+  const navigate = useNavigate();
 
   const handleEmailSend = async () => {
     try {
@@ -64,6 +65,7 @@ const PasswordReset = () => {
       }
       // redirect user
       alert("Code is verified!");
+      navigate("/user-page");
     } catch (err) {
       alert(`Error: ${err.message}`);
     } finally {
