@@ -58,11 +58,16 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
 }
   */
 
-  const { email } = req.body;
+  const { username, email } = req.body;
 
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
 
+  if (username) {
+    if (await user.findOne({ username })) {
+      return res.status(409).json({ message: `IN_USE_USERNAME` });
+    }
+  }
   if (email) {
     if (await user.findOne({ email })) {
       return res.status(409).json({ message: `IN_USE_EMAIL` });
@@ -73,9 +78,11 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
       isVerified: false,
     });
 
-    sendVerificationEmail(email,generateVerificationToken(req.userId))
+    sendVerificationEmail(email, generateVerificationToken(req.userId));
 
-    return res.status(200).json({ message: "User updated successfully, Check Email To Verify" });
+    return res
+      .status(200)
+      .json({ message: "User updated successfully, Check Email To Verify" });
   }
 
   await user.findByIdAndUpdate(req.userId, { $set: req.body });
