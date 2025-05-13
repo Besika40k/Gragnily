@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import style from "./SearchBar.module.css";
 import SearchIcon from "./SearchIcon";
 import { Link } from "react-router-dom";
@@ -7,11 +7,13 @@ const SearchBar = () => {
   const [search, setSearch] = React.useState("");
   const [books, setBooks] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+
+  const searchBarRef = useRef(null);
 
   const handleSearch = () => {
     if (!search.trim()) return;
     console.log("searching for", search);
-    // c
 
     setLoading(true);
 
@@ -32,12 +34,20 @@ const SearchBar = () => {
       })
       .then((data) => {
         console.log("CHAOS", data);
-        setBooks(data);
-        if (data.length === 0) {
-          setLoading(true);
+        if (data.length == 0) {
+          setBooks([
+            {
+              _id: 1,
+              cover_image_url:
+                "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
+              title: "No such book found",
+              title_ge: "ასეთი წიგნი ვერ მოიძებნა",
+            },
+          ]);
         } else {
-          setLoading(false);
+          setBooks(data);
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.error("yle Error fetching books:", error);
@@ -45,10 +55,32 @@ const SearchBar = () => {
       });
   };
 
-  // change classes on search
+  // Close search bar if clicked outside
+  useEffect(() => {
+    let timeoutId;
+
+    const handleClickOutside = (event) => {
+      if (
+        searchBarRef.current &&
+        !searchBarRef.current.contains(event.target)
+      ) {
+        setBooks([]);
+        timeoutId = setTimeout(() => {
+          setIsSearchOpen(false);
+        }, 500);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      clearTimeout(timeoutId); // Clean up timeout
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const searchContainerClass = `${style.searchInnerContainer} ${
-    books.length > 0 ? style.active : ""
+    isSearchOpen ? style.active : ""
   }`;
 
   const foundItemsClass = `${style.foundItems} ${
@@ -56,7 +88,7 @@ const SearchBar = () => {
   }`;
 
   return (
-    <div className={style.searchOuterContainer}>
+    <div className={style.searchOuterContainer} ref={searchBarRef}>
       <div className={searchContainerClass}>
         <input
           placeholder="Search here"
@@ -68,13 +100,17 @@ const SearchBar = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               console.log("Enter pressed");
+              setIsSearchOpen(true);
               handleSearch();
             }
           }}
         />
 
         <label
-          onClick={handleSearch}
+          onClick={() => {
+            setIsSearchOpen(true);
+            handleSearch();
+          }} // Open search bar when the icon is clicked
           className={style.searchIcon}
           htmlFor="searchBar"
         >
