@@ -12,7 +12,7 @@ const AiSection = () => {
     setShowHistory(
       showHistory.concat([
         <ChatBubble text={`${userInput.current.value}`} ai={false} />,
-        <ChatBubble text={`...`} ai={true} />,
+        <ChatBubble text={``} ai={true} loader={true} />,
       ])
     );
     userInput.current.value = "";
@@ -33,6 +33,18 @@ const AiSection = () => {
           const newHistory = [...prev]; // copy the old array
           newHistory.pop(); // remove last item
           newHistory.push(<ChatBubble text={`${data.data}`} ai={true} />);
+          return newHistory;
+        });
+      } else {
+        setShowHistory((prev) => {
+          const newHistory = [...prev]; // copy the old array
+          newHistory.pop(); // remove last item
+          newHistory.push(
+            <ChatBubble
+              text={`სალამი, ჯერ უნდა შეხვიდე ვებსაიტზე რომ AI გამოიყენო!`}
+              ai={true}
+            />
+          );
           return newHistory;
         });
       }
