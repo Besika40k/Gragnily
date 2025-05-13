@@ -75,7 +75,18 @@ const BookPage = () => {
       </div>
     );
   }
+  // pdf download
 
+  const handleDownload = async () => {
+    const response = await fetch(book?.pdf_url[0]);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${book?.title}.pdf`;
+    link.click();
+    window.URL.revokeObjectURL(url); // Clean up the URL object after download
+  };
   return book && author ? (
     <div className={style.outerDivContainer}>
       <div className={style.innerDivContainer}>
@@ -93,9 +104,16 @@ const BookPage = () => {
             <h1>{book?.title}</h1>
             <h3>{author}</h3>
             <div className={style.buttonsDiv}>
-              <button className={style.readButton}>Read</button>
-              <BookPageSVGS className={style.svgButton} name="downloadSvg" />
-              <BookPageSVGS className={style.svgButton} name="bookmarkSvg" />
+              <a href={book?.pdf_url[0]} target="_blank">
+                <button className={style.readButton}>Read</button>
+              </a>
+
+              <button className={style.dissapear} onClick={handleDownload}>
+                <BookPageSVGS className={style.svgButton} name="downloadSvg" />
+              </button>
+              <button className={style.dissapear}>
+                <BookPageSVGS className={style.svgButton} name="bookmarkSvg" />
+              </button>
             </div>
             <h2>Description</h2>
             <p>

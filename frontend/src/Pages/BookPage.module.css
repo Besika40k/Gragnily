@@ -170,6 +170,13 @@
   color: rgb(30, 30, 30);
   font-size: 18px;
 }
+
+.dissapear {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 /*
 infoSection
 <div className={style.infoItem}>
