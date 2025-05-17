@@ -26,7 +26,7 @@ const deserializeUser = asyncHandler(async (req, res, next) => {
     // Create new access token
     const newAccessToken = jwt.sign(refreshPayload, config.secret);
 
-    
+    console.log(process.env.MY_ENVIRONMENT);
     const isProd = process.env.MY_ENVIRONMENT === "production";
 
     res.cookie("x-access-token", newAccessToken, {

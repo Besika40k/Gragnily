@@ -167,7 +167,7 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   let authority = "ROLE_" + foundUser.role;
-
+console.log(process.env.MY_ENVIRONMENT);
   const isProd = process.env.MY_ENVIRONMENT === "production";
   res
     .cookie("x-access-token", token, {
