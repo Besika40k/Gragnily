@@ -12,7 +12,11 @@ const SearchBar = () => {
   const searchBarRef = useRef(null);
 
   const handleSearch = () => {
-    if (!search.trim()) return;
+    if (!search.trim()) {
+      setBooks([]);
+      setIsSearchOpen(false);
+      return;
+    }
     console.log("searching for", search);
 
     setLoading(true);

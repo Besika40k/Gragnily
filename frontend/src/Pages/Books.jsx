@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./Books.module.css";
-
+import SearchBar from "../modules/SearchBar/SearchBar.jsx";
+import VisualGenres from "../modules/VisualGenres/VisualGenres.jsx";
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,11 @@ const Books = () => {
   };
   return (
     <div className={style.allContainer}>
+      <div className={style.topDiv}>
+        <h2>Gragnily</h2>
+        <SearchBar />
+      </div>
+      <VisualGenres />
       <Filters />
       <h1>BOOKS</h1>
       <section className={style.booksSection}>
@@ -50,10 +56,13 @@ const Books = () => {
                 width: "150px",
               }}
             ></div>
-            <iframe src={book.pdf_url} width="100%" height="600px"></iframe>
           </li>
         ))}
       </section>
+      <div className={style.navigateNumbersDiv}>
+        <p>1</p>
+        <p>2</p>
+      </div>
     </div>
   );
 };

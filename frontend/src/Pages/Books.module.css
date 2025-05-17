@@ -5,7 +5,8 @@
 
 .allContainer {
   width: 90vw;
-  height: 100vh;
+  height: fit-content;
+  min-height: 100vh;
   margin-left: 80px;
   background-color: black;
   color: white;

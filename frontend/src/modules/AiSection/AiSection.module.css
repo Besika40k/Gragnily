@@ -1,5 +1,4 @@
 .aiSection {
-  width: 20vw;
   height: 100vh;
   background-color: var(--primary-l);
   position: fixed;
@@ -9,10 +8,43 @@
   justify-content: space-between;
   flex-direction: column;
   padding: 20px 0px;
+  transition: width 0.1s ease;
+  z-index: 1000;
+}
+.containerDiv {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+.resizer {
+  width: 5px;
+  cursor: col-resize;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(100, 100, 100, 0.2);
+  z-index: 10;
+}
+.expandBtn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  background-color: #f18966;
+  color: white;
+  margin-right: 80px;
+  border-radius: 40px;
+  font-size: 1.3em;
 }
 .testdiv {
   position: relative;
-  width: 90%;
+  width: 100%;
   height: 90%;
   display: flex;
   flex-direction: column;
@@ -41,24 +73,27 @@
 .userInputDiv {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 10px;
 }
 
 .sendSvgDiv {
-  min-width: 30px;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
   min-height: 30px;
   background-color: #f18966;
   border-radius: 50%;
   padding: 5px 0px 0px 1px;
   transition: transform 0.2s ease;
+  padding: 10px 0px 0px 7px;
 }
 .sendSvgDiv:hover {
   transform: scale(1.05);
 }
 
 .textarea {
-  width: 100%;
+  width: 90%;
   min-height: 40px;
   max-height: 100px;
   padding: 10px;
