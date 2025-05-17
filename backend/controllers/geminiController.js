@@ -1,29 +1,12 @@
-const { GoogleGenAI } = require("@google/genai");
-const gHistory = require("../models/gHistory");
+const fetch = require("node-fetch");
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const isProd = process.env.MY_ENVIRONMENT == "production";
 
-const config =
-  "You are a book assistant chatting to user like a friend on whatsapp," +
-  " Your Name is ია," +
-  "you can only speak georgian," +
-  "your output should only be plain text," +
-  "you are not allowed to use any code blocks," +
-  "you are not allowed to use any markdown," +
-  "you are not allowed to use any html tags," +
-  "you are allowed to use any emojis," +
-  "you are not allowed to use any links," +
-  "you are not allowed to use any images," +
-  "you are not allowed to use any videos," +
-  "you are not allowed to use any audio," +
-  "you are not allowed to use any files," +
-  "you are not allowed to use any attachments," +
-  "you are not allowed to use any documents.";
+const pythonEndpoint = isProd
+  ? process.env.PYTHON_ENDPOINT
+  : "http://127.0.0.1:8000";
 
 const generateContent = async (req, res) => {
-  // #swagger.summary = 'Generate Content using Gemini AI'
-  // #swagger.description = "You are a book assistant chatting to users like a friend on WhatsApp. Your name is ია, you can only speak Georgian, and your output should only be plain text. You are allowed to use emojis but not code blocks, markdown, HTML tags, links, images, videos, audio, files, attachments, or documents."
-
   const { content } = req.body;
 
   if (!req.userId) {
@@ -31,65 +14,24 @@ const generateContent = async (req, res) => {
   }
 
   try {
-    const userHistory = await gHistory
-      .findOne({ user_id: req.userId })
-      .select("history")
-      .lean();
-
-    let History;
-
-    if (!userHistory) {
-      await gHistory.create({
-        user_id: req.userId,
-        history: [],
-      });
-    } else {
-      History = userHistory.history
-        .map((entry) => ({
-          role: entry.role,
-          parts: entry.parts
-            .filter((part) => part.text && typeof part.text === "string")
-            .map((part) => ({ text: part.text })),
-        }))
-        .filter((entry) => entry.parts.length > 0);
-    }
-
-    const response1 = await ai.chats.create({
-      model: "gemini-2.0-flash",
-      history: History || [],
-      config: {
-        systemInstruction: config,
-      },
+    // Example: Fetch request to another API
+    const apiResponse = await fetch(`${pythonEndpoint}/gemini/extractRagData`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, user_id: req.userId }),
     });
 
-    console.dir(History, { depth: null, colors: true });
-
-    const response = await response1.sendMessage({ message: content });
-
-    if (response) {
-      await gHistory.findOneAndUpdate(
-        { user_id: req.userId },
-        {
-          $push: {
-            history: [
-              { role: "user", parts: [{ text: content }] },
-              {
-                role: "model",
-                parts: [{ text: response.text }],
-              },
-            ],
-          },
-        },
-        { new: true }
-      );
-
-      res.status(200).json({
-        message: "Content generated successfully",
-        data: response.text,
-      });
-
-      console.log(response.text);
+    if (!apiResponse.ok) {
+      throw new Error("Failed to fetch from external API");
     }
+
+    // eslint-disable-next-line no-unused-vars
+    const { retrieved_data, answer } = await apiResponse.json();
+
+    res.status(200).json({
+      message: "Fetched data from external API",
+      data: answer,
+    });
   } catch (error) {
     console.error("Error in generateContent:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -105,17 +47,88 @@ const getHistory = async (req, res) => {
   }
 
   try {
-    return res.status(200).json({
-      message: "History fetched successfully",
-      data: await gHistory.findOne({ user_id: req.userId }),
+    // Example: Fetch request to another API
+    const apiResponse = await fetch(
+      `${pythonEndpoint}/gemini/getHistory?user_id=${encodeURIComponent(
+        req.userId
+      )}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!apiResponse.ok) {
+      throw new Error("Failed to fetch from external API");
+    }
+
+    const history = await apiResponse.json();
+
+    res.status(200).json({
+      message: "Fetched data from external API",
+      data: history,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Error fetching history",
-      error: error.message,
-    });
-    console.error("Error in getHistory:", error);
+    console.error("Error in generateContent:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-module.exports = { generateContent, getHistory };
+const loadData = async (req, res) => {
+  /*
+    #swagger.summary = "Load RAG data list"
+    #swagger.description = "Accepts a raw JSON array of RAG data items, each containing 'text' and 'source' strings."
+    #swagger.consumes = ['application/json']
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            text: { type: "string", example: "Sample text" },
+                            source: { type: "string", example: "Source A" }
+                        },
+                        required: ["text", "source"]
+                    }
+                }
+            }
+        }
+    }
+*/
+
+  if (!req.userId) {
+    return res.status(401).json({ message: "User Not Registered" });
+  }
+
+  const ragData = req.body;
+
+  try {
+    const apiResponse = await fetch(
+      `${pythonEndpoint}/gemini/loadRagData?user_id=${req.userId}`, // user_id in query string
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ragData), // Just the list of ragData, not wrapped
+      }
+    );
+
+    if (!apiResponse.ok) {
+      throw new Error("Failed to fetch from external API");
+    }
+
+    const data = await apiResponse.json();
+
+    res.status(200).json({
+      message: "Fetched data from external API",
+      data: data,
+    });
+  } catch (error) {
+    console.error("Error in generateContent:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = { generateContent, getHistory, loadData };
