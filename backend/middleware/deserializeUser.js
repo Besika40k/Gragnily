@@ -27,7 +27,7 @@ const deserializeUser = asyncHandler(async (req, res, next) => {
     const newAccessToken = jwt.sign(refreshPayload, config.secret);
 
     console.log(process.env.MY_ENVIRONMENT);
-    const isProd = process.env.MY_ENVIRONMENT === "production";
+    const isProd = process.env.MY_ENVIRONMENT == "production";
 
     res.cookie("x-access-token", newAccessToken, {
       maxAge: config.jwtExpiration * 1000,
