@@ -10,6 +10,7 @@ const {
   getBooks,
   createBook,
   getBook,
+  getBooksFiltered,
   updateBook,
   deleteBook,
   getBooksPreview,
@@ -20,6 +21,8 @@ const deserializeUser = require("../middleware/deserializeUser");
 router.route("/").get(deserializeUser, isAdmin, getBooks);
 
 router.route("/search").get(getBooksPreview);
+
+router.route("/filtered").get(getBooksFiltered);
 
 router.route("/:id").get(getBook);
 

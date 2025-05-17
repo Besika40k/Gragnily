@@ -13,6 +13,26 @@ const getBooks = asyncHandler(async (req, res) => {
   else res.status(200).json(books);
 });
 
+const getBooksFiltered = asyncHandler(async (req, res) => {
+  const { page, limit, popularity, name, date, author } = req.query;
+
+  // Sorting
+  let sort = {};
+  if (name) sort.title = name === "desc" ? -1 : 1;
+  if (author) sort.author = author === "desc" ? -1 : 1;
+  if (popularity) sort.popularity = popularity === "desc" ? -1 : 1;
+  if (date) sort.publication_year = date === "desc" ? -1 : 1;
+
+  // Pagination
+  const pageNumber = parseInt(page) || 1;
+  const pageSize = parseInt(limit) || 10;
+  const skip = (pageNumber - 1) * pageSize;
+
+  const Books = await book.sort(sort).skip(skip).limit(pageSize);
+
+  res.status(200).json(Books);
+});
+
 const getBook = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get a book by ID' */
   const { id } = req.params;
@@ -319,6 +339,7 @@ const deleteBook = asyncHandler(async (req, res) => {
 module.exports = {
   getBooksPreview,
   getBooks,
+  getBooksFiltered,
   createBook,
   getBook,
   updateBook,
