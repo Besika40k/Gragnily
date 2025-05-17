@@ -112,7 +112,7 @@ const AiSection = () => {
     };
   }, []);
   useEffect(() => {
-    fetch("https://gemini-rag-assistant.onrender.com/gemini/getHistory", {
+    fetch("https://gragnily.onrender.com/api/gemini/getHistory", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ const AiSection = () => {
       if (response.ok) {
         console.log("kys", data.data);
         setShowHistory(
-          data.data.history.map((obj, index) => (
+          data.data.map((obj, index) => (
             <ChatBubble
               key={index}
               text={`${obj.parts[0].text}`}
