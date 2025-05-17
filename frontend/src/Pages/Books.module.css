@@ -2,13 +2,20 @@
       <section className={style.filterSection}></section>
       <section className={style.booksSection}></section>
     </div> */
-
+.topDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: fit-content;
+}
 .allContainer {
+  padding-top: 25px;
   width: 90vw;
   height: fit-content;
   min-height: 100vh;
   margin-left: 80px;
-  background-color: black;
+  background-color: var(--background-l);
   color: white;
 }
 .book {
@@ -16,4 +23,41 @@
   width: auto;
   height: 200px;
   width: 400px;
+}
+.topSection {
+  width: 80%;
+  height: 60px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 40px 0px 40px;
+  position: relative;
+}
+.topSection h2 {
+  color: var(--text-main-l);
+  font-size: 50px;
+  font-weight: 700;
+  font-size: 28px;
+}
+.fiterDiv button {
+  width: 100px;
+  height: 50px;
+}
+.filterContainer {
+  transition: all 0.5s ease;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  transform-origin: right;
+  transform: scaleX(1);
+
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.filterHidden {
+  transform: scaleX(0.5);
+  opacity: 0.5;
+  pointer-events: none;
 }

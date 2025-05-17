@@ -1,5 +1,4 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 import style from "./OurPickVisual.module.css";
 import bookcover1 from "../../assets/bookcover1.png";

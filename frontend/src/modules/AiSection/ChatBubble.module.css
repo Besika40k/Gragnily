@@ -21,6 +21,10 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  border: 2px solid white;
+  filter: brightness(0.9) grayscale(10%) contrast(1.1);
+  background-blend-mode: overlay;
 }
 .containerBubbleRight {
   align-items: flex-end;

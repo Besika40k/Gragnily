@@ -22,6 +22,53 @@
   color: var(--text-main-l);
   margin-left: 15px;
 }
+
+.pickTopDiv {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.buttonsDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 50%;
+}
+/* >  -  child operator > * every child*/
+.buttonsDiv > * {
+  margin-left: 20px;
+}
+.fullButton {
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  border: var(--button-border);
+  background-color: var(--primary-l);
+  cursor: pointer;
+  color: var(--text-main-l);
+}
+.scrollLeftButton,
+.scrollRightButton {
+  background-color: var(--primary-l);
+  border: var(--button-border);
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--text-main-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pickTopDiv button:hover {
+  background-color: var(--hover-dark-l);
+}
+
 .genresContainer {
   min-height: 150px;
   width: 100%;
@@ -61,7 +108,6 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-left: 20px;
   transition: transform 0.3s ease;
 }
 .genre:hover {
