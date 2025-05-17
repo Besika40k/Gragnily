@@ -95,7 +95,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
     sendOTPEmail(email, otp);
 
-    const isProd = process.env.NODE_ENV === "production";
+    const isProd = process.env.MY_ENVIRONMENT == "production";
 
     res
       .status(200)
@@ -167,8 +167,8 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   let authority = "ROLE_" + foundUser.role;
-
-  const isProd = process.env.NODE_ENV === "production";
+console.log(process.env.MY_ENVIRONMENT);
+  const isProd = process.env.MY_ENVIRONMENT == "production";
   res
     .cookie("x-access-token", token, {
       httpOnly: true,
@@ -200,8 +200,8 @@ const logOut = asyncHandler(async (req, res) => {
     return res
       .clearCookie("x-refresh-token", {
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.MY_ENVIRONMENT == "production" ? "None" : "Lax",
+        secure: process.env.MY_ENVIRONMENT == "production",
       })
       .status(200)
       .json({ message: "User Logged Out" });
