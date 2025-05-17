@@ -25,12 +25,12 @@ const generateContent = async (req, res) => {
       throw new Error("Failed to fetch from external API");
     }
 
-    // eslint-disable-next-line no-unused-vars
     const { retrieved_data, answer } = await apiResponse.json();
 
     res.status(200).json({
       message: "Fetched data from external API",
       data: answer,
+      retrieved_Rag: retrieved_data,
     });
   } catch (error) {
     console.error("Error in generateContent:", error);
