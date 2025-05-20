@@ -77,6 +77,12 @@ app.use(
   // #swagger.tags = ['Gemini']
 );
 
+app.use(
+  "/api/articles",
+  require("./routes/articleRoutes")
+  // #swagger.tags = ['Articles']
+);
+
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
   console.log(

@@ -1,10 +1,10 @@
 const cloudinary = require("../config/cdConnection");
 const asyncHandler = require("express-async-handler");
 
-const uploadCoverImage = asyncHandler(async (imgPath) => {
+const uploadCoverImage = asyncHandler(async (imgPath, destination) => {
   try {
     const result = await cloudinary.uploader.upload(imgPath, {
-      folder: "books/covers",
+      folder: `${destination}/covers`,
       resource_type: "image",
     });
 

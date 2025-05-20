@@ -207,7 +207,7 @@ const createBook = asyncHandler(async (req, res) => {
     );
 
     ({ url: cover_image_url, public_id: ci_public_id } = await uploadCoverImage(
-      coverImage.path
+      coverImage.path, "books"
     ));
 
     ({ url: pdf_url[0], public_id: pdf_public_id[0] } = await uploadFile(
