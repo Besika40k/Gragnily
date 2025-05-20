@@ -4,7 +4,7 @@ import style from "./Books.module.css";
 import SearchBar from "../modules/SearchBar/SearchBar.jsx";
 import VisualGenres from "../modules/VisualGenres/VisualGenres.jsx";
 import Loading from "../modules/Loading.jsx";
-
+import SortComponent from "../modules/BooksSectionComponents/SortComponent.jsx";
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
