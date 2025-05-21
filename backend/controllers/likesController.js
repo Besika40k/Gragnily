@@ -13,7 +13,21 @@ exports.getLikedObjects = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: "User Not Registered" });
   }
 
-  const likes = await like.findById(userId).select(`${type}s`);
+  let populateOptions = {
+    path: `${type}s`,
+    select: ``,
+  };
+
+  switch (type) {
+    case "book":
+      populateOptions.select = `_id title title_ge cover_image_url`;
+      break;
+    case "article":
+      populateOptions.select = `_id title cover_image_url`;
+      break;
+  }
+
+  let likes = await like.findById(userId).populate(populateOptions);
 
   if (!likes) {
     return res.status(404).json({ message: `Favorite ${type}s Not Found` });

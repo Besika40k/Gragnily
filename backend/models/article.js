@@ -6,7 +6,7 @@ const articleSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
-  name: { type: String, required: true },
+  title: { type: String, required: true },
   cover_image_url: { type: String, required: true },
   ci_public_id: { type: String, required: true },
   content: { type: String, required: true },

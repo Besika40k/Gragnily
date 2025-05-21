@@ -9,20 +9,14 @@ const favoriteSchema = new mongoose.Schema(
     },
     books: [
       {
-        bookId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Book",
-          required: true,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
       },
     ],
     articles: [
       {
-        articleId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Article",
-          required: true,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Article",
       },
     ],
   },
