@@ -5,6 +5,8 @@ import SearchBar from "../modules/SearchBar/SearchBar.jsx";
 import VisualGenres from "../modules/VisualGenres/VisualGenres.jsx";
 import Loading from "../modules/Loading.jsx";
 import SortComponent from "../modules/BooksSectionComponents/SortComponent.jsx";
+import AiSection from "../modules/AiSection/AiSection.jsx";
+
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +44,7 @@ const Books = () => {
   const Filters = () => {
     return (
       <section className={style.filterSection}>
-        <h1>BOOKS</h1>
+        <h1>წიგნები</h1>
         <div className={style.fiterDiv}>
           <div
             ref={filterContainerRef}
@@ -54,41 +56,23 @@ const Books = () => {
               <h3>filtername</h3>
             </div>
           </div>
-          <button onClick={handleFiltersVisibility}>SORT BY</button>
+          <button onClick={handleFiltersVisibility}>დაალაგე</button>
         </div>
       </section>
     );
   };
   return (
     <div className={style.allContainer}>
-      <div className={style.topSection}>
-        <h2>Gragnily</h2>
-        <SearchBar />
+      <div className={style.content}>
+        <div className={style.topSection}>
+          <h2>Gragnily</h2>
+          <SearchBar />
+        </div>
+        <VisualGenres />
+        <Filters />
       </div>
-      <VisualGenres />
-      <Filters />
-      <section className={style.booksSection}>
-        {books.map((book) => (
-          <li key={book.id || book._id}>
-            {book.title}
-            <div
-              className={style.book}
-              style={{
-                backgroundImage: `url('${book.cover_image_url}')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                height: "150px",
-                width: "150px",
-              }}
-            ></div>
-          </li>
-        ))}
-      </section>
-      <div className={style.navigateNumbersDiv}>
-        <p>1</p>
-        <p>2</p>
-      </div>
+
+      <AiSection />
     </div>
   );
 };

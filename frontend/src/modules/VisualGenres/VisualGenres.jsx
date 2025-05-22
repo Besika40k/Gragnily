@@ -9,8 +9,8 @@ const VisualGenres = () => {
       name: "ფიზიკა",
       svg: (
         <svg
-          width="120"
-          height="120"
+          width="100"
+          height="100"
           viewBox="0 0 67 67"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -66,21 +66,9 @@ const VisualGenres = () => {
   return (
     <div className={style.visualGenres}>
       <div className={style.pickTopDiv}>
-        <h2>ჟანრები</h2>
-        <div className={style.buttonsDiv}>
-          <button onClick={scrollLeft} className={style.scrollLeftButton}>
-            <i className="material-icons">keyboard_arrow_left</i>
-          </button>
-          <button onClick={scrollRight} className={style.scrollRightButton}>
-            <i className="material-icons">keyboard_arrow_right</i>
-          </button>
-        </div>
+        <h2>საგანი</h2>
       </div>
-      <div
-        style={{ scrollBehavior: "smooth" }}
-        ref={scrollRef}
-        className={style.genresContainer}
-      >
+      <div ref={scrollRef} className={style.genresContainer}>
         {genres.map((genre) => (
           <div key={genre.id} className={style.genre}>
             {genre.svg}
