@@ -14,7 +14,8 @@ const getBooks = asyncHandler(async (req, res) => {
 });
 
 const getBooksFiltered = asyncHandler(async (req, res) => {
-  const { page, limit, popularity, name, date, author } = req.query;
+  const { page, limit, popularity, name, date, author, subject, searchInput } =
+    req.query;
 
   // Sorting
   let sort = {};
@@ -28,14 +29,67 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
   const pageSize = parseInt(limit) || 10;
   const skip = (pageNumber - 1) * pageSize;
 
-  const Books = await book
-    .find()
-    .sort(sort)
-    .skip(skip)
-    .limit(pageSize)
-    .select("_id title title_ge cover_image_url");
+  let Books = [];
+  let totalBooks = 0;
 
-  res.status(200).json(Books);
+  if (searchInput) {
+    // Get total count for search input
+    const countResults = await book.aggregate([
+      {
+        $search: {
+          index: "titleSearchIndex",
+          text: {
+            query: searchInput,
+            path: "title",
+            fuzzy: { maxEdits: 2 },
+          },
+        },
+      },
+      { $count: "total" },
+    ]);
+
+    totalBooks = countResults[0]?.total || 0;
+
+    // Get paginated results
+    Books = await book.aggregate([
+      {
+        $search: {
+          index: "titleSearchIndex",
+          text: {
+            query: searchInput,
+            path: "title",
+            fuzzy: { maxEdits: 2 },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          cover_image_url: 1,
+          score: { $meta: "searchScore" },
+        },
+      },
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: pageSize },
+    ]);
+  } else {
+    const query = subject ? { subject } : {};
+
+    totalBooks = await book.countDocuments(query);
+
+    Books = await book
+      .find(query)
+      .sort(sort)
+      .skip(skip)
+      .limit(pageSize)
+      .select("_id title title_ge cover_image_url");
+  }
+
+  const pages = Math.ceil(totalBooks / pageSize);
+
+  res.status(200).json({ pages, Books });
 });
 
 const getBook = asyncHandler(async (req, res) => {
@@ -76,12 +130,11 @@ const getBooksPreview = asyncHandler(async (req, res) => {
       $project: {
         _id: 1,
         title: 1,
-        title_ge: 1,
         cover_image_url: 1,
-        score: { $meta: "searchScore" }, // Include relevance score
+        score: { $meta: "searchScore" },
       },
     },
-    { $sort: { score: -1 } }, // Sort by relevance score in descending order
+    { $sort: { score: -1 } },
     { $skip: skip },
     { $limit: pageSize },
   ]);
@@ -90,69 +143,75 @@ const getBooksPreview = asyncHandler(async (req, res) => {
 });
 
 const createBook = asyncHandler(async (req, res) => {
-  /*  
+  /*
     #swagger.summary = "Create a new book"
-    #swagger.description = "Uploads a book with cover image, PDF(s), and optional EPUB file. Supports multilingual fields."
+    #swagger.description = "Uploads a book with a cover image, one or two PDFs, and an optional EPUB file. Supports multilingual fields."
     #swagger.consumes = ['multipart/form-data']
     #swagger.requestBody = {
-        required: true,
-        content: {
-            "multipart/form-data": {
-                schema: {
-                    type: "object",
-                    properties: {
-                        title: { type: "string" },
-                        title_ge: { type: "string" },
-                        author: {
-                            type: "array",
-                            items: { type: "string" }
-                        },
-                        genre: {
-                            type: "array",
-                            items: { type: "string" }
-                        },
-                        genre_ge: {
-                            type: "array",
-                            items: { type: "string" }
-                        },
-                        description: { type: "string" },
-                        description_ge:{ type: "string" },
-                        publisher_name: { type: "string" },
-                        publication_year: { type: "integer" },
-                        language: { type: "string" },
-                        language_ge: { type: "string" },
-                        cover_image: {
-                            type: "string",
-                            format: "binary"
-                        },
-                        pdf_file: {
-                            type: "array",
-                            items: {
-                                type: "string",
-                                format: "binary"
-                            }
-                        },
-                        epub_file: {
-                            type: "string",
-                            format: "binary"
-                        }
-                    },
-                    required: [
-                        "title",
-                        "title_ge",
-                        "author",
-                        "genre",
-                        "genre_ge",
-                        "language",
-                        "language_ge",
-                        "cover_image",
-                        "pdf_file"
-                    ]
-                }
-            }
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            properties: {
+              title: { type: "string" },
+              title_ge: { type: "string" },
+              author: {
+                type: "array",
+                items: { type: "string" },
+                description: "Array of author IDs"
+              },
+              genre: {
+                type: "array",
+                items: { type: "string" }
+              },
+              genre_ge: {
+                type: "array",
+                items: { type: "string" }
+              },
+              description: { type: "string" },
+              description_ge: { type: "string" },
+              publisher_name: { type: "string" },
+              publication_year: {
+                type: "integer",
+                example: 2023
+              },
+              language: { type: "string" },
+              language_ge: { type: "string" },
+              subject: { type: "string" },
+              cover_image: {
+                type: "string",
+                format: "binary"
+              },
+              pdf_file: {
+                type: "array",
+                items: {
+                  type: "string",
+                  format: "binary"
+                },
+                description: "At least one PDF file required; a second one is optional"
+              },
+              epub_file: {
+                type: "string",
+                format: "binary"
+              }
+            },
+            required: [
+              "title",
+              "title_ge",
+              "author",
+              "genre",
+              "genre_ge",
+              "language",
+              "language_ge",
+              "cover_image",
+              "pdf_file"
+            ]
+          }
         }
-    } 
-*/
+      }
+    }
+  */
 
   //Uploaded files here
   const files = req.files;
@@ -177,16 +236,13 @@ const createBook = asyncHandler(async (req, res) => {
   try {
     let {
       title,
-      title_ge,
       author,
       genre,
-      genre_ge,
       publisher_name,
       publication_year,
       description,
-      description_ge,
       language,
-      language_ge,
+      subject,
     } = req.body;
 
     if (pdfFile1) {
@@ -239,16 +295,12 @@ const createBook = asyncHandler(async (req, res) => {
 
     newBook = await book.create({
       title,
-      title_ge,
       author: tempAuthors,
       genre,
-      genre_ge,
       description,
-      description_ge,
       publisher_name,
       publication_year,
       language,
-      language_ge,
       page_count,
       cover_image_url,
       ci_public_id,
@@ -256,6 +308,7 @@ const createBook = asyncHandler(async (req, res) => {
       pdf_public_id,
       epub_url,
       epub_public_id,
+      subject,
     });
 
     res.status(200).json({ message: "Book Created", book: newBook });

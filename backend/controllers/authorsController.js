@@ -13,68 +13,60 @@ const getAuthors = asyncHandler(async (req, res) => {
 
 const createAuthor = asyncHandler(async (req, res) => {
   /*
-    #swagger.tags = ['Authors']
-    #swagger.summary = 'Create new Author'
-    #swagger.description = 'Creates a new author with optional profile picture'
-    #swagger.consumes = ['multipart/form-data']
-    #swagger.requestBody = {
-      content: {
-        'multipart/form-data': {
-          schema: {
-            type: 'object',
-            properties: {
-              profile_picture: {
-                type: 'string',
-                format: 'binary',
-                description: 'Optional author profile picture'
-              },
-              name: {
-                type: 'string',
-                example: 'J.K. Rowling'
-              },
-              name_ge: {
-                type: 'string',
-                example: 'ჯეი კეი როულინგი'
-              },
-              birth_year: {
-                type: 'integer',
-                example: 1965
-              },
-              nationality: {
-                type: 'string',
-                example: 'British'
-              },
-              biography: {
-                type: 'string',
-                example: 'Famous author of Harry Potter.'
-              },
-              biography_ge: {
-                type: 'string',
-                example: 'ჰარი პოტერის ავტორი.'
-              }
+  #swagger.tags = ['Authors']
+  #swagger.summary = 'Create new Author'
+  #swagger.description = 'Creates a new author with optional profile picture'
+  #swagger.consumes = ['multipart/form-data']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      'multipart/form-data': {
+        schema: {
+          type: 'object',
+          properties: {
+            profile_picture: {
+              type: 'string',
+              format: 'binary',
+              description: 'Optional author profile picture'
             },
-            required: ['name']
-          }
+            name: {
+              type: 'string',
+              example: 'J.K. Rowling'
+            },
+            birth_year: {
+              type: 'integer',
+              example: 1965
+            },
+            nationality: {
+              type: 'string',
+              example: 'British'
+            },
+            biography: {
+              type: 'string',
+              example: 'Famous author of Harry Potter.'
+            }
+          },
+          required: ['name']
         }
       }
     }
-    #swagger.responses[200] = {
-      description: 'Author created successfully',
-      content: {
-        'application/json': {
-          schema: { $ref: '#/components/schemas/Author' }
-        }
+  }
+  #swagger.responses[200] = {
+    description: 'Author created successfully',
+    content: {
+      'application/json': {
+        schema: { $ref: '#/components/schemas/Author' }
       }
     }
-    #swagger.responses[400] = {
-      description: 'Bad request - missing required fields'
-    }
-    #swagger.responses[500] = {
-      description: 'Internal server error'
-    }
-  */
-  const { name, name_ge, birth_year, nationality, biography, biography_ge } =
-    req.body;
+  }
+  #swagger.responses[400] = {
+    description: 'Bad request - missing required fields'
+  }
+  #swagger.responses[500] = {
+    description: 'Internal server error'
+  }
+*/
+  const { name, birth_year, nationality, biography } = req.body;
 
   const profile_picture = req.file;
 
@@ -89,11 +81,9 @@ const createAuthor = asyncHandler(async (req, res) => {
   try {
     const newAuthor = await author.create({
       name,
-      name_ge,
       birth_year,
       nationality,
       biography,
-      biography_ge,
       profile_picture_url: url || process.env.AUTHOR_PICTURE_URL,
       profile_picture_public_id: public_id || process.env.AUTHOR_PICTURE_ID,
     });

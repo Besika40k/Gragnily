@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
+const subjects = require("../constants/subjects");
+
 const bookSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    title_ge: { type: String, required: true },
+    subject: { type: String, required: true, enum: subjects },
     author: [
       {
         author_id: {
@@ -14,13 +16,10 @@ const bookSchema = new mongoose.Schema(
       },
     ],
     genre: [{ type: String, required: true }],
-    genre_ge: [{ type: String, required: true }],
     description: String,
-    description_ge: String,
     publisher_name: String,
     publication_year: Number,
     language: { type: String, required: true },
-    language_ge: { type: String, required: true },
     page_count: { type: Number, required: true },
     cover_image_url: { type: String, required: true },
     ci_public_id: { type: String, required: true },
