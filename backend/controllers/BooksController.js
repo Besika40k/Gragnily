@@ -28,7 +28,7 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
   const pageSize = parseInt(limit) || 10;
   const skip = (pageNumber - 1) * pageSize;
 
-  const Books = await book.sort(sort).skip(skip).limit(pageSize);
+  const Books = await book.find().sort(sort).skip(skip).limit(pageSize);
 
   res.status(200).json(Books);
 });
@@ -207,7 +207,8 @@ const createBook = asyncHandler(async (req, res) => {
     );
 
     ({ url: cover_image_url, public_id: ci_public_id } = await uploadCoverImage(
-      coverImage.path, "books"
+      coverImage.path,
+      "books"
     ));
 
     ({ url: pdf_url[0], public_id: pdf_public_id[0] } = await uploadFile(
