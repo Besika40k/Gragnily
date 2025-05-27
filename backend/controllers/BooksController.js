@@ -31,10 +31,11 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
 
   let Books = [];
   let totalBooks = 0;
+  const query = subject ? { subject } : {};
 
   if (searchInput) {
     // Get total count for search input
-    const countResults = await book.aggregate([
+    const countResults = await book.find(query).aggregate([
       {
         $search: {
           index: "titleSearchIndex",
@@ -75,8 +76,6 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
       { $limit: pageSize },
     ]);
   } else {
-    const query = subject ? { subject } : {};
-
     totalBooks = await book.countDocuments(query);
 
     Books = await book
