@@ -37,7 +37,7 @@
           "Books"
         ],
         "summary": "Create a new book",
-        "description": "Uploads a book with cover image, PDF(s), and optional EPUB file. Supports multilingual fields.",
+        "description": "Uploads a book with a cover image, one or two PDFs, and an optional EPUB file. Supports multilingual fields.",
         "responses": {
           "200": {
             "description": "OK"
@@ -66,7 +66,8 @@
                     "type": "array",
                     "items": {
                       "type": "string"
-                    }
+                    },
+                    "description": "Array of author IDs"
                   },
                   "genre": {
                     "type": "array",
@@ -90,12 +91,16 @@
                     "type": "string"
                   },
                   "publication_year": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 2023
                   },
                   "language": {
                     "type": "string"
                   },
                   "language_ge": {
+                    "type": "string"
+                  },
+                  "subject": {
                     "type": "string"
                   },
                   "cover_image": {
@@ -107,7 +112,8 @@
                     "items": {
                       "type": "string",
                       "format": "binary"
-                    }
+                    },
+                    "description": "At least one PDF file required; a second one is optional"
                   },
                   "epub_file": {
                     "type": "string",
@@ -212,6 +218,20 @@
           },
           {
             "name": "author",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchInput",
             "in": "query",
             "schema": {
               "type": "string"
@@ -349,6 +369,7 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
@@ -363,10 +384,6 @@
                     "type": "string",
                     "example": "J.K. Rowling"
                   },
-                  "name_ge": {
-                    "type": "string",
-                    "example": "ჯეი კეი როულინგი"
-                  },
                   "birth_year": {
                     "type": "integer",
                     "example": 1965
@@ -378,10 +395,6 @@
                   "biography": {
                     "type": "string",
                     "example": "Famous author of Harry Potter."
-                  },
-                  "biography_ge": {
-                    "type": "string",
-                    "example": "ჰარი პოტერის ავტორი."
                   }
                 },
                 "required": [
