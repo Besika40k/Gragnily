@@ -28,7 +28,12 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
   const pageSize = parseInt(limit) || 10;
   const skip = (pageNumber - 1) * pageSize;
 
-  const Books = await book.find().sort(sort).skip(skip).limit(pageSize);
+  const Books = await book
+    .find()
+    .sort(sort)
+    .skip(skip)
+    .limit(pageSize)
+    .select("_id title title_ge cover_image_url");
 
   res.status(200).json(Books);
 });
