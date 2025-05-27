@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import style from "./AiSection.module.css";
 import ChatBubble from "./ChatBubble.jsx";
 
-const AiSection = () => {
+const AiSection = ({ resizeFunction = () => {} }) => {
   const MIN_WIDTH = 300;
   const MAX_WIDTH = 800;
   const AUTO_HIDE_WIDTH = 1450;
@@ -19,7 +19,6 @@ const AiSection = () => {
   //resize logic
   const handleMouseDown = () => {
     isDragging.current = true;
-    console.log("1111");
     document.body.style.userSelect = "none";
   };
 
@@ -32,6 +31,7 @@ const AiSection = () => {
     } else if (newWidth < 100) {
       setWidth(10);
       setShowAi(false);
+      resizeFunction(true);
     }
   };
 
@@ -40,6 +40,7 @@ const AiSection = () => {
     const checkScreenSize = () => {
       const shouldHide = window.innerWidth <= AUTO_HIDE_WIDTH;
       setHideAISection(shouldHide);
+      resizeFunction(shouldHide);
       setWidth(!shouldHide ? MIN_WIDTH : 10);
       setShowAi(!shouldHide);
     };
@@ -214,6 +215,7 @@ const AiSection = () => {
             setWidth(300);
             setShowAi(true);
             setHideAISection(false);
+            resizeFunction(false);
           }}
           className={style.expandBtn}
         >
