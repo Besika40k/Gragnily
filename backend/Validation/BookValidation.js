@@ -3,7 +3,9 @@ const subjects = require("../constants/subjects");
 
 exports.createVal = Joi.object({
   title: Joi.string().required(),
-  subject: Joi.string().valid(subjects).required(),
+  subject: Joi.string()
+    .valid(...subjects)
+    .required(),
   author: Joi.string().required(),
   genre: Joi.string().required(),
   publisher_name: Joi.string().required(),
