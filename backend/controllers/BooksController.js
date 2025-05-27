@@ -31,7 +31,7 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
 
   let Books = [];
   let totalBooks = 0;
-  const query = subject ? { subject } : {};
+  const query = subject && subject.trim() !== "" ? { subject } : {};
 
   if (searchInput) {
     // Get total count for search input
@@ -52,7 +52,7 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
     totalBooks = countResults[0]?.total || 0;
 
     // Get paginated results
-    Books = await book.aggregate([
+    Books = await book.find(query).aggregate([
       {
         $search: {
           index: "titleSearchIndex",
