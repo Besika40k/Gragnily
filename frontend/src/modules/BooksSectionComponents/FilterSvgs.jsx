@@ -1,5 +1,5 @@
 const svgList = {
-  upDownSvg: (
+  sortBySvg: (
     <svg
       width="22"
       height="18"

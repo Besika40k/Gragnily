@@ -1,0 +1,44 @@
+.sortComponent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.svgBtnDiv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s ease;
+}
+.svgBtnDiv:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+.optionsSection {
+  user-select: none;
+  opacity: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  right: calc(100% + 20px);
+  gap: 20px;
+  min-height: 50px;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 20px;
+  border: 3px solid var(--primary-l);
+  transition: opacity 0.3s ease;
+}
+
+.show {
+  user-select: default;
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .optionsSection {
+    flex-wrap: wrap;
+  }
+}
