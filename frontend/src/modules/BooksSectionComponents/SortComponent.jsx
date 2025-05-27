@@ -13,9 +13,14 @@ const mapping = {
   name: "nameSvg",
 };
 
-const SortButton = ({ identifier }) => {
+const SortButton = ({ identifier, filterBooks = () => {} }) => {
   return (
-    <div className={style.svgBtnDiv}>
+    <div
+      onClick={() => {
+        filterBooks(identifier);
+      }}
+      className={style.svgBtnDiv}
+    >
       <SvgItem name={mapping[identifier]} />
       <h3>
         {identifier == "sortby"
@@ -26,7 +31,7 @@ const SortButton = ({ identifier }) => {
   );
 };
 
-const SortComponent = () => {
+const SortComponent = ({ filterBooks = () => {} }) => {
   const [showOptions, setShowOptions] = useState(false);
   const optionsRef = useRef(null);
 
@@ -44,10 +49,22 @@ const SortComponent = () => {
         ref={optionsRef}
         className={`${style.optionsSection} ${showOptions ? style.show : ""}`}
       >
-        <SortButton identifier={"author"} />
-        <SortButton identifier={"date"} />
-        <SortButton identifier={"popularity"} />
-        <SortButton identifier={"name"} />
+        <SortButton
+          filterBooks={() => filterBooks("author")}
+          identifier={"author"}
+        />
+        <SortButton
+          filterBooks={() => filterBooks("date")}
+          identifier={"date"}
+        />
+        <SortButton
+          filterBooks={() => filterBooks("popularity")}
+          identifier={"popularity"}
+        />
+        <SortButton
+          filterBooks={() => filterBooks("name")}
+          identifier={"name"}
+        />
       </section>
       <div onClick={handleShowOptions} className={style.svgBtnDiv}>
         <SvgItem name={"sortBySvg"} />

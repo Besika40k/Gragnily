@@ -123,7 +123,6 @@ const AiSection = ({ resizeFunction = () => {} }) => {
       const data = await response.json();
       console.log(response, data);
       if (response.ok) {
-        console.log("kys", data.data);
         setShowHistory(
           data.data.map((obj, index) => (
             <ChatBubble
@@ -168,7 +167,6 @@ const AiSection = ({ resizeFunction = () => {} }) => {
                   rows={1}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
-                      console.log("kys");
                       e.preventDefault();
                       handleUserQuestion();
                     }
@@ -192,16 +190,16 @@ const AiSection = ({ resizeFunction = () => {} }) => {
                     <path
                       d="M22 2L11 13"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M22 2L15 22L11 13L2 9L22 2Z"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>

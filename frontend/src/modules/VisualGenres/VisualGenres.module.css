@@ -71,10 +71,11 @@
 .genresContainer {
   min-height: 150px;
   width: 100%;
-  height: 70%;
+  height: calc(70% + 20px);
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   overflow-x: none;
   overflow-y: none;
   padding-bottom: 10px;
@@ -114,7 +115,7 @@
   transform: scale(1.1);
 }
 .svg {
-  min-width: 95px;
+  min-width: 100px;
   width: 30%;
   height: auto;
 }
@@ -126,9 +127,9 @@
 }
 .genre img {
   position: absolute;
-  top: 50%;
+  top: 65%;
   left: 50%;
-  width: 40%;
+  width: 82%;
   transform: translate(-40%, -100%);
 }
 
