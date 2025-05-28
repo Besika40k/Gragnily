@@ -1,13 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "./SearchBar.module.css";
 import SearchIcon from "./SearchIcon";
 import { Link } from "react-router-dom";
 
-const SearchBar = () => {
-  const [search, setSearch] = React.useState("");
-  const [books, setBooks] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+const SearchBar = ({
+  popularity = "",
+  name = "",
+  date = "",
+  author = "",
+  subject = "",
+}) => {
+  const [search, setSearch] = useState("");
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const searchBarRef = useRef(null);
 
@@ -21,10 +27,20 @@ const SearchBar = () => {
 
     setLoading(true);
 
+    const params = {
+      page: 1,
+      limit: 4,
+      popularity,
+      name,
+      date,
+      author,
+      subject,
+      searchInput: search.trim(),
+    };
+    const queryString = new URLSearchParams(params).toString();
+    console.log("searching for", queryString);
     fetch(
-      `https://gragnily.onrender.com/api/books/search?searchInput=${encodeURIComponent(
-        search
-      )}`,
+      `https://gragnily.onrender.com/api/books/search?searchInput=${queryString}`,
       {
         method: "GET",
         credentials: "include",
@@ -44,7 +60,6 @@ const SearchBar = () => {
               _id: 1,
               cover_image_url:
                 "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
-              title: "No such book found",
               title_ge: "ასეთი წიგნი ვერ მოიძებნა",
             },
           ]);
@@ -54,7 +69,7 @@ const SearchBar = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("yle Error fetching books:", error);
+        console.error(" Error fetching books:", error);
         setLoading(false);
       });
   };
@@ -136,9 +151,7 @@ const SearchBar = () => {
                 alt="bookimg"
                 style={{ borderRadius: "5px", width: "30px" }}
               />
-              <p>
-                {book.title} | {book.title_ge}
-              </p>
+              <p>{book.title}</p>
             </li>
           </Link>
         ))}
