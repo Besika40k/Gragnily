@@ -1,0 +1,32 @@
+/* <Link to={`/books/:${bookID}`}>
+      <div className={style.bookItem}>
+        <div className={style.bookTopDiv}>
+          <Color src={imgUrl} crossOrigin="anonymous" format="hex">
+            {({ data, loading, error }) => {
+              if (loading) return <p>Loading...</p>;
+              if (error) return <p>Error loading color</p>;
+              return <SvgItem color={data} />;
+            }}
+          </Color>
+          <img src={imgUrl} alt="no cover img" />
+        </div>
+        <h3>{name}</h3>
+      </div>
+    </Link> */
+
+.bookTopDiv {
+  display: flex;
+}
+
+.bookItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.bookItem h3 {
+  text-decoration: none;
+  color: var(--text-main-l);
+  font-size: 0.8em;
+}

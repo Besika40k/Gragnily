@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import Books from "./Pages/Books";
 import Articles from "./Pages/Articles";
 import Liked from "./Pages/Liked";
-import Bookmarked from "./Pages/Bookmarked";
+import EssayPage from "./Pages/essayPage/EssayPage";
 import Layout from "./Layout";
 import UserPage from "./Pages/UserPage";
 import SignUp from "./Pages/SignUp";
@@ -29,7 +29,7 @@ function App() {
             <Route path="/books" element={<Books />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/liked" element={<Liked />} />
-            <Route path="/bookmarked" element={<Bookmarked />} />
+            <Route path="/essay" element={<EssayPage />} />
             /* login/signup pages*/
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
