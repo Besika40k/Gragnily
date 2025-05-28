@@ -22,6 +22,7 @@ function SideBar() {
     { name: "booksSvg", label: "წიგნები" },
     { name: "homeSVG", label: "მთავარი" },
     { name: "articlesSVG", label: "არტიკლები" },
+    { name: "essaySVG", label: "ესეები" },
   ];
 
   const [darkMode, setDarkMode] = useState(false);
@@ -198,7 +199,7 @@ function SideBar() {
             )}
           </div>
         </li>
-        {icons.slice(0, 2).map(({ name, label }) => (
+        {icons.slice(0, 1).map(({ name, label }) => (
           <Link
             to={user.email === "" ? "/" : `/${name.slice(0, -3)}`}
             key={name}
