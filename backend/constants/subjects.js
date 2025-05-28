@@ -9,6 +9,7 @@ const subjects = [
   "ქიმია",
   "მათემატიკა",
   "გეოგრაფია",
+  "სხვა",
 ];
 // spell-checker: enable
 

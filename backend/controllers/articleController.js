@@ -14,22 +14,75 @@ exports.getArticles = asyncHandler(async (req, res) => {
 });
 
 exports.postArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Post Article' */
-  const { name, content } = req.body;
+  /* 
+  #swagger.summary = 'Post Article' 
+  #swagger.consumes = ['multipart/form-data']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "multipart/form-data": {
+        schema: {
+          type: "object",
+          properties: {
+            cover_image: {
+              type: "string",
+              format: "binary",
+              description: "Cover image file"
+            },
+            title: {
+              type: "string",
+              description: "Article title"
+            },
+            content: {
+              type: "string",
+              description: "Article content"
+            },
+            tags: {
+              type: "string",
+              description: "Tags"
+            },
+            subject: {
+              type: "string",
+              description: "Subject"
+            },
+            allowAI: {
+              type: "boolean",
+              description: "Allow AI suggestions"
+            }
+          },
+          required: ["cover_image", "title", "content"]
+        }
+      }
+    }
+  }
+*/
+
+  if (!req.userId) {
+    return res.status(401).json({ message: "User Not Logged In" });
+  }
+
+  const { title, content, tags, subject, allowAI } = req.body;
   const cover_image = req.file;
   let cover_image_url, ci_public_id;
 
   try {
-    ({ cover_image_url, ci_public_id } = uploadCoverImage(
+    if (!cover_image) {
+      return res.status(400).json({ message: "Cover image is required" });
+    }
+
+    ({ url: cover_image_url, public_id: ci_public_id } = await uploadCoverImage(
       cover_image.path,
       "articles"
     ));
 
     const newArticle = await article.create({
-      name,
-      author_id: req.user._id,
+      title,
+      allowAI,
+      author_id: req.userId,
       cover_image_url,
       ci_public_id,
+      tags,
+      subject,
       content,
       Comments: [],
       likes: 0,
@@ -44,9 +97,45 @@ exports.postArticle = asyncHandler(async (req, res) => {
 });
 
 exports.editArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Edit Article' */
+  /* #swagger.summary = 'Edit Article'
+  #swagger.consumes = ['multipart/form-data']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "multipart/form-data": {
+        schema: {
+          type: "object",
+          properties: {
+            cover_image: {
+              type: "string",
+              format: "binary",
+              description: "Cover image file"
+            },
+            title: {
+              type: "string",
+              description: "Article title"
+            },
+            content: {
+              type: "string",
+              description: "Article content"
+            },
+            tags: {
+              type: "string",
+              description: "Tags"
+            },
+            subject: {
+              type: "string",
+              description: "Subject"
+            },
+          },
+          required: ["cover_image", "title", "content"]
+        }
+      }
+    }
+  }
+*/
   const { id } = req.params;
-  let { name, content } = req.body;
+  let { name, content, tags, subject } = req.body;
   const cover_image = req.file;
 
   if (!id) return res.status(400).json({ message: "Article ID is required" });
@@ -60,6 +149,8 @@ exports.editArticle = asyncHandler(async (req, res) => {
 
     if (!name) name = articleToUpdate.name;
     if (!content) content = articleToUpdate.content;
+    if (!tags) tags = articleToUpdate.tags;
+    if (!subject) subject = articleToUpdate.subject;
 
     let cover_image_url, ci_public_id;
 

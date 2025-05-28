@@ -6,7 +6,14 @@ const articleSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
+  tags: [
+    {
+      type: String,
+    },
+  ],
   title: { type: String, required: true },
+  allowAI: { type: Boolean, default: false },
+  subject: { type: String, required: true },
   cover_image_url: { type: String, required: true },
   ci_public_id: { type: String, required: true },
   content: { type: String, required: true },

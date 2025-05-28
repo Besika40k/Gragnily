@@ -83,6 +83,12 @@ app.use(
   // #swagger.tags = ['Articles']
 );
 
+app.use(
+  "/api/search",
+  require("./routes/searchRoutes")
+  // #swagger.tags = ['Search']
+);
+
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
   console.log(

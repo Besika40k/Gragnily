@@ -137,114 +137,6 @@
         }
       }
     },
-    "/api/books/search": {
-      "get": {
-        "tags": [
-          "Books"
-        ],
-        "summary": "Search and Preview Books by Title",
-        "description": "",
-        "parameters": [
-          {
-            "name": "searchInput",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/books/filtered": {
-      "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "popularity",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "author",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "subject",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "searchInput",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/books/{id}": {
       "get": {
         "tags": [
@@ -999,23 +891,54 @@
           "201": {
             "description": "Created"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "example": "any"
+                  "cover_image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Cover image file"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Article title"
                   },
                   "content": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "Article content"
+                  },
+                  "tags": {
+                    "type": "string",
+                    "description": "Tags"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject"
+                  },
+                  "allowAI": {
+                    "type": "boolean",
+                    "description": "Allow AI suggestions"
                   }
-                }
+                },
+                "required": [
+                  "cover_image",
+                  "title",
+                  "content"
+                ]
               }
             }
           }
@@ -1054,18 +977,39 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "example": "any"
+                  "cover_image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Cover image file"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Article title"
                   },
                   "content": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "Article content"
+                  },
+                  "tags": {
+                    "type": "string",
+                    "description": "Tags"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject"
                   }
-                }
+                },
+                "required": [
+                  "cover_image",
+                  "title",
+                  "content"
+                ]
               }
             }
           }
@@ -1167,6 +1111,162 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/search/": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search for Books and Articles",
+        "description": "",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/search/bookFilter": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search for Books with filters",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "popularity",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchInput",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/search/articleFilter": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search for Articles with filters",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "popularity",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchInput",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

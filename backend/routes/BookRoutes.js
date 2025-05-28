@@ -10,19 +10,13 @@ const {
   getBooks,
   createBook,
   getBook,
-  getBooksFiltered,
   updateBook,
   deleteBook,
-  getBooksPreview,
 } = require("../controllers/BooksController");
 const deserializeUser = require("../middleware/deserializeUser");
 
 //user
 router.route("/").get(deserializeUser, isAdmin, getBooks);
-
-router.route("/search").get(getBooksPreview);
-
-router.route("/filtered").get(getBooksFiltered);
 
 router.route("/:id").get(getBook);
 
