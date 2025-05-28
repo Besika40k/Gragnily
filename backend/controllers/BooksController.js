@@ -34,35 +34,43 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
   const query = subject && subject.trim() !== "" ? { subject } : {};
 
   if (searchInput) {
-    // Get total count for search input
-    const countResults = await book.find(query).aggregate([
-      {
-        $search: {
-          index: "titleSearchIndex",
-          text: {
-            query: searchInput,
-            path: "title",
-            fuzzy: { maxEdits: 2 },
+    const pipeline = [];
+
+    if (subject && subject.trim() !== "") {
+      pipeline.push({ $match: { subject } });
+    }
+    if (sort && Object.keys(sort).length > 0) {
+      pipeline.push({ $sort: sort });
+    }
+
+    pipeline.push({
+      $search: {
+        index: "titleSearchIndex",
+        text: {
+          query: searchInput, // Replace with your input
+          path: "title",
+          fuzzy: {
+            maxEdits: 2, // Up to 2 character edits
+            prefixLength: 1, // (optional) require first character to match
+            maxExpansions: 50, // (optional) limit fuzzy candidates
           },
         },
       },
+    });
+
+    // Count total results
+    const countResults = await book.aggregate([
+      ...pipeline,
       { $count: "total" },
     ]);
 
     totalBooks = countResults[0]?.total || 0;
 
+    console.log(pipeline);
+
     // Get paginated results
-    Books = await book.find(query).aggregate([
-      {
-        $search: {
-          index: "titleSearchIndex",
-          text: {
-            query: searchInput,
-            path: "title",
-            fuzzy: { maxEdits: 2 },
-          },
-        },
-      },
+    Books = await book.aggregate([
+      ...pipeline,
       {
         $project: {
           _id: 1,
@@ -71,7 +79,6 @@ const getBooksFiltered = asyncHandler(async (req, res) => {
           score: { $meta: "searchScore" },
         },
       },
-      { $sort: sort },
       { $skip: skip },
       { $limit: pageSize },
     ]);
