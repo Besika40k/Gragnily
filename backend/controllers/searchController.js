@@ -1,9 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const book = require("../models/book");
-const article = require("../models/article");
+const essay = require("../models/essay");
 
 const searchController = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Search for Books and Articles'*/
+  /* #swagger.summary = 'Search for Books and Essays'*/
 
   const { query } = req.query;
 
@@ -34,10 +34,10 @@ const searchController = asyncHandler(async (req, res) => {
     { $limit: 4 },
   ]);
 
-  const articles = await article.aggregate([
+  const essays = await essay.aggregate([
     {
       $search: {
-        index: "articlesSearchIndex",
+        index: "essaysSearchIndex",
         text: {
           query,
           path: "title",
@@ -57,7 +57,7 @@ const searchController = asyncHandler(async (req, res) => {
     { $limit: 4 },
   ]);
 
-  res.status(200).json({ books, articles });
+  res.status(200).json({ books, essays });
 });
 
 const filterSearchBooks = asyncHandler(async (req, res) => {
@@ -146,8 +146,8 @@ const filterSearchBooks = asyncHandler(async (req, res) => {
   res.status(200).json({ pages, Books });
 });
 
-const filterSearchArticles = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Search for Articles with filters'*/
+const filterSearchEssays = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Search for Essays with filters'*/
   const { page, limit, popularity, name, date, subject, searchInput } =
     req.query;
 
@@ -163,8 +163,8 @@ const filterSearchArticles = asyncHandler(async (req, res) => {
   const pageSize = parseInt(limit) || 10;
   const skip = (pageNumber - 1) * pageSize;
 
-  let Articles = [];
-  let totalArticles = 0;
+  let Essays = [];
+  let totalEssays = 0;
   const query = subject && subject.trim() !== "" ? { subject } : {};
 
   if (searchInput) {
@@ -179,7 +179,7 @@ const filterSearchArticles = asyncHandler(async (req, res) => {
 
     pipeline.push({
       $search: {
-        index: "articlesSearchIndex",
+        index: "essaysSearchIndex",
         text: {
           query: searchInput, // Replace with your input
           path: "title",
@@ -193,17 +193,17 @@ const filterSearchArticles = asyncHandler(async (req, res) => {
     });
 
     // Count total results
-    const countResults = await article.aggregate([
+    const countResults = await essay.aggregate([
       ...pipeline,
       { $count: "total" },
     ]);
 
-    totalArticles = countResults[0]?.total || 0;
+    totalEssays = countResults[0]?.total || 0;
 
     console.log(pipeline);
 
     // Get paginated results
-    Articles = await article.aggregate([
+    Essays = await essay.aggregate([
       ...pipeline,
       {
         $project: {
@@ -217,9 +217,9 @@ const filterSearchArticles = asyncHandler(async (req, res) => {
       { $limit: pageSize },
     ]);
   } else {
-    totalArticles = await article.countDocuments(query);
+    totalEssays = await essay.countDocuments(query);
 
-    Articles = await article
+    Essays = await essay
       .find(query)
       .sort(sort)
       .skip(skip)
@@ -227,13 +227,13 @@ const filterSearchArticles = asyncHandler(async (req, res) => {
       .select("_id title title_ge cover_image_url");
   }
 
-  const pages = Math.ceil(totalArticles / pageSize);
+  const pages = Math.ceil(totalEssays / pageSize);
 
-  res.status(200).json({ pages, Books: Articles });
+  res.status(200).json({ pages, Books: Essays });
 });
 
 module.exports = {
   searchController,
   filterSearchBooks,
-  filterSearchArticles,
+  filterSearchEssays,
 };

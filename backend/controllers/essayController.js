@@ -1,21 +1,21 @@
-const article = require("../models/article");
+const essay = require("../models/essay");
 const asyncHandler = require("express-async-handler");
 const { uploadCoverImage } = require("../Utils/fileUtils");
 const cloudinary = require("../config/cdConnection");
 
-exports.getArticles = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Get all Articles' */
-  const articles = await article.find();
-  if (articles.length == 0) {
-    res.status(404).json({ message: "Articles Not Found" });
+exports.getEssays = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get all Essays' */
+  const Essays = await essay.find();
+  if (Essays.length == 0) {
+    res.status(404).json({ message: "Essays Not Found" });
   } else {
-    res.status(200).json(articles);
+    res.status(200).json(Essays);
   }
 });
 
-exports.postArticle = asyncHandler(async (req, res) => {
+exports.postEssay = asyncHandler(async (req, res) => {
   /* 
-  #swagger.summary = 'Post Article' 
+  #swagger.summary = 'Post Essay' 
   #swagger.consumes = ['multipart/form-data']
   #swagger.requestBody = {
     required: true,
@@ -31,11 +31,11 @@ exports.postArticle = asyncHandler(async (req, res) => {
             },
             title: {
               type: "string",
-              description: "Article title"
+              description: "Essay title"
             },
             content: {
               type: "string",
-              description: "Article content"
+              description: "Essay content"
             },
             tags: {
               type: "string",
@@ -72,10 +72,10 @@ exports.postArticle = asyncHandler(async (req, res) => {
 
     ({ url: cover_image_url, public_id: ci_public_id } = await uploadCoverImage(
       cover_image.path,
-      "articles"
+      "Essays"
     ));
 
-    const newArticle = await article.create({
+    const newEssay = await essay.create({
       title,
       allowAI,
       author_id: req.userId,
@@ -89,15 +89,15 @@ exports.postArticle = asyncHandler(async (req, res) => {
       favorites: 0,
     });
 
-    res.status(201).json(newArticle);
+    res.status(201).json(newEssay);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong", error });
   }
 });
 
-exports.editArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Edit Article'
+exports.editEssay = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Edit Essay'
   #swagger.consumes = ['multipart/form-data']
   #swagger.requestBody = {
     required: true,
@@ -113,11 +113,11 @@ exports.editArticle = asyncHandler(async (req, res) => {
             },
             title: {
               type: "string",
-              description: "Article title"
+              description: "Essay title"
             },
             content: {
               type: "string",
-              description: "Article content"
+              description: "Essay content"
             },
             tags: {
               type: "string",
@@ -138,38 +138,38 @@ exports.editArticle = asyncHandler(async (req, res) => {
   let { name, content, tags, subject } = req.body;
   const cover_image = req.file;
 
-  if (!id) return res.status(400).json({ message: "Article ID is required" });
+  if (!id) return res.status(400).json({ message: "Essay ID is required" });
 
   try {
-    const articleToUpdate = await article.findById(id);
+    const essayToUpdate = await essay.findById(id);
 
-    if (!articleToUpdate) {
-      return res.status(404).json({ message: "Article not found" });
+    if (!essayToUpdate) {
+      return res.status(404).json({ message: "Essay not found" });
     }
 
-    if (!name) name = articleToUpdate.name;
-    if (!content) content = articleToUpdate.content;
-    if (!tags) tags = articleToUpdate.tags;
-    if (!subject) subject = articleToUpdate.subject;
+    if (!name) name = essayToUpdate.name;
+    if (!content) content = essayToUpdate.content;
+    if (!tags) tags = essayToUpdate.tags;
+    if (!subject) subject = essayToUpdate.subject;
 
     let cover_image_url, ci_public_id;
 
     if (cover_image) {
-      cloudinary.uploader.destroy(articleToUpdate.ci_public_id).then(() => {
+      cloudinary.uploader.destroy(essayToUpdate.ci_public_id).then(() => {
         ({ cover_image_url, ci_public_id } = uploadCoverImage(
           cover_image.path,
-          "articles"
+          "Essays"
         ).catch((err) => {
           console.error("Error uploading image to Cloudinary", err);
           res.status(500).json({ message: "Image upload failed", error: err });
         }));
       });
     } else {
-      cover_image_url = articleToUpdate.cover_image_url;
-      ci_public_id = articleToUpdate.ci_public_id;
+      cover_image_url = essayToUpdate.cover_image_url;
+      ci_public_id = essayToUpdate.ci_public_id;
     }
 
-    const updatedArticle = await article.findByIdAndUpdate(
+    const updatedEssay = await essay.findByIdAndUpdate(
       id,
       {
         name,
@@ -180,109 +180,44 @@ exports.editArticle = asyncHandler(async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json(updatedArticle);
+    res.status(200).json(updatedEssay);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong", error });
   }
 });
 
-exports.deleteArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Delete Article' */
+exports.deleteEssay = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Delete Essay' */
   const { id } = req.params;
 
-  if (!id) return res.status(400).json({ message: "Article ID is required" });
+  if (!id) return res.status(400).json({ message: "Essay ID is required" });
 
   try {
-    const articleToDelete = await article.findById(id);
+    const essayToDelete = await essay.findById(id);
 
-    if (!articleToDelete) {
-      return res.status(404).json({ message: "Article not found" });
+    if (!essayToDelete) {
+      return res.status(404).json({ message: "Essay not found" });
     }
 
     cloudinary.uploader
-      .destroy(articleToDelete.ci_public_id)
+      .destroy(essayToDelete.ci_public_id)
       .then(() => {
         console.log("Image deleted from Cloudinary");
-        article
+        essay
           .findByIdAndDelete(id)
           .then(() => {
-            console.log("Article deleted from database");
+            console.log("Essay deleted from database");
           })
           .catch((err) => {
-            console.error("Error deleting article from database", err);
+            console.error("Error deleting essay from database", err);
           });
       })
       .catch((err) => {
         console.error("Error deleting image from Cloudinary", err);
       });
 
-    res.status(200).json({ message: "Article deleted successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Something went wrong", error });
-  }
-});
-
-exports.likedArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Like Article' */
-  const { id, point } = req.params;
-
-  if (!id) return res.status(400).json({ message: "Article ID is required" });
-
-  try {
-    const articleToLike = await article.findById(id);
-
-    if (!articleToLike) {
-      return res.status(404).json({ message: "Article not found" });
-    }
-
-    switch (point) {
-      case "up":
-        articleToLike.likes += 1;
-        break;
-      case "down":
-        articleToLike.likes -= 1;
-        break;
-      default:
-        return res.status(400).json({ message: "Invalid point value" });
-    }
-
-    await articleToLike.save();
-
-    res.status(200).json(articleToLike);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Something went wrong", error });
-  }
-});
-
-exports.favoritesArticle = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Favorite Article' */
-  const { id, point } = req.params;
-
-  if (!id) return res.status(400).json({ message: "Article ID is required" });
-
-  try {
-    const articleToFavorite = await article.findById(id);
-
-    if (!articleToFavorite) {
-      return res.status(404).json({ message: "Article not found" });
-    }
-    switch (point) {
-      case "up":
-        articleToFavorite.favorites += 1;
-        break;
-      case "down":
-        articleToFavorite.favorites -= 1;
-        break;
-      default:
-        return res.status(400).json({ message: "Invalid point value" });
-    }
-
-    await articleToFavorite.save();
-
-    res.status(200).json(articleToFavorite);
+    res.status(200).json({ message: "Essay deleted successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong", error });

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const articleSchema = new mongoose.Schema({
+const essaySchema = new mongoose.Schema({
   author_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
@@ -33,6 +33,6 @@ const articleSchema = new mongoose.Schema({
   ],
 });
 
-const article = mongoose.model("article", articleSchema);
+const essay = mongoose.model("essay", essaySchema);
 
-module.exports = article;
+module.exports = essay;

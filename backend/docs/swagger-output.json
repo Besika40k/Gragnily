@@ -863,12 +863,12 @@
         }
       }
     },
-    "/api/articles/getArticles": {
+    "/api/essays/getEssays": {
       "get": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Get all Articles",
+        "summary": "Get all Essays",
         "description": "",
         "responses": {
           "200": {
@@ -880,12 +880,12 @@
         }
       }
     },
-    "/api/articles/postArticle": {
+    "/api/essays/postEssay": {
       "post": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Post Article",
+        "summary": "Post Essay",
         "description": "",
         "responses": {
           "201": {
@@ -915,11 +915,11 @@
                   },
                   "title": {
                     "type": "string",
-                    "description": "Article title"
+                    "description": "Essay title"
                   },
                   "content": {
                     "type": "string",
-                    "description": "Article content"
+                    "description": "Essay content"
                   },
                   "tags": {
                     "type": "string",
@@ -945,12 +945,12 @@
         }
       }
     },
-    "/api/articles/editArticle/{id}": {
+    "/api/essays/editEssay/{id}": {
       "put": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Edit Article",
+        "summary": "Edit Essay",
         "description": "",
         "parameters": [
           {
@@ -990,11 +990,11 @@
                   },
                   "title": {
                     "type": "string",
-                    "description": "Article title"
+                    "description": "Essay title"
                   },
                   "content": {
                     "type": "string",
-                    "description": "Article content"
+                    "description": "Essay content"
                   },
                   "tags": {
                     "type": "string",
@@ -1016,12 +1016,12 @@
         }
       }
     },
-    "/api/articles/deleteArticle/{id}": {
+    "/api/essays/deleteEssay/{id}": {
       "delete": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Delete Article",
+        "summary": "Delete Essay",
         "description": "",
         "parameters": [
           {
@@ -1049,12 +1049,12 @@
         }
       }
     },
-    "/api/articles/likedArticle/{id}": {
+    "/api/essays/likedEssay/{id}": {
       "put": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Like Article",
+        "summary": "Like Essay",
         "description": "",
         "parameters": [
           {
@@ -1082,12 +1082,12 @@
         }
       }
     },
-    "/api/articles/favoritesArticle/{id}": {
+    "/api/essays/favoritesEssay/{id}": {
       "put": {
         "tags": [
-          "Articles"
+          "Essays"
         ],
-        "summary": "Favorite Article",
+        "summary": "Favorite Essay",
         "description": "",
         "parameters": [
           {
