@@ -28,19 +28,18 @@ const SearchBar = ({
     setLoading(true);
 
     const params = {
-      page: 1,
+      page: 0,
       limit: 4,
       popularity,
       name,
       date,
-      author,
       subject,
       searchInput: search.trim(),
     };
     const queryString = new URLSearchParams(params).toString();
     console.log("searching for", queryString);
     fetch(
-      `https://gragnily.onrender.com/api/books/search?searchInput=${queryString}`,
+      `https://gragnily.onrender.com/api/search/bookFilter?${queryString}`,
       {
         method: "GET",
         credentials: "include",
@@ -48,23 +47,23 @@ const SearchBar = ({
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to fetch books");
+          throw new Error("Failed to fetch books", response.status);
         }
         return response.json();
       })
       .then((data) => {
         console.log("CHAOS", data);
-        if (data.length == 0) {
+        if (data.length == 0 || data.Books.length == 0) {
           setBooks([
             {
               _id: 1,
               cover_image_url:
                 "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
-              title_ge: "ასეთი წიგნი ვერ მოიძებნა",
+              title: "ასეთი წიგნი ვერ მოიძებნა",
             },
           ]);
         } else {
-          setBooks(data);
+          setBooks(data.Books);
         }
         setLoading(false);
       })
@@ -139,7 +138,7 @@ const SearchBar = ({
 
       <ul className={foundItemsClass}>
         {loading && <p>Loading...</p>}
-        {books.map((book, index) => (
+        {books?.map((book, index) => (
           <Link
             key={index}
             className={style.bookLinkStyling}

@@ -15,7 +15,7 @@ const Books = () => {
     popularity: "", // Optional
     name: "", // Optional
     date: "", // Optional
-    author: "", // Optional
+    // author: "", // Optional
   });
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -30,7 +30,7 @@ const Books = () => {
       ...filters,
     };
     const queryString = new URLSearchParams(params).toString();
-    fetch(`https://gragnily.onrender.com/api/books/filtered?${queryString}`)
+    fetch(`https://gragnily.onrender.com/api/search/bookFilter?${queryString}`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -65,6 +65,16 @@ const Books = () => {
     //loading = true
     // set books
   };
+
+  const setGenre = (genre) => {
+    setActivePage(1);
+    setFilters((prev) => {
+      const newFilters = { ...prev };
+      newFilters.subject = genre;
+      return newFilters;
+    });
+  };
+
   // loading until the data is fetched
   if (loading) return <Loading />;
 
@@ -78,7 +88,7 @@ const Books = () => {
   };
   return (
     <DefaultLayout>
-      <VisualGenres />
+      <VisualGenres setGenre={setGenre} />
       <Filters />
       <section className={style.sortedBooksSection}>
         {books.map((book) => (
