@@ -78,9 +78,9 @@ app.use(
 );
 
 app.use(
-  "/api/articles",
-  require("./routes/articleRoutes")
-  // #swagger.tags = ['Articles']
+  "/api/essays",
+  require("./routes/essayRoutes")
+  // #swagger.tags = ['Essays']
 );
 
 app.use(
