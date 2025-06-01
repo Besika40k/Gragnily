@@ -1054,7 +1054,6 @@
         "tags": [
           "Essays"
         ],
-        "summary": "Like Essay",
         "description": "",
         "parameters": [
           {
@@ -1067,17 +1066,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -1087,7 +1077,6 @@
         "tags": [
           "Essays"
         ],
-        "summary": "Favorite Essay",
         "description": "",
         "parameters": [
           {
@@ -1100,17 +1089,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -1120,7 +1100,7 @@
         "tags": [
           "Search"
         ],
-        "summary": "Search for Books and Articles",
+        "summary": "Search for Books and Essays",
         "description": "",
         "parameters": [
           {
@@ -1211,7 +1191,7 @@
         "tags": [
           "Search"
         ],
-        "summary": "Search for Articles with filters",
+        "summary": "Search for Essays with filters",
         "description": "",
         "parameters": [
           {
@@ -1267,6 +1247,77 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/likes/get": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Get All Likes by Type",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/likes/like": {
+      "post": {
+        "tags": [
+          "Likes"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "example": "any"
+                  },
+                  "objectId": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }

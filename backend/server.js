@@ -89,6 +89,12 @@ app.use(
   // #swagger.tags = ['Search']
 );
 
+app.use(
+  "/api/likes",
+  require("./routes/likesRoutes")
+  // #swagger.tags = ['Likes']
+);
+
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
   console.log(
