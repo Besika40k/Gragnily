@@ -1049,52 +1049,6 @@
         }
       }
     },
-    "/api/essays/likedEssay/{id}": {
-      "put": {
-        "tags": [
-          "Essays"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/essays/favoritesEssay/{id}": {
-      "put": {
-        "tags": [
-          "Essays"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/search/": {
       "get": {
         "tags": [
