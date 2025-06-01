@@ -1,0 +1,33 @@
+/*
+<div className={style.articleItem}>
+      <div className={style.leftDiv}>
+        <div
+          style={{ backgroundImage: `url(${imgUrl})` }}
+          className={style.imgDiv}
+        ></div>
+        <p>{date}</p>
+      </div>
+      <p>{descr}</p>
+    </div>
+*/
+.articleItem {
+  display: flex;
+  color: var(--text-main-l);
+  text-decoration: none;
+}
+.leftDiv {
+  width: fit-content;
+  text-align: center;
+}
+.leftDiv p {
+  margin-top: 10px;
+}
+.imgDiv {
+  width: 200px;
+  height: 100px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.rightP {
+  margin-left: 20px;
+}
