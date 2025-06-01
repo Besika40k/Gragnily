@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import style from "./VisualGenres.module.css";
 import genres from "./Genres";
 
-const VisualGenres = () => {
+const VisualGenres = ({ setGenre = () => {} }) => {
   const scrollRef = useRef(null);
 
   return (
@@ -12,7 +12,11 @@ const VisualGenres = () => {
       </div>
       <div ref={scrollRef} className={style.genresContainer}>
         {genres.map((genre) => (
-          <div key={genre.name} className={style.genre}>
+          <div
+            onClick={() => setGenre(genre.name)}
+            key={genre.name}
+            className={style.genre}
+          >
             {genre.svg}
             <img src={genre.img} alt={genre.name} />
             <h3>{genre.name}</h3>
