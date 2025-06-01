@@ -9,6 +9,8 @@ const {
   postEssay,
   editEssay,
   deleteEssay,
+  addComment,
+  deleteComment,
 } = require("../controllers/essayController");
 
 router.get("/getEssays", deserializeUser, getEssays);
@@ -28,5 +30,9 @@ router.put(
 );
 
 router.delete("/deleteEssay/:id", deserializeUser, deleteEssay);
+
+router.put("/addComment/:id", deserializeUser, addComment);
+
+router.put("/removeComment/:id", deserializeUser, deleteComment);
 
 module.exports = router;

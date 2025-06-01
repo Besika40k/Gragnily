@@ -223,3 +223,61 @@ exports.deleteEssay = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Something went wrong", error });
   }
 });
+
+exports.addComment = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Comment on Essay' */
+  const { id } = req.params;
+  const { comment } = req.body;
+
+  if (!id) return res.status(400).json({ message: "Essay ID is required" });
+  if (!comment) return res.status(400).json({ message: "Comment is required" });
+
+  try {
+    const essayToComment = await essay.findById(id);
+
+    if (!essayToComment) {
+      return res.status(404).json({ message: "Essay not found" });
+    }
+
+    essayToComment.Comments.push({
+      userId: req.userId,
+      comment,
+      createdAt: new Date(),
+    });
+
+    await essayToComment.save();
+
+    res.status(200).json(essayToComment);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+});
+
+exports.deleteComment = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Delete Comment on Essay' */
+  const { essayId, commentId } = req.params;
+
+  if (!essayId)
+    return res.status(400).json({ message: "Essay ID is required" });
+  if (!commentId)
+    return res.status(400).json({ message: "Comment ID is required" });
+  try {
+    const essayToUpdate = await essay.findById(essayId);
+
+    if (!essayToUpdate) {
+      return res.status(404).json({ message: "Essay not found" });
+    }
+
+    essayToUpdate.Comments = essayToUpdate.Comments.filter(
+      (comment) => comment._id.toString() !== commentId
+    );
+
+    await essayToUpdate.save();
+
+    res.status(200).json(essayToUpdate);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+});
