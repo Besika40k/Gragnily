@@ -1,5 +1,5 @@
 const book = require("../models/book");
-const article = require("../models/article");
+const essay = require("../models/essay");
 const like = require("../models/likes");
 const asyncHandler = require("express-async-handler");
 
@@ -53,7 +53,7 @@ exports.handleLikeButton = asyncHandler(async (req, res) => {
       object = await book.findById(objectId);
       break;
     case "article":
-      object = await article.findById(objectId);
+      object = await essay.findById(objectId);
       break;
     default:
       return res.status(400).json({ message: "Invalid type" });
@@ -75,11 +75,18 @@ exports.handleLikeButton = asyncHandler(async (req, res) => {
     // User already liked it, so remove (unlike)
     update = { $pull: { [field]: objectId } };
     message = `${type} removed from likes`;
+    object.popularity = Math.max(0, object.popularity - 1); // Decrement likes count
   } else {
     // User has not liked it yet, so add (like)
     update = { $addToSet: { [field]: objectId } };
     message = `${type} added to likes`;
+    object.popularity = Math.max(0, object.popularity + 1); // increment likes count
   }
+
+  object
+    .save()
+    .then(() => console.log(`${type} popularity updated successfully`))
+    .catch((err) => console.error(`Error updating ${type} popularity:`, err));
 
   const updatedLike = await like.findByIdAndUpdate(userId, update, {
     new: true,

@@ -4,19 +4,19 @@ const likeSchema = new mongoose.Schema(
   {
     _id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
     books: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Book",
+        ref: "book",
       },
     ],
-    articles: [
+    essays: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Article",
+        ref: "essay",
       },
     ],
   },

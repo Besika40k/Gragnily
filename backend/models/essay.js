@@ -17,8 +17,7 @@ const essaySchema = new mongoose.Schema({
   cover_image_url: { type: String, required: true },
   ci_public_id: { type: String, required: true },
   content: { type: String, required: true },
-  likes: { type: Number, default: 0 },
-  favorites: { type: Number, default: 0 },
+  popularity: { type: Number, default: 0 },
   Comments: [
     {
       _id: { type: mongoose.Schema.Types.ObjectId, auto: true },

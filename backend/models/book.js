@@ -16,6 +16,7 @@ const bookSchema = new mongoose.Schema(
       },
     ],
     genre: [{ type: String, required: true }],
+    popularity: { type: Number, default: 0 },
     description: String,
     publisher_name: String,
     publication_year: Number,
