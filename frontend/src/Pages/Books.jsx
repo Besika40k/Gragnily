@@ -67,12 +67,13 @@ const Books = () => {
   };
 
   const setGenre = (genre) => {
-    setActivePage(1);
+    // setActivePage(1);
     setFilters((prev) => {
       const newFilters = { ...prev };
       newFilters.subject = genre;
       return newFilters;
     });
+    console.log(filters);
   };
 
   // loading until the data is fetched

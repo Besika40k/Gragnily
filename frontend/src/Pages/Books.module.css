@@ -49,7 +49,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px; /* space between items */
-  justify-content: space-between;
   align-items: center;
   min-height: fit-content;
   padding: 20px;

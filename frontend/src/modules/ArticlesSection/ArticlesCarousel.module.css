@@ -1,0 +1,80 @@
+/*
+<div className={style.carouselContainer}>
+      <div ref={image} className={style.imageDiv}>
+        <div className={style.textDiv}>
+          <p ref={text}></p>
+        </div>
+      </div>
+      <div className={style.dotDiv}>
+        {[0, 1, 2].map((index) => (
+          <div
+            key={index}
+            className={`${style.dot} ${
+              activeIndex === index ? style.activeDot : ""
+            }`}
+            onClick={handlePageChange}
+          ></div>
+        ))}
+      </div>
+    </div>
+  );
+*/
+
+.carouselContainer {
+  position: relative;
+  min-width: 600px;
+  width: 80%;
+  min-height: 400px;
+  height: 60vh;
+  overflow: hidden;
+  background-color: var(--primary-l);
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.imageDiv {
+  width: 90%;
+  height: 80%;
+  border-radius: 15px;
+  background-color: grey;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+}
+
+.textDiv {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 30%;
+  background-color: rgba(230, 219, 205, 0.7);
+  padding: 10px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  color: black;
+}
+.dotDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100px;
+}
+.dot {
+  width: 20px;
+  height: 20px;
+  background-color: #917f74b9;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+.activeDot {
+  background-color: #917f74;
+  transform: scale(1.1);
+}

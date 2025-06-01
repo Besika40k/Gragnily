@@ -1,0 +1,65 @@
+.topDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  width: 100%;
+  gap: 20px;
+  color: var(--text-main-l);
+}
+
+.bottomDiv {
+  width: 100%;
+  min-height: 50vh;
+  height: fit-content;
+}
+.flexContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 50px;
+  color: var(--text-main-l);
+  font-size: 1.2em;
+}
+.flexContainer a {
+  text-decoration: none;
+  color: var(--text-main-l);
+}
+.flexContainer button {
+  width: 120px;
+  height: 40px;
+  background-color: var(--secondary-l);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.flexContainer button:hover {
+  background-color: var(--ternary-l); /* or a darker/lighter version */
+}
+
+.articlesContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 40px;
+  padding: 10px;
+}
+/*
+<div className={style.bottomDiv}>
+          <div className={style.flexContainer}>
+            <h3>უახლესი</h3>
+            <a href="_blank">
+              <button>მეტის ნახვა</button>
+            </a>
+          </div>
+          <div className={style.articlesContainer}>
+            {articlesArray?.articles.map((article) => (
+              <ArticleItem />
+            ))}
+          </div>
+        </div>
+*/
