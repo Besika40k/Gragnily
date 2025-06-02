@@ -1004,12 +1004,7 @@
                     "type": "string",
                     "description": "Subject"
                   }
-                },
-                "required": [
-                  "cover_image",
-                  "title",
-                  "content"
-                ]
+                }
               }
             }
           }
@@ -1220,7 +1215,7 @@
         }
       }
     },
-    "/api/search/articleFilter": {
+    "/api/search/essayFilter": {
       "get": {
         "tags": [
           "Search"

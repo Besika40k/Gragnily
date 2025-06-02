@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 const isProd = process.env.MY_ENVIRONMENT == "production";
 
 const pythonEndpoint = isProd
@@ -69,7 +67,7 @@ const getHistory = async (req, res) => {
       data: history,
     });
   } catch (error) {
-    console.error("Error in generateContent:", error);
+    console.error("Error in getHistory:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
