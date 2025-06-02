@@ -98,43 +98,44 @@ exports.postEssay = asyncHandler(async (req, res) => {
 
 exports.editEssay = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Edit Essay'
-  #swagger.consumes = ['multipart/form-data']
-  #swagger.requestBody = {
-    required: true,
-    content: {
-      "multipart/form-data": {
-        schema: {
-          type: "object",
-          properties: {
-            cover_image: {
-              type: "string",
-              format: "binary",
-              description: "Cover image file"
-            },
-            title: {
-              type: "string",
-              description: "Essay title"
-            },
-            content: {
-              type: "string",
-              description: "Essay content"
-            },
-            tags: {
-              type: "string",
-              description: "Tags"
-            },
-            subject: {
-              type: "string",
-              description: "Subject"
-            },
-          },
-        }
-      }
-    }
-  }
-*/
+     #swagger.consumes = ['multipart/form-data']
+     #swagger.requestBody = {
+       required: true,
+       content: {
+         "multipart/form-data": {
+           schema: {
+             type: "object",
+             properties: {
+               cover_image: {
+                 type: "string",
+                 format: "binary",
+                 description: "Cover image file"
+               },
+               title: {
+                 type: "string",
+                 description: "Essay title"
+               },
+               content: {
+                 type: "string",
+                 description: "Essay content"
+               },
+               tags: {
+                 type: "string",
+                 description: "Tags"
+               },
+               subject: {
+                 type: "string",
+                 description: "Subject"
+               },
+             },
+           }
+         }
+       }
+     }
+  */
+
   const { id } = req.params;
-  let { name, content, tags, subject } = req.body;
+  const { title, content, tags, subject } = req.body;
   const cover_image = req.file;
 
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
@@ -146,40 +147,29 @@ exports.editEssay = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Essay not found" });
     }
 
-    if (!name) name = essayToUpdate.name;
-    if (!content) content = essayToUpdate.content;
-    if (!tags) tags = essayToUpdate.tags;
-    if (!subject) subject = essayToUpdate.subject;
+    // Update fields if provided
+    if (title) essayToUpdate.title = title;
+    if (content) essayToUpdate.content = content;
+    if (tags) essayToUpdate.tags = tags;
+    if (subject) essayToUpdate.subject = subject;
 
-    let cover_image_url, ci_public_id;
-
+    // Handle cover image update
     if (cover_image) {
-      cloudinary.uploader.destroy(essayToUpdate.ci_public_id).then(() => {
-        ({ cover_image_url, ci_public_id } = uploadCoverImage(
-          cover_image.path,
-          "Essays"
-        ).catch((err) => {
-          console.error("Error uploading image to Cloudinary", err);
-          res.status(500).json({ message: "Image upload failed", error: err });
-        }));
-      });
-    } else {
-      cover_image_url = essayToUpdate.cover_image_url;
-      ci_public_id = essayToUpdate.ci_public_id;
+      if (essayToUpdate.ci_public_id) {
+        await cloudinary.uploader.destroy(essayToUpdate.ci_public_id);
+      }
+
+      const { url, public_id } = await uploadCoverImage(
+        cover_image.path,
+        "Essays"
+      );
+      essayToUpdate.cover_image_url = url;
+      essayToUpdate.ci_public_id = public_id;
     }
 
-    const updatedEssay = await essay.findByIdAndUpdate(
-      id,
-      {
-        name,
-        content,
-        cover_image_url,
-        ci_public_id,
-      },
-      { new: true }
-    );
+    await essayToUpdate.save();
 
-    res.status(200).json(updatedEssay);
+    res.status(200).json(essayToUpdate);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong", error });
@@ -238,7 +228,7 @@ exports.addComment = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Essay not found" });
     }
 
-    essayToComment.Comments.push({
+    essayToComment.comments.push({
       userId: req.userId,
       comment,
       createdAt: new Date(),
@@ -268,7 +258,7 @@ exports.deleteComment = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Essay not found" });
     }
 
-    essayToUpdate.Comments = essayToUpdate.Comments.filter(
+    essayToUpdate.comments = essayToUpdate.comments.filter(
       (comment) => comment._id.toString() !== commentId
     );
 
