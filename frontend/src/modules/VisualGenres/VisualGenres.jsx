@@ -18,7 +18,10 @@ const VisualGenres = ({ setGenre = () => {} }) => {
             className={style.genre}
           >
             {genre.svg}
-            <img src={genre.img} alt={genre.name} />
+            <div
+              style={{ backgroundImage: `url(${genre.img})` }}
+              className={style.imgDiv}
+            ></div>
             <h3>{genre.name}</h3>
           </div>
         ))}

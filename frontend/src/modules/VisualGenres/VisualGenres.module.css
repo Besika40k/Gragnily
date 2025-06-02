@@ -125,6 +125,19 @@
   font-weight: 500;
   margin-top: 10px;
 }
+.imgDiv {
+  width: 60px;
+  height: 90px;
+  overflow: hidden;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 1px;
+  border-top-right-radius: 10px;
+}
+
 .genre img {
   position: absolute;
   top: 65%;
