@@ -10,6 +10,6 @@ router.route("/").get(searchController);
 
 router.route("/bookFilter").get(filterSearchBooks);
 
-router.route("/articleFilter").get(filterSearchEssays);
+router.route("/essayFilter").get(filterSearchEssays);
 
 module.exports = router;
