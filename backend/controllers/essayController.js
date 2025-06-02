@@ -128,7 +128,6 @@ exports.editEssay = asyncHandler(async (req, res) => {
               description: "Subject"
             },
           },
-          required: ["cover_image", "title", "content"]
         }
       }
     }
