@@ -1,6 +1,7 @@
 .home {
   background-color: var(--background-l);
   width: 100vw;
+  min-height: fit-content;
   height: 100vh;
   padding-left: 100px;
   display: flex;
@@ -36,7 +37,7 @@
 }
 
 .ourPickSection {
-  height: 20vh;
+  height: fitco;
 }
 .articlesSection {
   height: 20vh;

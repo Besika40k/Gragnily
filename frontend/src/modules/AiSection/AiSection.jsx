@@ -85,6 +85,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
           return newHistory;
         });
       } else {
+        console.error("Login failed:", data.message);
         setShowHistory((prev) => {
           const newHistory = [...prev]; // copy the old array
           newHistory.pop(); // remove last item
