@@ -1,14 +1,19 @@
 const asyncHandler = require("express-async-handler");
 const book = require("../models/book");
 const authors = require("../models/author");
-const cloudinary = require("../config/cdConnection");
-const { uploadCoverImage, uploadFile } = require("../Utils/fileUtils");
+const {
+  uploadCoverImage,
+  uploadFile,
+  deleteCloudinaryFile,
+  deleteStorageFile,
+} = require("../Utils/fileUtils");
 const pdf = require("pdf-parse");
 const fs = require("fs").promises;
 
 const getBooks = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get all Books'*/
   const books = await book.find();
+
   if (book.length == 0) res.status(404).json({ message: "Books Not Found" });
   else res.status(200).json(books);
 });
@@ -41,7 +46,6 @@ const createBook = asyncHandler(async (req, res) => {
             type: "object",
             properties: {
               title: { type: "string" },
-              title_ge: { type: "string" },
               author: {
                 type: "array",
                 items: { type: "string" },
@@ -51,19 +55,14 @@ const createBook = asyncHandler(async (req, res) => {
                 type: "array",
                 items: { type: "string" }
               },
-              genre_ge: {
-                type: "array",
-                items: { type: "string" }
-              },
+              
               description: { type: "string" },
-              description_ge: { type: "string" },
               publisher_name: { type: "string" },
               publication_year: {
                 type: "integer",
                 example: 2023
               },
               language: { type: "string" },
-              language_ge: { type: "string" },
               subject: { type: "string" },
               cover_image: {
                 type: "string",
@@ -84,12 +83,9 @@ const createBook = asyncHandler(async (req, res) => {
             },
             required: [
               "title",
-              "title_ge",
               "author",
               "genre",
-              "genre_ge",
               "language",
-              "language_ge",
               "cover_image",
               "pdf_file"
             ]
@@ -199,11 +195,9 @@ const createBook = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: "Book Created", book: newBook });
   } catch (error) {
-    // prettier-ignore
-    if (ci_public_id) await cloudinary.uploader.destroy(ci_public_id);
-    if (pdf_public_id[0]) await cloudinary.uploader.destroy(pdf_public_id[0]);
-    if (pdf_public_id[1]) await cloudinary.uploader.destroy(pdf_public_id[1]);
-    if (epub_public_id) await cloudinary.uploader.destroy(epub_public_id);
+    await deleteCloudinaryFile(
+      [ci_public_id, ...pdf_public_id, epub_public_id].filter(Boolean)
+    );
 
     if (newBook) {
       await book.findByIdAndDelete(newBook._id);
@@ -213,17 +207,9 @@ const createBook = asyncHandler(async (req, res) => {
       .status(500)
       .json({ message: "Error creating book", error: error.message });
   } finally {
-    const tempFiles = [coverImage, pdfFile1, pdfFile2, epubFile].filter(
-      Boolean
+    await deleteStorageFile(
+      [coverImage, pdfFile1, pdfFile2, epubFile].filter(Boolean)
     );
-
-    for (const file of tempFiles) {
-      try {
-        await fs.unlink(file.path);
-      } catch (err) {
-        console.warn(`Failed to delete temp file: ${file.path}`, err.message);
-      }
-    }
   }
 });
 
@@ -232,8 +218,6 @@ const updateBook = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!id) return res.status(400).json({ message: "Book ID is required" });
-
-  console.log(req.body);
 
   const updatedBook = await book.findOneAndUpdate(
     { _id: id }, // Filter
@@ -259,15 +243,13 @@ const deleteBook = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    // prettier-ignore
-    if (foundBook.ci_public_id)
-      await cloudinary.uploader.destroy(foundBook.ci_public_id);
-    if (foundBook.pdf_public_id[0])
-      await cloudinary.uploader.destroy(foundBook.pdf_public_id[0]);
-    if (foundBook.pdf_public_id[1])
-      await cloudinary.uploader.destroy(foundBook.pdf_public_id[1]);
-    if (foundBook.epub_public_id)
-      await cloudinary.uploader.destroy(foundBook.epub_public_id);
+    await deleteCloudinaryFile(
+      [
+        foundBook.ci_public_id,
+        ...foundBook.pdf_public_id,
+        foundBook.epub_public_id,
+      ].filter(Boolean)
+    );
 
     const deletedBook = await book.findByIdAndDelete(id);
 

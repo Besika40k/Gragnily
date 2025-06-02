@@ -1,6 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const author = require("../models/author");
-const { uploadProfilePicture } = require("../Utils/fileUtils");
+const {
+  uploadProfilePicture,
+  deleteCloudinaryFile,
+  deleteStorageFile,
+} = require("../Utils/fileUtils");
 const cloudinary = require("../config/cdConnection");
 
 const getAuthors = asyncHandler(async (req, res) => {
@@ -91,9 +95,12 @@ const createAuthor = asyncHandler(async (req, res) => {
       .status(200)
       .json({ comment: "Author creation successful", author: newAuthor });
   } catch (error) {
+    await deleteCloudinaryFile([public_id].filter(Boolean));
+    await deleteStorageFile([profile_picture].filter(Boolean));
+
     res
       .status(500)
-      .json({ comment: "Error Created Author", error: error.message });
+      .json({ comment: "Error Creating Author", error: error.message });
   }
 });
 

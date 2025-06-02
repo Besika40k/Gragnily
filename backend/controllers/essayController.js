@@ -1,6 +1,10 @@
 const essay = require("../models/essay");
 const asyncHandler = require("express-async-handler");
-const { uploadCoverImage } = require("../Utils/fileUtils");
+const {
+  uploadCoverImage,
+  deleteCloudinaryFile,
+  deleteStorageFile,
+} = require("../Utils/fileUtils");
 const cloudinary = require("../config/cdConnection");
 
 exports.getEssays = asyncHandler(async (req, res) => {
@@ -89,9 +93,15 @@ exports.postEssay = asyncHandler(async (req, res) => {
       favorites: 0,
     });
 
+    await deleteStorageFile([cover_image].filter(Boolean));
+
     res.status(201).json(newEssay);
   } catch (error) {
     console.log(error);
+
+    await deleteCloudinaryFile([ci_public_id].filter(Boolean));
+    await deleteStorageFile([cover_image].filter(Boolean));
+
     res.status(500).json({ message: "Something went wrong", error });
   }
 });
@@ -138,6 +148,8 @@ exports.editEssay = asyncHandler(async (req, res) => {
   const { title, content, tags, subject } = req.body;
   const cover_image = req.file;
 
+  let url, public_id;
+
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
 
   try {
@@ -159,18 +171,21 @@ exports.editEssay = asyncHandler(async (req, res) => {
         await cloudinary.uploader.destroy(essayToUpdate.ci_public_id);
       }
 
-      const { url, public_id } = await uploadCoverImage(
-        cover_image.path,
-        "Essays"
-      );
+      ({ url, public_id } = await uploadCoverImage(cover_image.path, "Essays"));
+
       essayToUpdate.cover_image_url = url;
       essayToUpdate.ci_public_id = public_id;
     }
 
     await essayToUpdate.save();
 
+    await deleteStorageFile([cover_image].filter(Boolean));
+
     res.status(200).json(essayToUpdate);
   } catch (error) {
+    await deleteCloudinaryFile([public_id].filter(Boolean));
+    await deleteStorageFile([cover_image].filter(Boolean));
+
     console.log(error);
     res.status(500).json({ message: "Something went wrong", error });
   }
@@ -189,21 +204,15 @@ exports.deleteEssay = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Essay not found" });
     }
 
-    cloudinary.uploader
-      .destroy(essayToDelete.ci_public_id)
+    await deleteCloudinaryFile(essayToDelete.ci_public_id);
+
+    await essay
+      .findByIdAndDelete(id)
       .then(() => {
-        console.log("Image deleted from Cloudinary");
-        essay
-          .findByIdAndDelete(id)
-          .then(() => {
-            console.log("Essay deleted from database");
-          })
-          .catch((err) => {
-            console.error("Error deleting essay from database", err);
-          });
+        console.log("Essay deleted from database");
       })
       .catch((err) => {
-        console.error("Error deleting image from Cloudinary", err);
+        console.error("Error deleting essay from database", err);
       });
 
     res.status(200).json({ message: "Essay deleted successfully" });
