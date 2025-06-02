@@ -132,16 +132,15 @@
 .item {
   position: relative;
   text-align: center;
+  background-color: transparent;
 }
-.item img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-42%, -74%);
-}
+
 .item h3 {
-  color: #917f74;
-  font-size: 12px;
-  font-weight: 500;
-  margin-top: 10px;
+  position: absolute;
+  color: black;
+  font-size: 0.7rem;
+  bottom: 21px;
+  background-color: #ffffff89;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 10px;
 }

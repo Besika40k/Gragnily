@@ -6,7 +6,7 @@ import ArticleSection from "../modules/ArticlesSection/FavArticles";
 import OurPickVisual from "../modules/OurPickVisual/OurPickVisual";
 import Carousel from "../modules/Carousel/Carousel";
 import DefaultLayout from "./DefaultLayout.jsx";
-
+import PopularEssays from "../modules/Essays/PopularEssays";
 //test
 import { useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
@@ -25,7 +25,7 @@ const Home = () => {
         <OurPickVisual />
       </div>
       <div className={style.articlesSection}>
-        <ArticleSection />
+        <PopularEssays />
       </div>
     </DefaultLayout>
   );

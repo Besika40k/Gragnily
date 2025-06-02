@@ -1,0 +1,41 @@
+/* footer */
+
+footer {
+  margin-top: 20px;
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.page {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.activePage {
+  background-color: var(--primary-l);
+  color: white;
+  border: 3px solid var(--text-main-l);
+  padding: 0.5rem 0.75rem;
+  border-radius: 50%;
+  color: var(--text-main-l);
+  font-size: 1em;
+}
+
+.ellipsis {
+  padding: 0.5rem 0.75rem;
+  color: #888;
+  user-select: none;
+}

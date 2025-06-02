@@ -1,7 +1,7 @@
 .filterSection {
   color: var(--text-main-l);
   width: 100%;
-  height: 20vh;
+  height: fit-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
