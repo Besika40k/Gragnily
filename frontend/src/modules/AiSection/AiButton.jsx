@@ -3,9 +3,12 @@ import style from "./AiButton.module.css";
 
 const AiButton = ({ type = "open", onClickFunc = () => {}, buttonMargin }) => {
   const buttonRef = useRef(null);
+  const [margin, setMargin] = useState(buttonMargin);
   useEffect(() => {
     if (buttonRef.current) {
+      console.log("Button margin:", buttonMargin);
       buttonRef.current.style.marginRight = buttonMargin;
+      setMargin(buttonMargin);
     }
   }, [buttonMargin]);
   return (
@@ -17,7 +20,7 @@ const AiButton = ({ type = "open", onClickFunc = () => {}, buttonMargin }) => {
       ref={buttonRef}
     >
       <svg
-        fill="var(--primary-color-l)"
+        fill="#917f74"
         height="20px"
         width="20px"
         version="1.1"
