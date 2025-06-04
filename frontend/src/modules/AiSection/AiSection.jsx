@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import style from "./AiSection.module.css";
 import ChatBubble from "./ChatBubble.jsx";
+import AiButton from "./AiButton.jsx";
 
 const AiSection = ({ resizeFunction = () => {} }) => {
   const MIN_WIDTH = 300;
@@ -11,6 +12,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
   const [hideAISection, setHideAISection] = useState(false);
   const [showAi, setShowAi] = useState(true);
   const [width, setWidth] = useState(400);
+  const [buttonMargin, setButtonMargin] = useState(300);
   const bottomRef = useRef(null);
   const userInput = useRef();
   const isDragging = useRef(false);
@@ -28,6 +30,8 @@ const AiSection = ({ resizeFunction = () => {} }) => {
     if (newWidth > MIN_WIDTH && newWidth < MAX_WIDTH) {
       setWidth(newWidth);
       setShowAi(true);
+      setButtonMargin(newWidth + 50);
+      console.log("newWidthaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", newWidth);
     } else if (newWidth < 100) {
       setWidth(10);
       setShowAi(false);
@@ -143,92 +147,107 @@ const AiSection = ({ resizeFunction = () => {} }) => {
     });
   }, []);
   return (
-    <div
-      className={style.aiSection}
-      ref={containerRef}
-      style={{ width: hideAISection ? "0px" : width }}
-    >
-      {/* Resizer handle */}
+    <>
       {showAi ? (
-        <>
-          <div className={style.containerDiv} ref={dissapearDiv}>
-            <h1>AI Section</h1>
+        <AiButton
+          type="close"
+          onClickFunc={() => {
+            setWidth(0);
+            setShowAi(false);
+            setHideAISection(true);
+            resizeFunction(true);
+          }}
+          buttonMargin={buttonMargin}
+        />
+      ) : undefined}
 
-            <div className={style.testdiv}>
-              <div className={style.chatHistory}>
-                {showHistory.map((item) => item)}
-                <div ref={bottomRef} />
-              </div>
+      <div
+        className={style.aiSection}
+        ref={containerRef}
+        style={{ width: hideAISection ? "0px" : width }}
+      >
+        {/* Resizer handle */}
+        {showAi ? (
+          <>
+            <div className={style.containerDiv} ref={dissapearDiv}>
+              <h1>AI Section</h1>
 
-              <div className={style.userInputDiv}>
-                <textarea
-                  ref={userInput}
-                  className={style.textarea}
-                  placeholder="Type your message..."
-                  rows={1}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleUserQuestion();
-                    }
-                  }}
-                  onInput={(e) => {
-                    e.target.style.height = "auto";
-                    e.target.style.height = `${Math.min(
-                      e.target.scrollHeight,
-                      150
-                    )}px`;
-                  }}
-                />
-                <div onClick={handleUserQuestion} className={style.sendSvgDiv}>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              <div className={style.testdiv}>
+                <div className={style.chatHistory}>
+                  {showHistory.map((item) => item)}
+                  <div ref={bottomRef} />
+                </div>
+
+                <div className={style.userInputDiv}>
+                  <textarea
+                    ref={userInput}
+                    className={style.textarea}
+                    placeholder="Type your message..."
+                    rows={1}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleUserQuestion();
+                      }
+                    }}
+                    onInput={(e) => {
+                      e.target.style.height = "auto";
+                      e.target.style.height = `${Math.min(
+                        e.target.scrollHeight,
+                        150
+                      )}px`;
+                    }}
+                  />
+                  <div
+                    onClick={handleUserQuestion}
+                    className={style.sendSvgDiv}
                   >
-                    <path
-                      d="M22 2L11 13"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M22 2L15 22L11 13L2 9L22 2Z"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M22 2L11 13"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M22 2L15 22L11 13L2 9L22 2Z"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <button
-          onClick={() => {
-            setWidth(300);
-            setShowAi(true);
-            setHideAISection(false);
-            resizeFunction(false);
-          }}
-          className={style.expandBtn}
-        >
-          {"<"}
-        </button>
-      )}
-      {showAi ? (
-        <div
-          className={style.resizer}
-          onMouseDown={handleMouseDown}
-          title="Drag to resize"
-        />
-      ) : undefined}
-    </div>
+          </>
+        ) : (
+          <AiButton
+            onClickFunc={() => {
+              setWidth(300);
+              setShowAi(true);
+              setHideAISection(false);
+              resizeFunction(false);
+            }}
+          />
+        )}
+        {showAi ? (
+          <div
+            className={style.resizer}
+            onMouseDown={handleMouseDown}
+            title="Drag to resize"
+          />
+        ) : undefined}
+      </div>
+    </>
   );
 };
 export default AiSection;

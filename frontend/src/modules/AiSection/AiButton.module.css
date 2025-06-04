@@ -1,0 +1,28 @@
+.open {
+  margin-right: 60px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  transform: rotate(180deg);
+  border: 2px solid var(--icon-line);
+}
+.closed {
+  position: fixed;
+  right: 100px;
+  margin-right: 210px;
+  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  border: 2px solid var(--icon-line);
+}
