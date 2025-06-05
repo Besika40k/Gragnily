@@ -19,7 +19,6 @@ const Layout = () => {
       <main>
         <Outlet />
       </main>
-      {/* TODO Ai icon */}
     </>
   );
 };

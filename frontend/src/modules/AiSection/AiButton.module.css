@@ -1,28 +1,46 @@
 .open {
   margin-right: 60px;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: var(--primary-l);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
   transform: rotate(180deg);
-  border: 2px solid var(--icon-line);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--text-main-l);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 .closed {
   position: fixed;
   right: 100px;
   margin-right: 210px;
   margin-top: 10px;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: var(--primary-l);
   display: flex;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
-  border: 2px solid var(--icon-line);
+  border: 3px solid var(--text-main-l);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.open:hover,
+.closed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--hover-dark-l);
+}
+.open:hover {
+  transform: rotate(180deg);
 }

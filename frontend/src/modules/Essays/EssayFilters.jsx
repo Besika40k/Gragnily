@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import style from "./EssayFilters.module.css";
 import EssaySvgs from "./EssaysSvgs.jsx";
-const EssayFilters = ({ changeFilters }) => {
-  const [filters, setFilters] = useState({
-    ინგლიური: "",
-    ქართული: "",
-    ისტორია: "",
-    რუსული: "",
-    ფრანგული: "",
-    გერმანული: "",
-  });
-
+const EssayFilters = ({ filters, setFilters }) => {
   return (
     <section className={style.filtersSection}>
       {Object.entries(filters).map((filter, index) => (
@@ -26,7 +17,6 @@ const EssayFilters = ({ changeFilters }) => {
             newFilters[filter[0]] =
               filters[filter[0]] == "true" ? "false" : "true";
             setFilters(newFilters);
-            changeFilters(newFilters);
           }}
           className={`${style.filterItem} ${
             filters[filter[0]] == "true" ? style.activeFilter : style.filterItem

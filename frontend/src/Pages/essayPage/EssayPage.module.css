@@ -13,15 +13,28 @@
   background-color: var(--primary-l);
   border: 3px solid var(--text-main-l);
   border-radius: 15px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   padding: 5px;
   cursor: pointer;
   user-select: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 .addEssayContainer:hover {
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--hover-dark-l);
 }
+
+.essaysContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  min-height: 20vh;
+}
+
 /*
 <div className={style.flexDiv}>
           <h3>უახლესი</h3>

@@ -5,7 +5,9 @@ import PopularEssays from "../../modules/Essays/PopularEssays.jsx";
 import EssaysSvgs from "../../modules/Essays/EssaysSvgs.jsx";
 import Pages from "../../modules/Essays/Pages.jsx";
 import EssayItem from "../../modules/Essays/EssayItem.jsx";
+import Loading from "../../modules/Loading.jsx";
 import style from "./EssayPage.module.css";
+
 const EssayPage = () => {
   const [essays, setEssays] = useState([]);
   const [filters, setFilters] = useState({
@@ -16,7 +18,7 @@ const EssayPage = () => {
     ფრანგული: "",
     გერმანული: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let currPage = 0; // used in requesting essay data
 
@@ -41,8 +43,7 @@ const EssayPage = () => {
     const params = {
       page: currPage,
       limit: 10,
-      //subject
-      popularity: "true",
+      ...filters,
     };
     const queryString = new URLSearchParams(params).toString();
     console.log("getting data", queryString);
@@ -85,32 +86,38 @@ const EssayPage = () => {
   }, [currPage, filters]);
 
   return (
-    <DefaultLayout>
-      <div className="essay-page">
-        <EssayFilters changeFilters={changeFilters} />
-        <PopularEssays />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <DefaultLayout>
+          <div className="essay-page">
+            <EssayFilters setFilters={setFilters} filters={filters} />
+            <PopularEssays />
 
-        <div className={style.flexDiv}>
-          <h3>ესეები</h3>
-          <div className={style.addEssayContainer}>
-            <h4>დაამატე ესე</h4>
-            <EssaysSvgs name="plusSVG" />
+            <div className={style.flexDiv}>
+              <h3>ესეები</h3>
+              <div className={style.addEssayContainer}>
+                <h4>დაამატე ესე</h4>
+                <EssaysSvgs name="plusSVG" />
+              </div>
+            </div>
+
+            <div className={style.essaysContainer}>
+              {essays.map((essay) => (
+                <EssayItem
+                  key={essay.id}
+                  title={essay.title}
+                  linkUrl={essay.linkUrl}
+                  imgUrl={essay.imgUrl}
+                />
+              ))}
+            </div>
+            <Pages pageSetFunction={pageSetFunction} />
           </div>
-        </div>
-
-        <div className={style.essaysContainer}>
-          {essays.map((essay) => (
-            <EssayItem
-              key={essay.id}
-              title={essay.title}
-              linkUrl={essay.linkUrl}
-              imgUrl={essay.imgUrl}
-            />
-          ))}
-        </div>
-        <Pages pageSetFunction={pageSetFunction} />
-      </div>
-    </DefaultLayout>
+        </DefaultLayout>
+      )}
+    </>
   );
 };
 export default EssayPage;
