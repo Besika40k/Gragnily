@@ -7,6 +7,17 @@ const {
 } = require("../Utils/fileUtils");
 const cloudinary = require("../config/cdConnection");
 
+exports.getEssay = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get Essay by ID' */
+  const { id } = req.params;
+  if (!id) return res.status(400).json({ message: "Essay ID is required" });
+  const Essay = await essay.findById(id);
+  if (!Essay) {
+    return res.status(404).json({ message: "Essay Not Found" });
+  }
+  res.status(200).json(Essay);
+});
+
 exports.getEssays = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get all Essays' */
   const Essays = await essay.find();

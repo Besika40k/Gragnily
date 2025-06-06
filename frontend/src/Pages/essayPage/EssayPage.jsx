@@ -104,14 +104,19 @@ const EssayPage = () => {
             </div>
 
             <div className={style.essaysContainer}>
-              {essays.map((essay) => (
-                <EssayItem
-                  key={essay.id}
-                  title={essay.title}
-                  linkUrl={essay.linkUrl}
-                  imgUrl={essay.imgUrl}
-                />
-              ))}
+              {essays.map(
+                (essay) => (
+                  console.log("essay", essay),
+                  (
+                    <EssayItem
+                      key={essay.id}
+                      title={essay.title}
+                      _id={essay._id}
+                      cover_image_url={essay.cover_image_url}
+                    />
+                  )
+                )
+              )}
             </div>
             <Pages pageSetFunction={pageSetFunction} />
           </div>

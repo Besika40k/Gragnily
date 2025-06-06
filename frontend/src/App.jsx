@@ -14,7 +14,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 // book and article
 import BookPage from "./Pages/BookPage";
 import ArticlePage from "./Pages/ArticlePage";
-
+import EssayIndividualPage from "./modules/Essays/EssayIndividualPage";
 // provider for user data centralization
 import { UserProvider } from "./contexts/UserContext";
 
@@ -42,9 +42,10 @@ function App() {
               element={<ForgotPassword logIn={true} />}
             />
             <Route path="/user-page" element={<UserPage />} />
-            {/* individual book/articles pages */}
+            {/* individual book/articles/essays pages */}
             <Route path="/books/:id" element={<BookPage />} />
             <Route path="/articles/:id" element={<ArticlePage />} />
+            <Route path="/essays/:id" element={<EssayIndividualPage />} />
           </Route>
         </Routes>
       </Router>
