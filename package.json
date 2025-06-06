@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@uiw/react-markdown-editor": "^6.1.4",
+    "react-markdown": "^10.1.0"
+  }
+}

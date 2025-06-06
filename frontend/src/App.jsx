@@ -5,6 +5,7 @@ import Books from "./Pages/Books";
 import Articles from "./Pages/Articles";
 import Liked from "./Pages/Liked";
 import EssayPage from "./Pages/essayPage/EssayPage";
+import EssayUpload from "./modules/Essays/EssayUpload";
 import Layout from "./Layout";
 import UserPage from "./Pages/UserPage";
 import SignUp from "./Pages/SignUp";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/liked" element={<Liked />} />
             <Route path="/essay" element={<EssayPage />} />
+            <Route path="/essay/upload" element={<EssayUpload />} />
             /* login/signup pages*/
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />

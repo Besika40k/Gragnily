@@ -7,7 +7,7 @@ import Pages from "../../modules/Essays/Pages.jsx";
 import EssayItem from "../../modules/Essays/EssayItem.jsx";
 import Loading from "../../modules/Loading.jsx";
 import style from "./EssayPage.module.css";
-
+import { Link } from "react-router-dom";
 const EssayPage = () => {
   const [essays, setEssays] = useState([]);
   const [filters, setFilters] = useState({
@@ -97,26 +97,26 @@ const EssayPage = () => {
 
             <div className={style.flexDiv}>
               <h3>ესეები</h3>
-              <div className={style.addEssayContainer}>
-                <h4>დაამატე ესე</h4>
-                <EssaysSvgs name="plusSVG" />
-              </div>
+              <Link
+                style={{ textDecoration: "none", color: "var(--text-l)" }}
+                to="/essay/upload"
+              >
+                <div className={style.addEssayContainer}>
+                  <h4>დაამატე ესე</h4>
+                  <EssaysSvgs name="plusSVG" />
+                </div>
+              </Link>
             </div>
 
             <div className={style.essaysContainer}>
-              {essays.map(
-                (essay) => (
-                  console.log("essay", essay),
-                  (
-                    <EssayItem
-                      key={essay.id}
-                      title={essay.title}
-                      _id={essay._id}
-                      cover_image_url={essay.cover_image_url}
-                    />
-                  )
-                )
-              )}
+              {essays.map((essay) => (
+                <EssayItem
+                  key={essay.id}
+                  title={essay.title}
+                  _id={essay._id}
+                  cover_image_url={essay.cover_image_url}
+                />
+              ))}
             </div>
             <Pages pageSetFunction={pageSetFunction} />
           </div>

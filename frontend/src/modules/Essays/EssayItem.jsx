@@ -10,7 +10,6 @@ const EssayItem = (
     title: "არტიკლები ვერ მოიძებნა",
   }
 ) => {
-  console.log("EssayItem", item);
   return (
     <Link to={`/essays/${item._id}`}>
       <div key={item._id} className={style.item}>
