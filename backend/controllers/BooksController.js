@@ -37,7 +37,7 @@ const getBook = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Book not found" });
   }
 
-  res.status(200).json(foundBook, { liked });
+  res.status(200).json({ book: foundBook, liked });
 });
 
 const createBook = asyncHandler(async (req, res) => {
