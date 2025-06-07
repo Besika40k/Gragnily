@@ -6,22 +6,34 @@ const {
   deleteStorageFile,
 } = require("../Utils/fileUtils");
 const cloudinary = require("../config/cdConnection");
+const like = require("../models/likes");
 
 exports.getEssay = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get Essay by ID' */
   const { id } = req.params;
+  let liked = false;
+
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
+
   const Essay = await essay
     .findById(id)
     .populate("author_id", "username profile_picture_url");
+
   if (!Essay) {
     return res.status(404).json({ message: "Essay Not Found" });
   }
+
+  if (req.userId) {
+    liked = (await like.findOne({ _id: req.userId, ["essays"]: id }))
+      ? true
+      : false;
+  }
+
   const numOfEssays = await essay
     .countDocuments()
     .where({ author_id: Essay.author_id._id });
 
-  res.status(200).json({ Essay, numOfEssays: numOfEssays });
+  res.status(200).json({ Essay, numOfEssays: numOfEssays, liked });
 });
 
 exports.getEssays = asyncHandler(async (req, res) => {

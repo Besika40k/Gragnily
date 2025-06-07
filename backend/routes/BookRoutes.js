@@ -18,7 +18,7 @@ const deserializeUser = require("../middleware/deserializeUser");
 //user
 router.route("/").get(deserializeUser, isAdmin, getBooks);
 
-router.route("/:id").get(getBook);
+router.route("/:id").get(deserializeUser, getBook);
 
 //admin
 

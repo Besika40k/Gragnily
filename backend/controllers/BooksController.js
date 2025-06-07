@@ -8,6 +8,7 @@ const {
   deleteStorageFile,
 } = require("../Utils/fileUtils");
 const pdf = require("pdf-parse");
+const like = require("../models/likes");
 const fs = require("fs").promises;
 
 const getBooks = asyncHandler(async (req, res) => {
@@ -21,16 +22,22 @@ const getBooks = asyncHandler(async (req, res) => {
 const getBook = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get a book by ID' */
   const { id } = req.params;
+  let liked = false;
 
   const foundBook = await book
     .findById(id)
     .select("-ci_public_id -epub_public_id -pdf_public_id");
 
+  if (req.userId) {
+    liked = (await like.findOne({ _id: req.userId, ["books"]: id }))
+      ? true
+      : false;
+  }
   if (foundBook.length === 0) {
     return res.status(404).json({ message: "Book not found" });
   }
 
-  res.status(200).json(foundBook);
+  res.status(200).json({ book: foundBook, liked });
 });
 
 const createBook = asyncHandler(async (req, res) => {
