@@ -1,8 +1,7 @@
 .home {
   background-color: var(--background-l);
   width: 100vw;
-  min-height: fit-content;
-  height: 100vh;
+  height: fit-content;
   padding-left: 100px;
   display: flex;
   justify-content: flex-start;

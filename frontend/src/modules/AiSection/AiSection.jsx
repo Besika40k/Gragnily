@@ -170,7 +170,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
         {showAi ? (
           <>
             <div className={style.containerDiv} ref={dissapearDiv}>
-              <h1>AI Section</h1>
+              <h1 style={{ color: "#8b008b" }}>AI ია</h1>
 
               <div className={style.testdiv}>
                 <div className={style.chatHistory}>
@@ -182,7 +182,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
                   <textarea
                     ref={userInput}
                     className={style.textarea}
-                    placeholder="Type your message..."
+                    placeholder="დაწერეთ თქვენი მესიჯი..."
                     rows={1}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -243,7 +243,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
           <div
             className={style.resizer}
             onMouseDown={handleMouseDown}
-            title="Drag to resize"
+            title="გადააადგილეთ ზომის შესაცვლელად"
           />
         ) : undefined}
       </div>

@@ -9,7 +9,7 @@ const BookPage = () => {
   const { id } = useParams(); // Get the dynamic ID
   const [book, setBook] = useState(null);
   const [author, setAuthor] = useState("");
-
+  const [liked, setLiked] = useState("false");
   const [authorArr, setAuthorArr] = useState([]);
 
   const cleanId = id.substring(1, id.length); // Clean the ID to ensure it's a number
@@ -25,7 +25,9 @@ const BookPage = () => {
           let authors = "";
           let authorsArr = [];
           const authorPromises = (
-            Array.isArray(data.author) ? data.author : [data.author]
+            Array.isArray(data.book.author)
+              ? data.book.author
+              : [data.book.author]
           ).map((element) =>
             fetch(
               `https://gragnily.onrender.com/api/authors/${element.author_id}`,
@@ -55,7 +57,8 @@ const BookPage = () => {
             console.log("Authors:", authorsArr);
             console.log("Authors:", authorsArr[0]);
           });
-          setBook(data);
+          setBook(data.book);
+          setLiked(data.liked);
         } else {
           switch (data.message) {
           }
@@ -76,6 +79,30 @@ const BookPage = () => {
     );
   }
   // pdf download
+  const handleBookmark = () => {
+    fetch("https://gragnily.onrender.com/api/likes/like", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        type: "book",
+        objectId: cleanId,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Like successful:", data);
+        setLiked((prev) => !prev);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+  };
 
   const handleDownload = async () => {
     const response = await fetch(book?.pdf_url[0]);
@@ -111,8 +138,15 @@ const BookPage = () => {
               <button className={style.dissapear} onClick={handleDownload}>
                 <BookPageSVGS className={style.svgButton} name="downloadSvg" />
               </button>
-              <button className={style.dissapear}>
-                <BookPageSVGS className={style.svgButton} name="bookmarkSvg" />
+              <button onClick={handleBookmark} className={style.dissapear}>
+                {liked ? (
+                  <BookPageSVGS
+                    className={style.svgButton}
+                    name="likedLikeSVG"
+                  />
+                ) : (
+                  <BookPageSVGS className={style.svgButton} name="likeSVG" />
+                )}
               </button>
             </div>
             <h2>Description</h2>

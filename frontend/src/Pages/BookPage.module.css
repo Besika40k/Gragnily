@@ -65,6 +65,12 @@
 .svgButton:hover {
   transform: scale(1.1);
 }
+
+.dissapear {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
 /* end of book section */
 /* author section*/
 
@@ -169,12 +175,6 @@
 .infoItem p {
   color: rgb(30, 30, 30);
   font-size: 18px;
-}
-
-.dissapear {
-  background-color: transparent;
-  border: none;
-  outline: none;
 }
 
 /*
