@@ -73,7 +73,7 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
 }
   */
 
-  const { username, email, about_me } = req.body;
+  const { username, email } = req.body;
 
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
@@ -100,10 +100,8 @@ const updateUserTextFields = asyncHandler(async (req, res) => {
       .json({ message: "User updated successfully, Check Email To Verify" });
   }
 
-  if (about_me) {
-    await user.findByIdAndUpdate(req.userId, { $set: req.body });
-  }
-  
+  await user.findByIdAndUpdate(req.userId, { $set: req.body });
+
   res.status(200).json({ message: "User updated successfully" });
 });
 
