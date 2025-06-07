@@ -22,6 +22,7 @@ const getBooks = asyncHandler(async (req, res) => {
 const getBook = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get a book by ID' */
   const { id } = req.params;
+
   let liked = false;
 
   const foundBook = await book
@@ -33,6 +34,7 @@ const getBook = asyncHandler(async (req, res) => {
       ? true
       : false;
   }
+
   if (foundBook.length === 0) {
     return res.status(404).json({ message: "Book not found" });
   }

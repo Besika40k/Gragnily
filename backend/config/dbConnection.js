@@ -3,10 +3,9 @@ const deleteUnverifiedUsers = require("../Utils/cron");
 
 const connectDb = async () => {
   try {
-    const connect = await mongoose
-      .connect(process.env.CONNECTION_STRING)
-    
-      deleteUnverifiedUsers();
+    const connect = await mongoose.connect(process.env.CONNECTION_STRING);
+
+    deleteUnverifiedUsers();
 
     console.log("connection successful: " + connect.connection.host);
   } catch (error) {
