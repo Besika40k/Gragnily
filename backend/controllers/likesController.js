@@ -57,7 +57,7 @@ exports.handleLikeButton = asyncHandler(async (req, res) => {
     case "book":
       object = await book.findById(objectId);
       break;
-    case "article":
+    case "essay":
       object = await essay.findById(objectId);
       break;
     default:
