@@ -68,7 +68,7 @@ exports.handleLikeButton = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: `${type} Not Found` });
   }
 
-  const field = `${type}`; // "books" or "articles"
+  const field = `${type}s`; // "books" or "articles"
 
   // Check if the user already liked this item
   const likeDoc = await like.findOne({ _id: userId, [field]: objectId });
