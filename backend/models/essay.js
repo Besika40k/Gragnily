@@ -4,7 +4,7 @@ const essaySchema = new mongoose.Schema(
   {
     author_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "user",
       required: true,
     },
     tags: [
@@ -51,7 +51,7 @@ const essaySchema = new mongoose.Schema(
         _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
         user_id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "users",
+          ref: "user",
         },
         comment: {
           type: String,
