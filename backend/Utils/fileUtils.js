@@ -25,10 +25,6 @@ const uploadCoverImage = asyncHandler(async (imgPath, destination) => {
           quality: "auto",
           fetch_format: "auto",
         },
-        {
-          width: 400,
-          height: 600,
-        },
       ],
     });
 
