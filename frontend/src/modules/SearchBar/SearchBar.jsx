@@ -109,7 +109,7 @@ const SearchBar = ({
     <div className={style.searchOuterContainer} ref={searchBarRef}>
       <div className={searchContainerClass}>
         <input
-          placeholder="Search here"
+          placeholder="მოძებნე აქ"
           className={style.searchBar}
           type="text"
           name="searchBar"

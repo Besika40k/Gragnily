@@ -4,15 +4,17 @@ const Carousel = () => {
   const CarouselItems = [
     {
       id: 55,
-      img: "https://cdn.pixabay.com/photo/2022/07/03/22/00/cat-7300029_1280.jpg",
-      title: "კუნტი მეფე მეოთხე მეორადი 1",
-      link: "https://example.com/book1",
+      img: "https://www.naec.ge/uploads/postImage/3380/%E1%83%98.jpg",
+      title:
+        "კემბრიჯის გამოცდების კომპიუტერულ ვერსიებზე CB FCE და CB CAE რეგისტრაცია იწყება",
+      link: "https://www.naec.ge/#/ge/post/3380",
     },
     {
       id: 56,
-      img: "https://media.istockphoto.com/id/157512060/photo/kitten-plays-with-toy-mouse.webp?s=2048x2048&w=is&k=20&c=suYs_v3_IsBMbYcvs6xIXUAtnYlKhTI50V79h5YMZ7Q=",
-      title: "ყველაზე მაგარი კნუტი",
-      link: "https://example.com/book1",
+      img: "https://www.naec.ge/uploads/postImage/3372/23779c1e-9e52-4165-aaaf-3cb5b9041e2f.jpg",
+      title:
+        "8 მაისს აბიტურიენტების კითხვებს გეოგრაფიის, სამოქალაქო განათლებისა და სახვითი და გამოყენებითი ხელოვნების ჯგუფების ხელმძღვანელები უპასუხებენ",
+      link: "https://www.naec.ge/#/ge/post/3372",
     },
   ];
   // for scrolling

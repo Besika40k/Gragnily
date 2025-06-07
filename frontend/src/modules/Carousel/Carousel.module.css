@@ -56,6 +56,7 @@
   font-weight: 200;
   user-select: none;
   cursor: pointer;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.77);
 }
 .scrollLeftButton i:hover,
 .scrollRightButton i:hover {
@@ -78,7 +79,7 @@
   justify-content: space-between;
 }
 .rightDiv h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   opacity: 0.8;
   transform: translateY(10px); /* much smaller jump */
   transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease,
