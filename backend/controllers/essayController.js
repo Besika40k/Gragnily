@@ -11,11 +11,17 @@ exports.getEssay = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get Essay by ID' */
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
-  const Essay = await essay.findById(id);
+  const Essay = await essay
+    .findById(id)
+    .populate("author_id", "username profile_picture_url");
   if (!Essay) {
     return res.status(404).json({ message: "Essay Not Found" });
   }
-  res.status(200).json(Essay);
+  const numOfEssays = await essay
+    .countDocuments()
+    .where({ author_id: Essay.author_id._id });
+
+  res.status(200).json({ Essay, numOfEssays: numOfEssays });
 });
 
 exports.getEssays = asyncHandler(async (req, res) => {
@@ -26,6 +32,23 @@ exports.getEssays = asyncHandler(async (req, res) => {
   } else {
     res.status(200).json(Essays);
   }
+});
+
+exports.getEssaysByUser = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get Essays by User' */
+  const { userId } = req.params;
+
+  if (!userId) return res.status(400).json({ message: "User ID is required" });
+
+  const Essays = await essay
+    .find({ author_id: userId })
+    .populate("author_id", "username profile_picture_url");
+
+  if (Essays.length == 0) {
+    return res.status(404).json({ message: "Essays Not Found" });
+  }
+
+  res.status(200).json(Essays);
 });
 
 exports.postEssay = asyncHandler(async (req, res) => {

@@ -10,6 +10,7 @@ const { updateTextFields } = require("../Validation/userValidation");
 const {
   getUsers,
   getUserLite,
+  getOtherUser,
   updateUserProfile,
   updateUserTextFields,
   deleteUser,
@@ -21,6 +22,8 @@ const {
 router.route("/").get(deserializeUser, isAdmin, getUsers);
 
 router.route("/getuser").get(deserializeUser, getUserLite);
+
+router.route("/getOtherUser/:userId").get(deserializeUser, getOtherUser);
 
 router
   .route("/updateuserprofile")

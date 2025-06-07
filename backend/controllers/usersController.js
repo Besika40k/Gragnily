@@ -13,6 +13,21 @@ const {
   sendVerificationEmail,
 } = require("../Utils/verifyEmail");
 
+const getOtherUser = asyncHandler(async (req, res) => {
+  /* #swagger.summary = 'Get User by ID' */
+  const { userId } = req.params;
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+  const User = await user
+    .findById(userId)
+    .select("username email about_me profile_picture_url");
+  if (!User) {
+    return res.status(404).json({ message: "User Not Found" });
+  }
+  res.status(200).json(User);
+});
+
 const getUsers = asyncHandler(async (req, res) => {
   //  #swagger.summary = 'Get All Users'
   const users = await user.find();
@@ -34,7 +49,7 @@ const getUserLite = asyncHandler(async (req, res) => {
 
   const User = await user
     .findById(req.userId)
-    .select("username email profile_picture_url");
+    .select("username email about_me profile_picture_url");
 
   if (!User) {
     return res.status(404).json({ message: "User Not Found" });
@@ -242,4 +257,5 @@ module.exports = {
   deleteUser,
   requestPasswordChange,
   updateUserPassword,
+  getOtherUser,
 };

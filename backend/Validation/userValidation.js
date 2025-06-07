@@ -8,4 +8,5 @@ exports.updateTextFields = Joi.object({
       tlds: { allow: ["com", "net"] },
     })
     .optional(),
+  about_me: Joi.string().max(500).optional(),
 });
