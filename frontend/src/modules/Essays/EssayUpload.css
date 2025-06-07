@@ -179,3 +179,10 @@ input:checked + .slider:before {
   transform: scale(1.05);
   background-color: var(--hover-dark-l);
 }
+
+.invalid {
+  color: red;
+  line-height: 20px;
+  margin-bottom: 20px;
+  display: none;
+}
