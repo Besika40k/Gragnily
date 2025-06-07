@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import style from "./DefaultLayout.module.css";
 import SearchBar from "../modules/SearchBar/SearchBar.jsx";
+import { Link } from "react-router-dom";
 
 import AiSection from "../modules/AiSection/AiSection.jsx";
+
+import gragnilyLogo from "../assets/gragnilyLogo.png";
 
 const DefaultLayout = ({ children, topSection = true }) => {
   const allContainerRef = useRef(null);
@@ -30,7 +33,13 @@ const DefaultLayout = ({ children, topSection = true }) => {
       <div ref={contentRef} className={style.content}>
         {topSection && (
           <div className={style.topSection}>
-            <h2>Gragnily</h2>
+            <Link to="/">
+              <img
+                className={style.logoImg}
+                src={gragnilyLogo}
+                alt="Gragnily"
+              />
+            </Link>
             <SearchBar />
           </div>
         )}

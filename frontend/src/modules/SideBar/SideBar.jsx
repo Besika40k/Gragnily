@@ -133,6 +133,7 @@ function SideBar() {
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: "50%",
+              cursor: "pointer",
             }}
             key={10201}
             onClick={() => {

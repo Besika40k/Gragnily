@@ -25,7 +25,7 @@ const PopularEssays = () => {
   useEffect(() => {
     const params = {
       page: 0,
-      limit: 10,
+      limit: 15,
       popularity: "true",
     };
     const queryString = new URLSearchParams(params).toString();
@@ -68,7 +68,9 @@ const PopularEssays = () => {
       <div className={style.pickTopDiv}>
         <h2>პოპულარული</h2>
         <div className={style.buttonsDiv}>
-          <button className={style.fullButton}>სრულად</button>
+          <Link to={"/articles"}>
+            <button className={style.fullButton}>სრულად</button>
+          </Link>
           <button onClick={scrollLeft} className={style.scrollLeftButton}>
             <i className="material-icons">keyboard_arrow_left</i>
           </button>

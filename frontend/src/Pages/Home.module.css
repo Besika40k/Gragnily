@@ -1,8 +1,7 @@
 .home {
   background-color: var(--background-l);
   width: 100vw;
-  min-height: fit-content;
-  height: 100vh;
+  height: fit-content;
   padding-left: 100px;
   display: flex;
   justify-content: flex-start;
@@ -13,7 +12,7 @@
 }
 .homeContent {
   width: 80%;
-  height: 100%;
+  height: fit-content;
 }
 .topSection {
   width: 80%;
@@ -32,14 +31,11 @@
   font-size: 28px;
 }
 
-.genreSection {
-  min-height: 30%;
+.ourPickSection {
+  height: fit-content;
 }
 
-.ourPickSection {
-  height: fitco;
-}
 .articlesSection {
-  height: 20vh;
-  margin-top: 200px;
+  height: fit-content;
+  margin: 0px 25px;
 }

@@ -100,7 +100,7 @@
   margin-top: 20px;
 }
 .pickBottomDiv {
-  position: absolute;
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: row;
