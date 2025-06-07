@@ -1303,20 +1303,20 @@
           {
             "name": "type",
             "in": "query",
+            "description": "Type of liked object",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "book",
+                "essay"
+              ]
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         }
       }

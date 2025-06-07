@@ -4,8 +4,19 @@ const like = require("../models/likes");
 const asyncHandler = require("express-async-handler");
 
 exports.getLikedObjects = asyncHandler(async (req, res) => {
-  /* #swagger.summary = 'Get All Likes by Type'
-     #swagger.tags = ['Likes'] */
+  /*
+  #swagger.auto = false
+  #swagger.summary = 'Get All Likes by Type'
+  #swagger.tags = ['Likes']
+  #swagger.parameters['type'] = {
+    in: 'query',
+    description: 'Type of liked object',
+    required: true,
+    schema: {
+      @enum: ['book', 'essay']
+    }
+  }
+*/
   const userId = req.userId;
   const { type } = req.query;
 
@@ -15,19 +26,13 @@ exports.getLikedObjects = asyncHandler(async (req, res) => {
 
   let populateOptions = {
     path: `${type}s`,
-    select: ``,
+    select: `_id title cover_image_url`,
   };
 
-  switch (type) {
-    case "book":
-      populateOptions.select = `_id title title_ge cover_image_url`;
-      break;
-    case "article":
-      populateOptions.select = `_id title cover_image_url`;
-      break;
-  }
-
-  let likes = await like.findById(userId).populate(populateOptions);
+  let likes = await like
+    .findById(userId)
+    .populate(populateOptions)
+    .select(`_id ${type}s`);
 
   if (!likes) {
     return res.status(404).json({ message: `Favorite ${type}s Not Found` });
@@ -63,7 +68,7 @@ exports.handleLikeButton = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: `${type} Not Found` });
   }
 
-  const field = `${type}s`; // "books" or "articles"
+  const field = `${type}`; // "books" or "articles"
 
   // Check if the user already liked this item
   const likeDoc = await like.findOne({ _id: userId, [field]: objectId });
