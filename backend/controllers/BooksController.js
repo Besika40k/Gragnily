@@ -29,7 +29,7 @@ const getBook = asyncHandler(async (req, res) => {
     .select("-ci_public_id -epub_public_id -pdf_public_id");
 
   if (req.userId) {
-    liked = (await like.findOne({ userId: req.userId, essays: id }))
+    liked = (await like.findOne({ _id: req.userId, ["books"]: id }))
       ? true
       : false;
   }

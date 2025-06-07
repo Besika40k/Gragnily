@@ -24,7 +24,7 @@ exports.getEssay = asyncHandler(async (req, res) => {
   }
 
   if (req.userId) {
-    liked = (await like.findOne({ userId: req.userId, essays: id }))
+    liked = (await like.findOne({ _id: req.userId, ["essays"]: id }))
       ? true
       : false;
   }
