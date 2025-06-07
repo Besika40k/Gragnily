@@ -16,14 +16,12 @@
         </div>
  */
 .essayContainer {
+  margin-top: 50px;
   margin-left: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: var(--background-l);
-  color: var(--text-main-l);
-  min-height: fit-content;
-  height: 100vh;
+  color: black;
+  min-height: 100vh;
+  height: fit-content;
 }
 
 .innerContainer {
@@ -33,7 +31,16 @@
   border-radius: 20px;
   padding: 5%;
   min-height: fit-content;
+  height: fit-content;
 }
+.paragraph {
+  color: #3c3c3cc1;
+  margin-top: 10px;
+}
+.heading {
+  margin-top: 10px;
+}
+
 .flexDiv {
   display: flex;
   align-items: center;
@@ -57,13 +64,19 @@
   background-color: var(--hover-dark-l);
 }
 
+.imageFloat {
+  float: left;
+  width: 300px;
+  margin: 0 16px 16px 0; /* space between image and text */
+  border-radius: 40px;
+}
+
 .essayContent {
-  margin-top: 20px;
-  height: 400px;
-  overflow-y: scroll;
-  background-color: white;
-  border-radius: 20px;
   padding: 20px;
+  overflow: hidden; /* clears the float */
+  font-family: sans-serif;
+  line-height: 1.5;
+  height: fit-content;
 }
 
 .bookSection {

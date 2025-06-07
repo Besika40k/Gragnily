@@ -14,6 +14,7 @@ const defaultUser = {
   email: "",
   profile_picture_url:
     "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg",
+  about_me: "",
 };
 
 // UserProvider component to provide context to the app

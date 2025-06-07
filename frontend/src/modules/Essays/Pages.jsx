@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import style from "./Pages.module.css";
-const Pages = ({ setFunc }) => {
-  const [activePage, setActivePage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+const Pages = ({ maxPage, activePage, setActivePage }) => {
+  const [totalPages, setTotalPages] = useState(maxPage);
+  console.log(maxPage, "vbbbbbbbb");
   return (
     <footer>
       {(() => {
@@ -32,6 +32,7 @@ const Pages = ({ setFunc }) => {
         }
 
         return pages.map((page, index) => {
+          console.log(page, "aaaaaaaaaaaaaaaaaaaaaaaaaaa");
           if (page === "...") {
             return (
               <span key={index} className={style.ellipsis}>

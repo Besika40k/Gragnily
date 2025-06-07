@@ -12,4 +12,8 @@
   background-color: #ffffff89;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 10px;
+  width: fit-content;
+  min-width: 100%;
+  height: fit-content;
+  min-height: 10%;
 }

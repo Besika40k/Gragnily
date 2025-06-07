@@ -7,6 +7,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
 }
 
 .pagination {
@@ -17,15 +18,16 @@ footer {
 }
 
 .page {
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: var(--primary-l);
+  border: 3px solid var(--text-main-l);
   padding: 0.5rem 0.75rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 50%;
+  color: var(--text-main-l);
 }
 
 .activePage {
-  background-color: var(--primary-l);
+  background-color: var(--hover-dark-l);
   color: white;
   border: 3px solid var(--text-main-l);
   padding: 0.5rem 0.75rem;
@@ -38,4 +40,5 @@ footer {
   padding: 0.5rem 0.75rem;
   color: #888;
   user-select: none;
+  background-color: red;
 }

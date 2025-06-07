@@ -4,7 +4,7 @@ import SearchBar from "../modules/SearchBar/SearchBar.jsx";
 
 import AiSection from "../modules/AiSection/AiSection.jsx";
 
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ children, topSection = true }) => {
   const allContainerRef = useRef(null);
   const contentRef = useRef(null);
   const [resizeState, setResizeState] = useState(false);
@@ -28,10 +28,12 @@ const DefaultLayout = ({ children }) => {
   return (
     <div ref={allContainerRef} className={style.allContainer}>
       <div ref={contentRef} className={style.content}>
-        <div className={style.topSection}>
-          <h2>Gragnily</h2>
-          <SearchBar />
-        </div>
+        {topSection && (
+          <div className={style.topSection}>
+            <h2>Gragnily</h2>
+            <SearchBar />
+          </div>
+        )}
         {children}
       </div>
       <AiSection resizeFunction={resizeContainers} />

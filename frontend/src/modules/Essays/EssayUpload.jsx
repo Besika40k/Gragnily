@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Link } from "react-router-dom";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 import "./EssayUpload.css";
 
 const EssayUpload = () => {
@@ -98,9 +98,8 @@ const EssayUpload = () => {
     formData.append("tags", tags);
     formData.append("subject", subject);
     formData.append("allowAI", allowAI);
-    formData.append("allowAI", allowAI);
     console.log(typeof allowAI);
-
+    console.log(formData, "aaaaaaaaaaaaaa");
     try {
       const response = await fetch(
         "https://gragnily.onrender.com/api/essays/postEssay",
@@ -179,8 +178,8 @@ const EssayUpload = () => {
           </div>
           <MarkdownEditor
             value={mdEditorRef.current}
-            height="300px"
-            maxHeight="300px"
+            height="500px"
+            maxHeight="500px"
             theme={"dark"}
             onChange={(value) => {
               mdEditorRef.current = value;

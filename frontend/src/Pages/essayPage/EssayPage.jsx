@@ -19,21 +19,14 @@ const EssayPage = () => {
     გერმანული: "",
   });
   const [loading, setLoading] = useState(true);
-
-  let currPage = 0; // used in requesting essay data
-
+  const [maxPage, setMaxPage] = useState(1);
+  const [activePage, setActivePage] = useState(1);
   const changeFilters = (newFilters) => {
     if (newFilters != filters) {
       setFilters(newFilters);
     }
   };
 
-  const pageSetFunction = (page) => {
-    if (page !== currPage) {
-      currPage = page;
-      setLoading(true);
-    }
-  };
   // const [activePage, setActivePage] = useState(1);
   //   const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {
@@ -41,8 +34,8 @@ const EssayPage = () => {
     //write logic of fetching essays based on filters and current page
 
     const params = {
-      page: currPage,
-      limit: 10,
+      page: activePage,
+      limit: 21,
       ...filters,
     };
     const queryString = new URLSearchParams(params).toString();
@@ -76,6 +69,7 @@ const EssayPage = () => {
             },
           ]);
         } else {
+          setMaxPage(data.pages);
           setEssays(data.Books);
         }
         setLoading(false);
@@ -83,7 +77,7 @@ const EssayPage = () => {
       .catch((error) => {
         console.error(" Error fetching books:", error);
       });
-  }, [currPage, filters]);
+  }, [activePage, filters]);
 
   return (
     <>
@@ -118,7 +112,11 @@ const EssayPage = () => {
                 />
               ))}
             </div>
-            <Pages pageSetFunction={pageSetFunction} />
+            <Pages
+              maxPage={maxPage}
+              activePage={activePage}
+              setActivePage={setActivePage}
+            />
           </div>
         </DefaultLayout>
       )}

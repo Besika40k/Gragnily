@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./UserPage.module.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Loading from "../modules/Loading";
 
 import PasswordReset from "../modules/UserVerification/PasswordReset.jsx";
@@ -21,6 +21,7 @@ const UserPage = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
+  const aboutMe = useRef(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -66,7 +67,8 @@ const UserPage = () => {
     const form = e.target; // the form element
     const username = form.elements.username.value;
     const email = form.elements.email.value;
-
+    // TODO update this when it is added
+    const aboutme = aboutMe.current.value;
     let updatedUser = {};
     if (username != "") {
       updatedUser.username = username;
@@ -74,6 +76,11 @@ const UserPage = () => {
     if (email != "") {
       updatedUser.email = email;
     }
+    if (aboutme != "") {
+      console.log(aboutme);
+      updatedUser.about_me = aboutme;
+    }
+    console.log(updatedUser, "aaaaaaa");
     fetch("https://gragnily.onrender.com/api/users/updateuser", {
       method: "PUT",
       headers: {
@@ -101,6 +108,7 @@ const UserPage = () => {
             })
             .then((userData) => {
               updateUser(userData); // Update the user context with the fetched data
+              console.log(userData);
               window.location.reload(); // Reload the page to reflect changes
             })
             .catch((err) => {
@@ -160,6 +168,20 @@ const UserPage = () => {
                   <button onClick={handleCancel}>Cancel</button>
                 </div>
               )}
+            </div>
+            <div className={style.aboutMeDiv}>
+              <p>About Me:</p>
+
+              <textarea
+                ref={aboutMe}
+                name="aboutMe"
+                id="aboutMe"
+                placeholder={`${
+                  user.about_me
+                    ? user.about_me
+                    : "Placeholder.. 200 characters max"
+                }`}
+              ></textarea>
             </div>
           </section>
 

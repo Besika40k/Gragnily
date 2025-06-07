@@ -28,11 +28,11 @@
 
 .essaysContainer {
   display: flex;
+  flex-wrap: wrap;
+  gap: 35px; /* space between items */
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: fit-content;
-  min-height: 20vh;
+  min-height: fit-content;
+  padding: 20px;
 }
 
 /*
