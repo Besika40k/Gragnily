@@ -49,7 +49,7 @@ const getUserLite = asyncHandler(async (req, res) => {
 
   const User = await user
     .findById(req.userId)
-    .select("username email profile_picture_url");
+    .select("username email about_me profile_picture_url");
 
   if (!User) {
     return res.status(404).json({ message: "User Not Found" });
