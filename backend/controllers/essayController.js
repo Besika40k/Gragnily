@@ -11,7 +11,7 @@ exports.getEssay = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get Essay by ID' */
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
-  const Essay = await essay.findById(id).populate("author_id", "name");
+  const Essay = await essay.findById(id).populate("author_id", "username");
   if (!Essay) {
     return res.status(404).json({ message: "Essay Not Found" });
   }
