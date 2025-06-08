@@ -200,29 +200,31 @@ function SideBar() {
             )}
           </div>
         </li>
-        {icons.slice(0, 1).map(({ name, label }) => (
-          <Link
-            to={user.email === "" ? "/" : `/${name.slice(0, -3)}`}
-            key={name}
-          >
-            <li
-              onMouseEnter={() => handleMouseEnter(name)}
-              onMouseLeave={handleMouseLeave}
+        {icons.slice(0, 1).map(({ name, label }) => {
+          return user.email === "" ? undefined : (
+            <Link
+              to={user.email === "" ? "/" : `/${name.slice(0, -3)}`}
+              key={name}
             >
-              <SideBarIcon name={name} />
-              <div
-                className={style.arrowDiv}
-                style={{
-                  opacity: hoveredIcon === name ? "100" : "0",
-                  visibility: hoveredIcon === name ? "visible" : "hidden",
-                }}
+              <li
+                onMouseEnter={() => handleMouseEnter(name)}
+                onMouseLeave={handleMouseLeave}
               >
-                <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
-                <h2>{label}</h2>
-              </div>
-            </li>
-          </Link>
-        ))}
+                <SideBarIcon name={name} />
+                <div
+                  className={style.arrowDiv}
+                  style={{
+                    opacity: hoveredIcon === name ? "100" : "0",
+                    visibility: hoveredIcon === name ? "visible" : "hidden",
+                  }}
+                >
+                  <SideBarIcon className={style.arrowSVG} name="arrowSVG" />
+                  <h2>{label}</h2>
+                </div>
+              </li>
+            </Link>
+          );
+        })}
       </ul>
       <ul>
         {icons.slice(2).map(({ name, label }) => (

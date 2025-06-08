@@ -5,6 +5,7 @@ import BookPageSVGS from "./BookPageSVGS"; // Import the SVG component
 
 import Loading from "../modules/Loading"; // Import the Loading component
 import { useUser } from "../contexts/UserContext";
+import DefaultLayout from "./DefaultLayout";
 
 const BookPage = () => {
   const { id } = useParams(); // Get the dynamic ID
@@ -59,7 +60,6 @@ const BookPage = () => {
             setAuthorArr(authorsArr);
           });
           setBook(data.book);
-          console.log(data.book);
           setLiked(data.liked);
         } else {
           switch (data.message) {
@@ -117,105 +117,114 @@ const BookPage = () => {
     window.URL.revokeObjectURL(url); // Clean up the URL object after download
   };
   return book && author ? (
-    <div className={style.outerDivContainer}>
-      <div className={style.innerDivContainer}>
-        <section className={style.bookSection}>
-          <div
-            className={style.bookImg}
-            style={{
-              backgroundImage: `url('${book?.cover_image_url}')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
-          <div className={style.bookRightDiv}>
-            <h1>{book?.title}</h1>
-            <h3>{author}</h3>
-            <div className={style.buttonsDiv}>
-              <a href={book?.pdf_url[0]} target="_blank">
-                <button className={style.readButton}>Read</button>
-              </a>
+    <DefaultLayout>
+      <div className={style.outerDivContainer}>
+        <div className={style.innerDivContainer}>
+          <section className={style.bookSection}>
+            <div
+              className={style.bookImg}
+              style={{
+                backgroundImage: `url('${book?.cover_image_url}')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            ></div>
+            <div className={style.bookRightDiv}>
+              <h1>{book?.title}</h1>
+              <h3>{author}</h3>
+              <div className={style.buttonsDiv}>
+                <a href={book?.pdf_url[0]} target="_blank">
+                  <button className={style.readButton}>წაკითხვა</button>
+                </a>
 
-              <button className={style.dissapear} onClick={handleDownload}>
-                <BookPageSVGS className={style.svgButton} name="downloadSvg" />
-              </button>
-              <button onClick={handleBookmark} className={style.dissapear}>
-                {user.email == "" ? undefined : liked ? (
+                <button className={style.dissapear} onClick={handleDownload}>
                   <BookPageSVGS
                     className={style.svgButton}
-                    name="likedLikeSVG"
+                    name="downloadSvg"
                   />
-                ) : (
-                  <BookPageSVGS className={style.svgButton} name="likeSVG" />
-                )}
-              </button>
+                </button>
+                <button onClick={handleBookmark} className={style.dissapear}>
+                  {user.email == "" ? undefined : liked ? (
+                    <BookPageSVGS
+                      className={style.svgButton}
+                      name="likedLikeSVG"
+                    />
+                  ) : (
+                    <BookPageSVGS className={style.svgButton} name="likeSVG" />
+                  )}
+                </button>
+              </div>
+              <h2>აღწერა</h2>
+              <p>{book.description}</p>
             </div>
-            <h2>Description</h2>
-            <p>{book.description}</p>
-          </div>
-        </section>
-        {authorArr.map((autora) => {
-          return (
-            <>
-              <h2 className={style.authorName}>Author</h2>
-              <section key={autora.name} className={style.authorSection}>
-                <div className={style.authorLeftDiv}>
-                  <div
-                    className={style.authorImg}
-                    style={{
-                      backgroundImage: `url('${
-                        autora.profile_picture_url
-                          ? autora.profile_picture_url
-                          : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
-                      }')`,
-                    }}
-                  ></div>
-                </div>
-                <div className={style.authorRightDiv}>
-                  <div className={style.authorTopDiv}>
-                    <div className={style.authorTextDiv}>
-                      <h3>{autora.name}</h3>
-                      <div>
-                        <p>bbbbbb</p>
-                        {/* {autora.bio} */}
-                        <p>ccccc</p>
+          </section>
+          {authorArr.map((autora) => {
+            return (
+              <>
+                <h2 className={style.authorName}>Author</h2>
+                <section key={autora.name} className={style.authorSection}>
+                  <div className={style.authorLeftDiv}>
+                    <div
+                      className={style.authorImg}
+                      style={{
+                        backgroundImage: `url('${
+                          autora.profile_picture_url
+                            ? autora.profile_picture_url
+                            : "https://upload.wikimedia.org/wikipedia/en/f/f7/JoJo_no_Kimyou_na_Bouken_cover_-_vol1.jpg"
+                        }')`,
+                      }}
+                    ></div>
+                  </div>
+                  <div className={style.authorRightDiv}>
+                    <div className={style.authorTopDiv}>
+                      <div className={style.authorTextDiv}>
+                        <h3>{autora.name}</h3>
+                        <div>
+                          <p>bbbbbb</p>
+                          {/* {autora.bio} */}
+                          <p>ccccc</p>
+                          {/* {autora.bio} */}
+                        </div>
+
                         {/* {autora.bio} */}
                       </div>
-
-                      {/* {autora.bio} */}
+                      <button className={style.viewWorkButton}>
+                        View Other Work
+                      </button>
                     </div>
-                    <button className={style.viewWorkButton}>
-                      View Other Work
-                    </button>
+                    <p className={style.infoPz}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
+                      vitae id? Omnis.
+                    </p>
                   </div>
-                  <p className={style.infoPz}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptas nostrum laboriosam ut eius dolor, ea dignissimos
-                    vitae id? Omnis.
-                  </p>
-                </div>
-              </section>
-            </>
-          );
-        })}
+                </section>
+              </>
+            );
+          })}
 
-        <section className={style.infoSection}>
-          <InfoItem
-            key="2"
-            title="Published"
-            description={book?.publication_year}
-          />
-          <InfoItem key="3" title="Genre" description={book?.genre.join(",")} />
-          <InfoItem
-            key="4"
-            title="Details"
-            description={`Language: ${book?.language}`}
-          />
-          <InfoItem key="5" title="Publisher" description={book?.publisher} />
-        </section>
+          <section className={style.infoSection}>
+            <InfoItem
+              key="2"
+              title="Published"
+              description={book?.publication_year}
+            />
+            <InfoItem
+              key="3"
+              title="Genre"
+              description={book?.genre.join(",")}
+            />
+            <InfoItem
+              key="4"
+              title="Details"
+              description={`Language: ${book?.language}`}
+            />
+            <InfoItem key="5" title="Publisher" description={book?.publisher} />
+          </section>
+        </div>
       </div>
-    </div>
+    </DefaultLayout>
   ) : (
     <Loading />
   );
