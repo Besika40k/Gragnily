@@ -186,3 +186,55 @@ input:checked + .slider:before {
   margin-bottom: 20px;
   display: none;
 }
+
+.file-upload-div {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #fdfdfd;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.upload-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main-l);
+}
+
+.upload-input {
+  display: none;
+}
+
+.input-preview-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.browse-button {
+  display: inline-block;
+  background-color: var(--primary-l);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.browse-button:hover {
+  background-color: var(--hover-dark-l);
+}
+
+.preview-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(112, 112, 112, 0.25);
+}

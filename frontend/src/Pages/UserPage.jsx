@@ -8,6 +8,57 @@ import PasswordReset from "../modules/UserVerification/PasswordReset.jsx";
 
 // user dat
 import { useUser } from "../contexts/UserContext";
+const DeleteConfirmation = ({ deleteVisability, setDeleteVisability }) => {
+  const handleAccountDelete = async () => {
+    // TODO: Implement delete logic
+    try {
+      const res = await fetch(
+        "https://gragnily.onrender.com/api/users/deleteuser",
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "ვერ მოხერხდა ანგარიშის წაშლა.");
+      }
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("წაშლის შეცდომა:", error);
+      alert(error.message);
+    }
+  };
+
+  return (
+    <div className={style.deleteContainer}>
+      <img
+        src="https://i.kym-cdn.com/editorials/icons/mobile/000/012/745/are_you.jpg"
+        alt="are you sure?"
+      />
+      <div className={style.deleteBtnDiv}>
+        <button
+          onClick={() => setDeleteVisability(false)}
+          className={style.button}
+        >
+          <span className={style.button_lg}>
+            <span className={`${style.grun} ${style.button_sl}`}></span>
+            <span className={style.button_text}>არა</span>
+          </span>
+        </button>
+
+        <button onClick={handleAccountDelete} className={style.button}>
+          <span className={style.button_lg}>
+            <span className={style.button_sl}></span>
+            <span className={style.button_text}>კი</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const UserPage = () => {
   const { user, updateUser } = useUser();
@@ -170,7 +221,7 @@ const UserPage = () => {
               )}
             </div>
             <div className={style.aboutMeDiv}>
-              <p>About Me:</p>
+              <p>ჩემს შესახებ:</p>
 
               <textarea
                 ref={aboutMe}
@@ -179,8 +230,9 @@ const UserPage = () => {
                 placeholder={`${
                   user.about_me
                     ? user.about_me
-                    : "Placeholder.. 200 characters max"
+                    : "აქ შეგიძლიათ მაქსიმუმ 200 სიმბოლოს გამოყენება"
                 }`}
+                maxLength={200}
               ></textarea>
             </div>
           </section>
@@ -192,7 +244,7 @@ const UserPage = () => {
               onSubmit={updateUserInfo}
             >
               <div className={style.formGroup}>
-                <label htmlFor="username">Change Username</label>
+                <label htmlFor="username">შეცვალე სახელი</label>
                 <input
                   className={style.leftInput}
                   type="text"
@@ -202,7 +254,7 @@ const UserPage = () => {
                 />
               </div>
               <div className={style.formGroup}>
-                <label htmlFor="email">Change Email</label>
+                <label htmlFor="email">შეცვალე ემაილი</label>
                 <input
                   className={style.leftInput}
                   type="email"
@@ -218,7 +270,7 @@ const UserPage = () => {
             </form>
             <form className={`${style.rightForm}, ${style.changeInfoForm}`}>
               <div className={style.formGroup}>
-                <label htmlFor="password">Change Password</label>
+                <label htmlFor="password">შეცვალე პაროლი</label>
                 <Link to="/forgot-password-in">
                   <input
                     type="button"
@@ -228,18 +280,24 @@ const UserPage = () => {
                     className={style.changeButtons}
                   />
                 </Link>
-                <label htmlFor="deleteUser">Delete User</label>
+                <label htmlFor="deleteUser">ანგარიშის წაშლა</label>
                 <input
                   onClick={() => setDeleteVisability(true)}
                   className={style.deleteButton}
                   type="button"
                   id="deleteUser"
                   name="deleteUser"
-                  value="DELETE"
+                  value="წაშლა"
                 />
               </div>
             </form>
           </section>
+          {deleteVisability && (
+            <DeleteConfirmation
+              deleteVisability={deleteVisability}
+              setDeleteVisability={setDeleteVisability}
+            />
+          )}
         </div>
       )}
     </>

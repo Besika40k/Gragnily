@@ -12,7 +12,13 @@ const mapping = {
   popularity: "popularSvg",
   name: "nameSvg",
 };
-
+const geoMapping = {
+  author: "ავტორი",
+  date: "თარიღი",
+  sortby: "გაფილტვრა",
+  popularity: "პოპულარობა",
+  name: "სახელი",
+};
 const SortButton = ({ identifier, filterBooks = () => {} }) => {
   return (
     <div
@@ -22,11 +28,7 @@ const SortButton = ({ identifier, filterBooks = () => {} }) => {
       className={style.svgBtnDiv}
     >
       <SvgItem name={mapping[identifier]} />
-      <h3>
-        {identifier == "sortby"
-          ? "SORT BY"
-          : identifier.charAt(0).toUpperCase() + identifier.slice(1)}
-      </h3>
+      <h3>{geoMapping[identifier]}</h3>
     </div>
   );
 };
@@ -68,7 +70,7 @@ const SortComponent = ({ filterBooks = () => {} }) => {
       </section>
       <div onClick={handleShowOptions} className={style.svgBtnDiv}>
         <SvgItem name={"sortBySvg"} />
-        <h3>SORT BY</h3>
+        <h3>გაფილტვრა</h3>
       </div>
     </div>
   );

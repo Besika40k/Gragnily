@@ -30,6 +30,8 @@
   border-radius: 20px;
   border: 3px solid var(--primary-l);
   transition: opacity 0.3s ease;
+  z-index: 19999999;
+  background-color: rgba(255, 255, 255, 0.79);
 }
 
 .show {

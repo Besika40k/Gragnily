@@ -7,7 +7,7 @@ import AiSection from "../modules/AiSection/AiSection.jsx";
 
 import gragnilyLogo from "../assets/gragnilyLogo.png";
 
-const DefaultLayout = ({ children, topSection = true }) => {
+const DefaultLayout = ({ children, topSection = true, useAi = true }) => {
   const allContainerRef = useRef(null);
   const contentRef = useRef(null);
   const [resizeState, setResizeState] = useState(false);
@@ -27,6 +27,9 @@ const DefaultLayout = ({ children, topSection = true }) => {
   };
   useEffect(() => {
     console.log("aaaaaaaaaaa", allContainerRef.current.style.width);
+    if (!useAi) {
+      resizeContainers(true);
+    }
   }, []);
   return (
     <div ref={allContainerRef} className={style.allContainer}>
@@ -45,7 +48,7 @@ const DefaultLayout = ({ children, topSection = true }) => {
         )}
         {children}
       </div>
-      <AiSection resizeFunction={resizeContainers} />
+      {useAi && <AiSection resizeFunction={resizeContainers} />}
     </div>
   );
 };

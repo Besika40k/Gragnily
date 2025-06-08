@@ -161,7 +161,7 @@ function SideBar() {
             </div>
             <div className="dropdown-item dark-mode-div">
               <SideBarIcon name={"sunSVG"} />
-              <h2>Dark Mode</h2>
+              <h2>ბნელი რეჟიმი</h2>
 
               <label className="switch">
                 <input
@@ -174,7 +174,7 @@ function SideBar() {
             {user.email === "" ? (
               <div className="dropdown-link no-click dropdown-item profile-details-div">
                 <SideBarIcon name="pfpSVG" />
-                <h2>Profile Info</h2>
+                <h2> პროფილის ინფორმაცია</h2>
               </div>
             ) : (
               <Link
@@ -182,7 +182,7 @@ function SideBar() {
                 className="dropdown-link dropdown-item profile-details-div"
               >
                 <SideBarIcon name="pfpSVG" />
-                <h2>Profile Info</h2>
+                <h2>პროფილის ინფორმაცია</h2>
               </Link>
             )}
             {user.email === "" ? (
@@ -195,7 +195,7 @@ function SideBar() {
             ) : (
               <div onClick={handleLogout} className="dropdown-item logout-div">
                 <SideBarIcon name={"logOutSVG"} />
-                <h2>Log Out</h2>
+                <h2>გამოსვლა</h2>
               </div>
             )}
           </div>
