@@ -99,25 +99,25 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <h2>Create Your Account</h2>
+      <h2>შექმენი შენი ანგარიში</h2>
       <form onSubmit={handleSubmit}>
         {/* New container for the columns */}
         <div className="form-columns">
           {/* Left Column */}
           <div className="form-column">
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">სახელი</label>
               <input
                 type="text"
                 id="username"
                 name="username"
                 required
-                placeholder="Choose a username"
+                placeholder="აირჩიე სახელი"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">ემაილი</label>
               <input
                 type="email"
                 id="email"
@@ -131,24 +131,24 @@ const SignUp = () => {
           {/* Right Column */}
           <div className="form-column">
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">პაროლი</label>
               <input
                 type="password"
                 id="password"
                 name="password"
                 required
-                placeholder="Create a password"
+                placeholder="შექმენი პაროლი"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="confirm-password">Confirm Password</label>
+              <label htmlFor="confirm-password">დაადასტურე პაროლი</label>
               <input
                 type="password"
                 id="confirm-password"
                 name="confirm_password"
                 required
-                placeholder="Enter your password again"
+                placeholder="შეიყვანე პაროლი ხელთავიდან"
               />
             </div>
           </div>
@@ -156,12 +156,12 @@ const SignUp = () => {
         {/* End of form-columns */}
         {/* Button remains below the columns */}
         <button type="submit" className="btn-auth">
-          Sign Up
+          რეგისტრაცია
         </button>
       </form>
 
       <p className="toggle-link">
-        Already have an account? <Link to="/login">Log In</Link>
+        უკვე გაქვს ანგარიში? <Link to="/login">შესვლა</Link>
       </p>
     </AuthLayout>
   );

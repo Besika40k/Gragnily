@@ -89,14 +89,14 @@ const ForgotPassword = ({ logIn }) => {
           <AuthLayout>
             {!sent && (
               <>
-                <h2>Reset Your Password</h2>
+                <h2>პაროლის განახლება</h2>
                 <p className="instruction-text">
-                  Enter the email address associated with your account, and
-                  we'll send you a link to reset your password.
+                  შეიყვანე შენი Email რომლითაც დარეგისტრირდი და ჩვენ
+                  გამოგიგზავნით პაროლის შესაცვლელ ლინკს.
                 </p>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label htmlFor="email">Email Address</label>
+                    <label htmlFor="email">ემაილი</label>
                     <input
                       type="email"
                       id="email"
@@ -108,29 +108,29 @@ const ForgotPassword = ({ logIn }) => {
                   </div>
 
                   <button type="submit" className="btn-auth">
-                    {" "}
-                    {/* Use consistent button class */}
-                    Send Reset Link
+                    განახლების ლინკის გამოგზავნა
                   </button>
                 </form>
                 <p className="toggle-link">
                   {" "}
                   {/* Use consistent link class */}
-                  Remembered your password? <Link to="/login">Log In</Link>{" "}
+                  გაგახსენდათ პაროლი? <Link to="/login">
+                    შედით ანგარიშზე
+                  </Link>{" "}
                   {/* Link back to login */}
                 </p>
               </>
             )}
             {sent && (
               <>
-                <h2>Enter your code here</h2>
+                <h2>შეიყვანეთ თქვენი კოდი აქ</h2>
                 <EnterCode isLoading={isLoading} callback={handleCodeSubmit} />
                 <input
                   ref={newPassword}
                   type="text"
-                  placeholder="Enter the new password"
+                  placeholder="შეიყვანე შენი კოდი"
                 />
-                <button onClick={handleFinalSubmit}>submit</button>
+                <button onClick={handleFinalSubmit}>გაგზავნა</button>
               </>
             )}
           </AuthLayout>
