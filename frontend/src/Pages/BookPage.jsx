@@ -4,6 +4,7 @@ import style from "./BookPage.module.css";
 import BookPageSVGS from "./BookPageSVGS"; // Import the SVG component
 
 import Loading from "../modules/Loading"; // Import the Loading component
+import { useUser } from "../contexts/UserContext";
 
 const BookPage = () => {
   const { id } = useParams(); // Get the dynamic ID
@@ -11,6 +12,8 @@ const BookPage = () => {
   const [author, setAuthor] = useState("");
   const [liked, setLiked] = useState("false");
   const [authorArr, setAuthorArr] = useState([]);
+
+  const { user, updateUser } = useUser();
 
   const cleanId = id.substring(1, id.length); // Clean the ID to ensure it's a number
   useEffect(() => {
@@ -21,7 +24,7 @@ const BookPage = () => {
       .then(async (response) => {
         const data = await response.json();
         if (response.ok) {
-          console.log("Book retriaval successful!", data);
+          // console.log("Book retriaval successful!", data);
           let authors = "";
           let authorsArr = [];
           const authorPromises = (
@@ -54,8 +57,6 @@ const BookPage = () => {
           Promise.all(authorPromises).then(() => {
             setAuthor(authors); // Set authors after all fetches are done
             setAuthorArr(authorsArr);
-            console.log("Authors:", authorsArr);
-            console.log("Authors:", authorsArr[0]);
           });
           setBook(data.book);
           setLiked(data.liked);
@@ -96,7 +97,7 @@ const BookPage = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Like successful:", data);
+        // console.log("Like successful:", data);
         setLiked((prev) => !prev);
       })
       .catch((err) => {
@@ -139,7 +140,7 @@ const BookPage = () => {
                 <BookPageSVGS className={style.svgButton} name="downloadSvg" />
               </button>
               <button onClick={handleBookmark} className={style.dissapear}>
-                {liked ? (
+                {user.email == "" ? undefined : liked ? (
                   <BookPageSVGS
                     className={style.svgButton}
                     name="likedLikeSVG"
@@ -161,7 +162,6 @@ const BookPage = () => {
           </div>
         </section>
         {authorArr.map((autora) => {
-          console.log("Authoraaaaaaaaaaaaaaaaaaaaaaaaaaaa:", autora);
           return (
             <>
               <h2 className={style.authorName}>Author</h2>

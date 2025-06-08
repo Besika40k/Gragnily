@@ -8,6 +8,9 @@ import EssayItem from "../../modules/Essays/EssayItem.jsx";
 import Loading from "../../modules/Loading.jsx";
 import style from "./EssayPage.module.css";
 import { Link } from "react-router-dom";
+
+import { useUser } from "../../contexts/UserContext";
+
 const EssayPage = () => {
   const [essays, setEssays] = useState([]);
   const [filters, setFilters] = useState({
@@ -105,7 +108,7 @@ const EssayPage = () => {
             <div className={style.essaysContainer}>
               {essays.map((essay) => (
                 <EssayItem
-                  key={essay.id}
+                  key={essay._id}
                   title={essay.title}
                   _id={essay._id}
                   cover_image_url={essay.cover_image_url}

@@ -8,7 +8,7 @@ import html2pdf from "html2pdf.js";
 import ReactMarkdown from "react-markdown";
 import DefaultLayout from "../../Pages/DefaultLayout.jsx";
 import BookPageSVGS from "../../Pages/BookPageSVGS.jsx";
-
+import { useUser } from "../../contexts/UserContext.jsx";
 const EssayIndividualPage = () => {
   const location = useLocation();
   const [essay, setEssay] = useState(null);
@@ -18,7 +18,11 @@ const EssayIndividualPage = () => {
   const [liked, setLiked] = useState(false);
   const pdfRef = useRef();
   const bookmarkBtn = useRef();
+
+  const { user, updateUser } = useUser();
+
   const essayId = location.pathname.split("/").pop();
+
   let numOfEssays = 1;
   useEffect(() => {
     setLoading(true);
@@ -114,7 +118,7 @@ const EssayIndividualPage = () => {
                   ref={bookmarkBtn}
                   onClick={handleBookmark}
                 >
-                  {liked ? (
+                  {user.email == "" ? undefined : liked ? (
                     <BookPageSVGS
                       className={style.svgButton}
                       name="likedLikeSVG"

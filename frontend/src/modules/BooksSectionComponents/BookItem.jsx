@@ -40,7 +40,7 @@ const BookItem = ({ name, imgUrl, bookID }) => {
         <div className={style.bookTopDiv}>
           <Color src={imgUrl} crossOrigin="anonymous" format="hex">
             {({ data, loading, error }) => {
-              if (loading) return <p>Loading...</p>;
+              if (loading) return undefined;
               if (error) return <p>Error loading color</p>;
               return <SvgItem color={data} imageUrl={imgUrl} />;
             }}

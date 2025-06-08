@@ -170,7 +170,7 @@ const UserPage = () => {
               )}
             </div>
             <div className={style.aboutMeDiv}>
-              <p>About Me:</p>
+              <p>ჩემს შესახებ:</p>
 
               <textarea
                 ref={aboutMe}
@@ -179,8 +179,9 @@ const UserPage = () => {
                 placeholder={`${
                   user.about_me
                     ? user.about_me
-                    : "Placeholder.. 200 characters max"
+                    : "აქ შეგიძლიათ მაქსიმუმ 200 სიმბოლოს გამოყენება"
                 }`}
+                maxLength={200}
               ></textarea>
             </div>
           </section>
@@ -192,7 +193,7 @@ const UserPage = () => {
               onSubmit={updateUserInfo}
             >
               <div className={style.formGroup}>
-                <label htmlFor="username">Change Username</label>
+                <label htmlFor="username">შეცვალე სახელი</label>
                 <input
                   className={style.leftInput}
                   type="text"
@@ -202,7 +203,7 @@ const UserPage = () => {
                 />
               </div>
               <div className={style.formGroup}>
-                <label htmlFor="email">Change Email</label>
+                <label htmlFor="email">შეცვალე ემაილი</label>
                 <input
                   className={style.leftInput}
                   type="email"
@@ -218,7 +219,7 @@ const UserPage = () => {
             </form>
             <form className={`${style.rightForm}, ${style.changeInfoForm}`}>
               <div className={style.formGroup}>
-                <label htmlFor="password">Change Password</label>
+                <label htmlFor="password">შეცვალე პაროლი</label>
                 <Link to="/forgot-password-in">
                   <input
                     type="button"
@@ -228,14 +229,14 @@ const UserPage = () => {
                     className={style.changeButtons}
                   />
                 </Link>
-                <label htmlFor="deleteUser">Delete User</label>
+                <label htmlFor="deleteUser">ანგარიშის წაშლა</label>
                 <input
                   onClick={() => setDeleteVisability(true)}
                   className={style.deleteButton}
                   type="button"
                   id="deleteUser"
                   name="deleteUser"
-                  value="DELETE"
+                  value="წაშლა"
                 />
               </div>
             </form>
