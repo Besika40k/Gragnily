@@ -142,40 +142,40 @@ const LogIn = () => {
         </div>
       </div>
       <AuthLayout>
-        <h2>Welcome Back!</h2>
+        <h2>კეთილი იყოს თქვენი დაბრუნება!</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">სახელი</label>
             <input
               type="text"
               id="username"
               name="username"
               required
-              placeholder="your name"
+              placeholder="თქვენი სახელი"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">პაროლი</label>
             <input
               type="password"
               id="password"
               name="password"
               required
-              placeholder="Enter your password"
+              placeholder="შეიყვანეთ თქვენი პაროლი"
             />
           </div>
 
           <div className="forgot-password-link">
-            <Link to="/forgot-password-out">Forgot Password?</Link>
+            <Link to="/forgot-password-out">დაგავიწყდათ პაროლი?</Link>
           </div>
 
           <button type="submit" className="btn-auth">
-            Log In
+            შესვლა
           </button>
         </form>
         <p className="toggle-link">
-          Don't have an account? <Link to="/sign-up">Sign Up</Link>
+          არ გაქვს ანგარიში? <Link to="/sign-up">დარეგისტრირდი</Link>
         </p>
       </AuthLayout>
     </div>

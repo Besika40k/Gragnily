@@ -48,7 +48,7 @@
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  color: black;
+  color: var(--text-main-l);
   text-decoration: none;
   background-color: transparent;
   border: solid 1px var(--icon-line);

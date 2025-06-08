@@ -189,7 +189,7 @@ function SideBar() {
               <Link className="dropdown-link" to="/login">
                 <div className="dropdown-item logout-div">
                   <SideBarIcon name={"pfpSVG"} />
-                  <h2 style={{ textDecoration: "none" }}>Log In</h2>
+                  <h2 style={{ textDecoration: "none" }}>შესვლა</h2>
                 </div>
               </Link>
             ) : (

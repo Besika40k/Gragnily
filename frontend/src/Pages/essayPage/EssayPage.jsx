@@ -9,8 +9,6 @@ import Loading from "../../modules/Loading.jsx";
 import style from "./EssayPage.module.css";
 import { Link } from "react-router-dom";
 
-import { useUser } from "../../contexts/UserContext";
-
 const EssayPage = () => {
   const [essays, setEssays] = useState([]);
   const [filters, setFilters] = useState({
@@ -24,6 +22,7 @@ const EssayPage = () => {
   const [loading, setLoading] = useState(true);
   const [maxPage, setMaxPage] = useState(1);
   const [activePage, setActivePage] = useState(1);
+
   const changeFilters = (newFilters) => {
     if (newFilters != filters) {
       setFilters(newFilters);
@@ -93,7 +92,7 @@ const EssayPage = () => {
             <PopularEssays />
 
             <div className={style.flexDiv}>
-              <h3>ესეები</h3>
+              <h3 style={{ fontSize: "1.5em" }}>უახლესი</h3>
               <Link
                 style={{ textDecoration: "none", color: "var(--text-l)" }}
                 to="/essay/upload"
