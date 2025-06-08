@@ -8,6 +8,57 @@ import PasswordReset from "../modules/UserVerification/PasswordReset.jsx";
 
 // user dat
 import { useUser } from "../contexts/UserContext";
+const DeleteConfirmation = ({ deleteVisability, setDeleteVisability }) => {
+  const handleAccountDelete = async () => {
+    // TODO: Implement delete logic
+    try {
+      const res = await fetch(
+        "https://gragnily.onrender.com/api/users/deleteuser",
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "ვერ მოხერხდა ანგარიშის წაშლა.");
+      }
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("წაშლის შეცდომა:", error);
+      alert(error.message);
+    }
+  };
+
+  return (
+    <div className={style.deleteContainer}>
+      <img
+        src="https://i.kym-cdn.com/editorials/icons/mobile/000/012/745/are_you.jpg"
+        alt="are you sure?"
+      />
+      <div className={style.deleteBtnDiv}>
+        <button
+          onClick={() => setDeleteVisability(false)}
+          className={style.button}
+        >
+          <span className={style.button_lg}>
+            <span className={`${style.grun} ${style.button_sl}`}></span>
+            <span className={style.button_text}>არა</span>
+          </span>
+        </button>
+
+        <button onClick={handleAccountDelete} className={style.button}>
+          <span className={style.button_lg}>
+            <span className={style.button_sl}></span>
+            <span className={style.button_text}>კი</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const UserPage = () => {
   const { user, updateUser } = useUser();
@@ -241,6 +292,12 @@ const UserPage = () => {
               </div>
             </form>
           </section>
+          {deleteVisability && (
+            <DeleteConfirmation
+              deleteVisability={deleteVisability}
+              setDeleteVisability={setDeleteVisability}
+            />
+          )}
         </div>
       )}
     </>

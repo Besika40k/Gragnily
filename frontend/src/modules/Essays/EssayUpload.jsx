@@ -16,7 +16,16 @@ const EssayUpload = () => {
   const invalidEssay = useRef();
   const invalidSubject = useRef();
   const invalidTag = useRef();
-  const formCoverImage = useRef();
+
+  const formCoverImage = useRef(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
 
   const handleEssayUpload = async () => {
     const title = formTitle.current.value.trim();
@@ -169,8 +178,29 @@ const EssayUpload = () => {
             <span className="slider round"></span>
           </label>
         </div>
-        <label>Upload Cover Image</label>
-        <input type="file" accept="image/*" ref={formCoverImage} />
+        <div className="file-upload-div">
+          <label className="upload-label">Upload Cover Image</label>
+
+          <div className="input-preview-wrapper">
+            <label htmlFor="coverImage" className="browse-button">
+              Browse
+            </label>
+
+            {previewUrl && (
+              <img src={previewUrl} alt="Preview" className="preview-image" />
+            )}
+          </div>
+
+          <input
+            type="file"
+            accept="image/*"
+            ref={formCoverImage}
+            id="coverImage"
+            className="upload-input"
+            onChange={handleImageChange}
+          />
+        </div>
+
         <div className="markdown-div">
           <div className="flex-div">
             <h3>You can write your essay here!</h3>
