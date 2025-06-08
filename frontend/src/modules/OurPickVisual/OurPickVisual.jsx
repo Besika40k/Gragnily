@@ -70,7 +70,7 @@ const OurPickVisual = () => {
   return (
     <div className={style.ourPickVisual}>
       <div className={style.pickTopDiv}>
-        <h2>რჩეულები</h2>
+        <h2>რჩეული წიგნები</h2>
         <div className={style.buttonsDiv}>
           <Link to={"/books"}>
             <button className={style.fullButton}>სრულად</button>

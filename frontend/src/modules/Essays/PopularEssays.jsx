@@ -66,7 +66,7 @@ const PopularEssays = () => {
   return (
     <div className={style.ourPickVisual}>
       <div className={style.pickTopDiv}>
-        <h2>პოპულარული</h2>
+        <h2>პოპულარული ესეები</h2>
         <div className={style.buttonsDiv}>
           <Link to={"/articles"}>
             <button className={style.fullButton}>სრულად</button>

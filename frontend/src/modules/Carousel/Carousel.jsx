@@ -11,7 +11,7 @@ const Carousel = () => {
     },
     {
       id: 56,
-      img: "https://www.naec.ge/uploads/postImage/3372/23779c1e-9e52-4165-aaaf-3cb5b9041e2f.jpg",
+      img: "https://images-ext-1.discordapp.net/external/ctqiFVL6qpjGyOkhr7iNkEatl3RSDXIOuQ2-VB1iWuc/https/beamian.com/wp-content/uploads/2020/08/Building_an_event_registration_strategy-scaled.jpg?format=webp&width=1123&height=749",
       title:
         "8 მაისს აბიტურიენტების კითხვებს გეოგრაფიის, სამოქალაქო განათლებისა და სახვითი და გამოყენებითი ხელოვნების ჯგუფების ხელმძღვანელები უპასუხებენ",
       link: "https://www.naec.ge/#/ge/post/3372",

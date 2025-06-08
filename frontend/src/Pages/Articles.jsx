@@ -22,7 +22,7 @@ const Articles = () => {
           </div>
           <div className={style.articlesContainer}>
             <ArticleItem
-              imgUrl="https://www.naec.ge/uploads/postImage/3380/%E1%83%98.jpg"
+              imgUrl="https://images-ext-1.discordapp.net/external/nC6jhHRhe_3I9UkctiVoNu4hdUMinVcLoaiZQqBC8X0/https/www.designyourway.net/blog/wp-content/uploads/2024/04/cambridge-university-logo.jpg?format=webp&width=1123&height=655"
               date={"30.05.2025"}
               descr="კემბრიჯის გამოცდების კომპიუტერულ ვერსიებზე CB FCE და CB CAE რეგისტრაცია იწყება"
               linkUrl="https://www.naec.ge/#/ge/post/3380"

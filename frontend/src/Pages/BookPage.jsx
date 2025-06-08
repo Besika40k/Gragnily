@@ -59,6 +59,7 @@ const BookPage = () => {
             setAuthorArr(authorsArr);
           });
           setBook(data.book);
+          console.log(data.book);
           setLiked(data.liked);
         } else {
           switch (data.message) {
@@ -151,14 +152,7 @@ const BookPage = () => {
               </button>
             </div>
             <h2>Description</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-              alias velit harum facere minima. Sint magni maiores nesciunt
-              placeat, fugit deserunt alias, vel molestias tenetur culpa
-              eveniet. Sapiente non vero asperiores, omnis inventore maxime eius
-              ipsa nemo voluptate nobis illo possimus totam aut quaerat eaque
-              provident doloremque, ducimus distinctio ipsam.
-            </p>
+            <p>{book.description}</p>
           </div>
         </section>
         {authorArr.map((autora) => {
