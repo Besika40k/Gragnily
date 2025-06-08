@@ -1,8 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import EssayItem from "../Essays/EssayItem";
 import style from "./FavEssays.module.css";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 const FavEssays = () => {
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.email == "") {
+      navigate("/");
+      return;
+    }
+  }, []);
+
   const [essays, setEssays] = useState([]);
   //   const [page, setPage] = useState(1);
   //   const [hasMore, setHasMore] = useState(true); // If there's more data to load
@@ -84,7 +96,7 @@ const FavEssays = () => {
     <div className={style.essaysContainer}>
       <h1 className={style.essaysTitle}>მოწონებული ესეები</h1>
       <div className={style.essaysGrid}>
-        {essays.map((essay) => (
+        {essays?.map((essay) => (
           <div key={essay._id} className={style.essayDiv}>
             <div className={style.hoverDiv}>
               <div className={style.essayItemDiv}>

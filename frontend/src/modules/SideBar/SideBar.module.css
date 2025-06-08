@@ -20,7 +20,7 @@
 .sidebar ul:nth-child(2) {
   margin-top: 15vh;
 }
-.sidebar li {
+.iconThing {
   margin-top: 5px;
   font-family: "bpg", sans-serif;
   display: flex;
@@ -28,8 +28,12 @@
   align-items: center;
   flex-direction: row;
   z-index: 2;
+  border-radius: 50%;
+  border: 3px solid transparent;
 }
-
+.active {
+  border: 3px solid var(--icon-line);
+}
 .arrowDiv {
   position: absolute;
   left: 70px;

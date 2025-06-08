@@ -2,19 +2,26 @@ import style from "./SideBar.module.css";
 import SideBarIcon from "../SideBarIcon/SideBarIcon";
 import pfp from "../../assets/pfp.png";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../../Layout.css";
 import "./dropdownStyle.css";
-
 // user data
 
 import { useUser } from "../../contexts/UserContext";
 
 function SideBar() {
+  const location = useLocation();
+
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [activePage, setActivePage] = useState("home");
 
   const handleMouseEnter = (iconName) => setHoveredIcon(iconName);
   const handleMouseLeave = () => setHoveredIcon(null);
+
+  useEffect(() => {
+    const path = location.pathname.split("/")[1]; // gets the part after the first slash
+    setActivePage(path || "home"); // fallback to "home" if path is empty
+  }, [location]);
 
   const icons = [
     { name: "likedSvg", label: "მოწონებული" },
@@ -125,7 +132,7 @@ function SideBar() {
   return (
     <nav className={style.sidebar}>
       <ul>
-        <li ref={menuRef}>
+        <li className={`${style.iconThing} `} ref={menuRef}>
           <div
             className="outerpfp pfp-div"
             style={{
@@ -209,6 +216,10 @@ function SideBar() {
               <li
                 onMouseEnter={() => handleMouseEnter(name)}
                 onMouseLeave={handleMouseLeave}
+                className={`${style.iconThing} ${
+                  name.slice(0, -3) == activePage ? style.active : ""
+                }`}
+                onClick={() => setActivePage(name.slice(0, -3))}
               >
                 <SideBarIcon name={name} />
                 <div
@@ -235,6 +246,10 @@ function SideBar() {
             <li
               onMouseEnter={() => handleMouseEnter(name)}
               onMouseLeave={handleMouseLeave}
+              className={`${style.iconThing} ${
+                name.slice(0, -3) == activePage ? style.active : ""
+              }`}
+              onClick={() => setActivePage(name.slice(0, -3))}
             >
               <SideBarIcon name={name} />
               <div

@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BookItem from "../BooksSectionComponents/BookItem";
 import style from "./FavBooks.module.css";
+import { useUser } from "../../contexts/UserContext";
 
 const FavBooks = () => {
+  const { user } = useUser();
+  const navigate = useNavigate();
+  if (user.email == "") {
+    navigate("/");
+    return;
+  }
+
   const [books, setBooks] = useState([]);
   useEffect(() => {
     fetch(
