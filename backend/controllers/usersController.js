@@ -1,8 +1,10 @@
 const asyncHandler = require("express-async-handler");
-const cloudinary = require("../config/cdConnection");
 const user = require("../models/user");
-const { uploadProfilePicture } = require("../Utils/fileUtils");
-const fs = require("fs").promises;
+const {
+  uploadProfilePicture,
+  deleteCloudinaryFile,
+  deleteStorageFile,
+} = require("../Utils/fileUtils");
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/otp");
 const { sendOTPEmail } = require("../Utils/changePassword");
@@ -128,6 +130,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (!req.userId)
     return res.status(401).json({ message: "User Not Signed In" });
 
+  let url, public_id;
   const files = req.files;
   const newProfile = files.new_profile?.[0];
 
@@ -139,13 +142,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const User = await user.findById(req.userId);
 
     if (User.profile_picture_url !== process.env.PROFILE_PICTURE_URL) {
-      await cloudinary.uploader.destroy(User.profile_picture_public_id);
+      await deleteCloudinaryFile(User.profile_picture_public_id);
     }
 
-    const { url, public_id } = await uploadProfilePicture(
-      newProfile.path,
-      "users"
-    );
+    ({ url, public_id } = await uploadProfilePicture(newProfile.path, "users"));
 
     if (!url || !public_id) {
       return res.status(500).json("Upload to Cloudinary failed");
@@ -158,17 +158,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: "Profile Picture Updated", url: url });
   } catch (err) {
-    console.error("Profile update error:", err);
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: err.message });
+    await deleteCloudinaryFile(public_id);
+
+    res.status(500).json({ message: "Something went wrong", error: err });
   } finally {
     if (newProfile?.path) {
-      try {
-        await fs.unlink(newProfile.path);
-      } catch (err) {
-        console.warn(`Failed to delete temp profile image: ${err.message}`);
-      }
+      await deleteStorageFile(newProfile);
     }
   }
 });
@@ -237,10 +232,10 @@ const deleteUser = asyncHandler(async (req, res) => {
     User.profile_picture_url &&
     User.profile_picture_url !== process.env.PROFILE_PICTURE_URL
   ) {
-    await cloudinary.uploader.destroy(User.profile_picture_public_id);
+    await deleteCloudinaryFile(User.profile_picture_public_id);
   }
 
-  user.findByIdAndDelete(req.userId);
+  await user.findByIdAndDelete(req.userId);
 
   res
     .clearCookie("x-access-token")

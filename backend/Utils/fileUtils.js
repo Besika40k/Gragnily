@@ -141,7 +141,7 @@ const deleteCloudinaryFile = async (public_ids) => {
     } catch (err) {
       console.error(
         `Failed to delete file from Cloudinary: ${public_id}`,
-        err.message
+        err
       );
     }
   }

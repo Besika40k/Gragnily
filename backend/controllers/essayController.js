@@ -258,7 +258,7 @@ exports.deleteEssay = asyncHandler(async (req, res) => {
         console.log("Essay deleted from database");
       })
       .catch((err) => {
-        console.error("Error deleting essay from database", err);
+        return console.error("Error deleting essay from database", err);
       });
 
     res.status(200).json({ message: "Essay deleted successfully" });
