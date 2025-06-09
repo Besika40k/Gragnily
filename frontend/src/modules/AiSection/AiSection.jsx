@@ -170,7 +170,7 @@ const AiSection = ({ resizeFunction = () => {} }) => {
         {showAi ? (
           <>
             <div className={style.containerDiv} ref={dissapearDiv}>
-              <h1 style={{ color: "#8b008b" }}>AI ია</h1>
+              <h1 className={style.aiIa}>AI ია</h1>
 
               <div className={style.testdiv}>
                 <div className={style.chatHistory}>

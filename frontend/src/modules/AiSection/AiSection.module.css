@@ -87,6 +87,7 @@
   padding: 5px 0px 0px 1px;
   transition: transform 0.2s ease;
   padding: 10px 0px 0px 7px;
+  cursor: pointer;
 }
 .sendSvgDiv:hover {
   transform: scale(1.05);
@@ -146,4 +147,10 @@
 .testdiv {
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
+}
+
+.aiIa {
+  background-color: #c8acde;
+  padding: 10px 20px;
+  border-radius: 20px;
 }

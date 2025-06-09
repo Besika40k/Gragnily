@@ -73,6 +73,7 @@
   background-color: #917f74b9;
   transition: all 0.3s ease;
   border-radius: 50%;
+  cursor: pointer;
 }
 .activeDot {
   background-color: #917f74;

@@ -146,6 +146,11 @@
   transform: translate(-40%, -100%);
 }
 
+.genre.active {
+  transform: scale(1.2);
+  z-index: 1;
+}
+
 @media screen and (max-width: 1450px) {
   .genresContainer {
     overflow-x: scroll;

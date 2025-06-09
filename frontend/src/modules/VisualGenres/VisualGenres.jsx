@@ -1,9 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import style from "./VisualGenres.module.css";
 import genres from "./Genres";
 
-const VisualGenres = ({ setGenre = () => {} }) => {
+const VisualGenres = ({
+  setGenre = () => {},
+  selectedGenre,
+  setSelectedGenre,
+}) => {
   const scrollRef = useRef(null);
+  const handleClick = (genreName) => {
+    if (genreName == selectedGenre) {
+      setGenre("no genre");
+      setSelectedGenre(null);
+    } else {
+      setGenre(genreName);
+      setSelectedGenre(genreName);
+    }
+  };
 
   return (
     <div className={style.visualGenres}>
@@ -13,9 +26,11 @@ const VisualGenres = ({ setGenre = () => {} }) => {
       <div ref={scrollRef} className={style.genresContainer}>
         {genres.map((genre) => (
           <div
-            onClick={() => setGenre(genre.name)}
+            onClick={() => handleClick(genre.name)}
             key={genre.name}
-            className={style.genre}
+            className={`${style.genre} ${
+              selectedGenre === genre.name ? style.active : ""
+            }`}
           >
             {genre.svg}
             <div
@@ -29,4 +44,5 @@ const VisualGenres = ({ setGenre = () => {} }) => {
     </div>
   );
 };
+
 export default VisualGenres;

@@ -24,6 +24,10 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: transform 0.2s ease;
+}
+.bookItem:hover {
+  transform: translateY(-4px);
 }
 .bookItem h3 {
   text-decoration: none;

@@ -8,9 +8,16 @@ import SortComponent from "../modules/BooksSectionComponents/SortComponent.jsx";
 import BookItem from "../modules/BooksSectionComponents/BookItem.jsx";
 
 const Books = () => {
+  const defaultFilters = {
+    popularity: "", // Optional
+    name: "", // Optional
+    date: "", // Optional
+    // author: "", // Optional
+  };
   const [loading, setLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [books, setBooks] = useState([]);
+  const [selectedGenre2, setSelectedGenre2] = useState(null);
   const [filters, setFilters] = useState({
     popularity: "", // Optional
     name: "", // Optional
@@ -68,11 +75,17 @@ const Books = () => {
 
   const setGenre = (genre) => {
     setActivePage(1);
-    setFilters((prev) => {
-      const newFilters = { ...prev };
-      newFilters.subject = genre;
-      return newFilters;
-    });
+    if (genre != "no genre") {
+      setFilters((prev) => {
+        const newFilters = { ...prev };
+        newFilters.subject = genre;
+
+        return newFilters;
+      });
+    } else {
+      setFilters(defaultFilters);
+    }
+
     console.log(filters);
   };
 
@@ -89,7 +102,11 @@ const Books = () => {
   };
   return (
     <DefaultLayout>
-      <VisualGenres setGenre={setGenre} />
+      <VisualGenres
+        selectedGenre={selectedGenre2}
+        setSelectedGenre={setSelectedGenre2}
+        setGenre={setGenre}
+      />
       <Filters />
       <section className={style.sortedBooksSection}>
         {books.map((book) => (

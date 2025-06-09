@@ -2,8 +2,11 @@
   position: relative;
   text-align: center;
   width: fit-content;
+  transition: transform 0.2s ease;
 }
-
+.item:hover {
+  transform: translateY(-4px);
+}
 .item h3 {
   position: absolute;
   color: black;
