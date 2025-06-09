@@ -12,12 +12,12 @@ const {
   addComment,
   deleteComment,
   getEssay,
-  getEssaysByUser,
+  getUserEssays,
 } = require("../controllers/essayController");
 
 router.get("/getEssays", deserializeUser, getEssays);
 
-router.get("/getEssaysByUser/:userId", deserializeUser, getEssaysByUser);
+router.get("/getUserEssays", deserializeUser, getUserEssays);
 
 router.get("/getEssay/:id", deserializeUser, getEssay);
 

@@ -46,9 +46,9 @@ exports.getEssays = asyncHandler(async (req, res) => {
   }
 });
 
-exports.getEssaysByUser = asyncHandler(async (req, res) => {
+exports.getUserEssays = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Get Essays by User' */
-  const { userId } = req.params;
+  const userId = req.userId;
 
   if (!userId) return res.status(400).json({ message: "User ID is required" });
 
