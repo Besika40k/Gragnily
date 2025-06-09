@@ -1,11 +1,36 @@
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import MarkdownEditor from "@uiw/react-markdown-editor";
-import "./EssayUpload.css";
-
-const EssayUpload = () => {
+import "./EssayEdit.css";
+import Loading from "../../modules/Loading";
+const EssayEdit = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [sucessSubmit, setSuccessSubmit] = useState(false);
+
+  const [currEssay, setCurrEssay] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch(`https://gragnily.onrender.com/api/essays/getEssay/${id}`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch essay by ID");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("📄 Essay data:", data);
+        setCurrEssay(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("❌ Error fetching essay:", error);
+        setLoading(false);
+      });
+  }, [id]);
 
   const mdEditorRef = useRef("");
   const formTitle = useRef();
@@ -19,7 +44,7 @@ const EssayUpload = () => {
   const invalidTag = useRef();
 
   const formCoverImage = useRef(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -28,21 +53,17 @@ const EssayUpload = () => {
     }
   };
 
-  const handleEssayUpload = async () => {
-    const title = formTitle.current.value.trim();
-    const subject = formSubject.current.value;
-    const content = mdEditorRef.current?.trim();
-    const tags = formTags.current.value.trim();
-    const allowAI = formAllowAi.current.checked;
+  const handleEssayEdit = async () => {
+    let title = formTitle.current.value.trim();
+    let subject = formSubject.current.value;
+    let content = mdEditorRef.current?.trim();
+    let tags = formTags.current.value.trim();
+    let allowAI = formAllowAi.current.checked;
     let coverImageFile = formCoverImage.current.files[0];
     let valid = true;
 
     if (!title) {
-      invalidTitle.current.innerText = "ესეს სათაური არ უნდა იყოს ცარიელი";
-      invalidTitle.current.style.display = "block";
-      formTitle.current.style.outline = "1px solid red";
-      formTitle.current.style.boxShadow = "0 0 5px rgba(255, 0, 0, 0.4)";
-      valid = false;
+      title = currEssay.Essay.title;
     } else {
       invalidTitle.current.style.display = "none";
       formTitle.current.style.outline = "";
@@ -50,11 +71,7 @@ const EssayUpload = () => {
     }
 
     if (!subject || subject === "Select subject") {
-      invalidSubject.current.innerText = "გთხოვ აირჩიო საგანი";
-      invalidSubject.current.style.display = "block";
-      formSubject.current.style.outline = "1px solid red";
-      formSubject.current.style.boxShadow = "0 0 5px rgba(255, 0, 0, 0.4)";
-      valid = false;
+      subject = currEssay.Essay.subject;
     } else {
       invalidSubject.current.style.display = "none";
       formSubject.current.style.outline = "";
@@ -75,18 +92,13 @@ const EssayUpload = () => {
     }
 
     if (!content) {
-      invalidEssay.current.innerText = "ესეს შინაარსი არ უნდა იყოს ცარიელი";
-      invalidEssay.current.style.display = "block";
-      valid = false;
+      content = currEssay.Essay.content;
     } else {
       invalidEssay.current.style.display = "none";
     }
-
+    let noimg = false;
     if (!coverImageFile) {
-      const response = await fetch("../../assets/defaultEssayimg.webp");
-      const blob = await response.blob();
-
-      coverImageFile = new File([blob], "default.jpg", { type: blob.type });
+      noimg = true;
     }
 
     if (!valid) {
@@ -95,36 +107,31 @@ const EssayUpload = () => {
     }
 
     const formData = new FormData();
-    formData.append("cover_image", coverImageFile);
+    noimg ? formData.append("cover_image", coverImageFile) : undefined;
     formData.append("title", title);
     formData.append("content", content);
     formData.append("tags", tags);
     formData.append("subject", subject);
     formData.append("allowAI", allowAI);
 
-    try {
-      const response = await fetch(
-        "https://gragnily.onrender.com/api/essays/postEssay",
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`დაფიქსირდა შეცდომა: ${errorText}`);
-      }
-
-      const result = await response.json();
-      console.log("✅ ესე წარმატებით აიტვირთა:", result);
-      navigate("/essay");
-    } catch (error) {
-      console.error("❌ ატვირთვის შეცდომა:", error.message);
-    }
+    fetch(`https://gragnily.onrender.com/api/essays/editEssay/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update essay");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("✅ Essay updated successfully:", data);
+        navigate("/essay");
+      })
+      .catch((err) => {
+        console.error("❌ Update error:", err.message);
+      });
   };
-
+  if (loading) return <Loading />;
   return (
     <section className="outer-container">
       <div className="form-container">
@@ -134,12 +141,12 @@ const EssayUpload = () => {
         >
           <h4>{"← უკან დაბრუნება"}</h4>
         </Link>
-        <h2>ატვირთე შენი ესე</h2>
+        <h2>შეცვალე შენი ესე</h2>
 
         <label>ესეს სათაური</label>
         <input
           type="text"
-          placeholder="შეიყვანე ესეს სათაური"
+          placeholder={currEssay.Essay.title}
           ref={formTitle}
         />
         <p className="invalid" ref={invalidTitle}>
@@ -162,11 +169,7 @@ const EssayUpload = () => {
         </p>
 
         <label>სურვილისამებრ: ტეგები</label>
-        <input
-          type="text"
-          placeholder="დაამატე ტეგები (მაგ. #ისტორია #კვლევა)"
-          ref={formTags}
-        />
+        <input type="text" placeholder={currEssay.Essay.tags} ref={formTags} />
         <p className="invalid" ref={invalidTag}>
           ტეგები უნდა იყოს ფორმატში: #ტეგი
         </p>
@@ -174,7 +177,11 @@ const EssayUpload = () => {
         <div className="toggle-container">
           <label>დასაშვებია თუ არა AI-სთვის სწავლაში გამოყენება</label>
           <label className="switch">
-            <input type="checkbox" ref={formAllowAi} />
+            <input
+              defaultChecked={currEssay.Essay.allowAi}
+              type="checkbox"
+              ref={formAllowAi}
+            />
             <span className="slider round"></span>
           </label>
         </div>
@@ -187,13 +194,13 @@ const EssayUpload = () => {
               აირჩიე
             </label>
 
-            {previewUrl && (
-              <img
-                src={previewUrl}
-                alt="წინასწარი ნახვა"
-                className="preview-image"
-              />
-            )}
+            <img
+              src={
+                previewUrl == "" ? currEssay.Essay.cover_image_url : previewUrl
+              }
+              alt="წინასწარი ნახვა"
+              className="preview-image"
+            />
           </div>
 
           <input
@@ -208,11 +215,11 @@ const EssayUpload = () => {
 
         <div className="markdown-div">
           <div className="flex-div">
-            <h3>აქ შეგიძლია დაწერო შენი ესე!</h3>
+            <h3>შეცვალე შენი ესეს ტექსტი!</h3>
             <button>როგორ გამოიყენო markdown?</button>
           </div>
           <MarkdownEditor
-            value={mdEditorRef.current}
+            value={currEssay.Essay.content}
             height="500px"
             maxHeight="500px"
             theme={"dark"}
@@ -227,7 +234,7 @@ const EssayUpload = () => {
         </p>
 
         <div className="button-diva">
-          <button onClick={handleEssayUpload} className="submit-button">
+          <button onClick={handleEssayEdit} className="submit-button">
             გაგზავნა
           </button>
         </div>
@@ -236,4 +243,4 @@ const EssayUpload = () => {
   );
 };
 
-export default EssayUpload;
+export default EssayEdit;

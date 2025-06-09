@@ -36,10 +36,18 @@ const SortButton = ({ identifier, filterBooks = () => {} }) => {
 const SortComponent = ({ filterBooks = () => {} }) => {
   const [showOptions, setShowOptions] = useState(false);
   const optionsRef = useRef(null);
+  const changeRotationRef = useRef(null);
 
   const handleShowOptions = () => {
     console.log("show options");
     setShowOptions((prev) => !prev);
+    if (changeRotationRef.current) {
+      if (showOptions) {
+        changeRotationRef.current.style.transform = "rotate(90deg)";
+      } else {
+        changeRotationRef.current.style.transform = "rotate(0deg)";
+      }
+    }
   };
 
   return (
@@ -69,7 +77,10 @@ const SortComponent = ({ filterBooks = () => {} }) => {
         />
       </section>
       <div onClick={handleShowOptions} className={style.svgBtnDiv}>
-        <SvgItem name={"sortBySvg"} />
+        <div ref={changeRotationRef} className={style.kysSvg}>
+          <SvgItem name={"sortBySvg"} />
+        </div>
+
         <h3>გაფილტვრა</h3>
       </div>
     </div>

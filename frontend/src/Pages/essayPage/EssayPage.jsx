@@ -12,12 +12,13 @@ import { Link } from "react-router-dom";
 const EssayPage = () => {
   const [essays, setEssays] = useState([]);
   const [filters, setFilters] = useState({
-    ინგლიური: "",
+    ინგლისური: "",
     ქართული: "",
     ისტორია: "",
     რუსული: "",
     ფრანგული: "",
     გერმანული: "",
+    სხვა: "",
   });
   const [loading, setLoading] = useState(true);
   const [maxPage, setMaxPage] = useState(1);
@@ -34,12 +35,25 @@ const EssayPage = () => {
   useEffect(() => {
     setLoading(true);
     //write logic of fetching essays based on filters and current page
+    const trueEntries = Object.entries(filters).filter(
+      ([key, value]) => value === "true"
+    );
 
     const params = {
       page: activePage,
       limit: 21,
-      ...filters,
     };
+
+    if (trueEntries.length > 0) {
+      params["subject"] = trueEntries[0][0];
+      console.log("kill me now");
+    }
+    console.log(
+      params,
+      Object.entries(filters),
+      trueEntries,
+      "AAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSAAAAAAAAAAKYSKYSVV"
+    );
     const queryString = new URLSearchParams(params).toString();
     console.log("getting data", queryString);
     fetch(
@@ -61,7 +75,7 @@ const EssayPage = () => {
       })
       .then((data) => {
         console.log("CHAOS", data);
-        if (data.length == 0 || data.Books.length == 0) {
+        if (data.length == 0 || data.Essays.length == 0) {
           setEssays([
             {
               _id: 1,
@@ -72,7 +86,7 @@ const EssayPage = () => {
           ]);
         } else {
           setMaxPage(data.pages);
-          setEssays(data.Books);
+          setEssays(data.Essays);
         }
         setLoading(false);
       })
@@ -88,11 +102,8 @@ const EssayPage = () => {
       ) : (
         <DefaultLayout>
           <div className="essay-page">
-            <EssayFilters setFilters={setFilters} filters={filters} />
-            <PopularEssays />
-
-            <div className={style.flexDiv}>
-              <h3 style={{ fontSize: "1.5em" }}>უახლესი</h3>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <EssayFilters setFilters={setFilters} filters={filters} />
               <Link
                 style={{ textDecoration: "none", color: "var(--text-l)" }}
                 to="/essay/upload"
@@ -102,6 +113,15 @@ const EssayPage = () => {
                   <EssaysSvgs name="plusSVG" />
                 </div>
               </Link>
+            </div>
+            <Link style={{ textDecoration: "none" }} to={"/my-essay-page"}>
+              <button className={style.myEssayButtona}>ჩემი ესეები</button>
+            </Link>
+
+            <PopularEssays />
+
+            <div className={style.flexDiv}>
+              <h3 style={{ fontSize: "1.5em" }}>ესეები</h3>
             </div>
 
             <div className={style.essaysContainer}>

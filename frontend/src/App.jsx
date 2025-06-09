@@ -12,6 +12,9 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import AdminPanel from "./Pages/AdminPanel";
 import ForgotPassword from "./Pages/ForgotPassword";
+import EssayEdit from "./Pages/essayEdit/EssayEdit";
+import MyEssayPage from "./Pages/myEssayPage/MyEssayPage";
+
 // book and article
 import BookPage from "./Pages/BookPage";
 import ArticlePage from "./Pages/ArticlePage";
@@ -43,11 +46,13 @@ function App() {
               path="forgot-password-in"
               element={<ForgotPassword logIn={true} />}
             />
+            <Route path="/my-essay-page" element={<MyEssayPage />} />
             <Route path="/user-page" element={<UserPage />} />
             {/* individual book/articles/essays pages */}
             <Route path="/books/:id" element={<BookPage />} />
             <Route path="/articles/:id" element={<ArticlePage />} />
             <Route path="/essays/:id" element={<EssayIndividualPage />} />
+            <Route path="/essays/edit/:id" element={<EssayEdit />} />
           </Route>
         </Routes>
       </Router>

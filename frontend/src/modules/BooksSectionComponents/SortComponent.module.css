@@ -5,7 +5,9 @@
   justify-content: center;
   gap: 50px;
 }
-
+.kysSvg {
+  transition: transform 0.3s ease;
+}
 .svgBtnDiv {
   display: flex;
   align-items: center;

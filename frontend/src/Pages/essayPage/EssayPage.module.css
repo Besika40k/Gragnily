@@ -10,6 +10,8 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  height: fit-content;
+  width: 250px;
   background-color: var(--primary-l);
   border: 3px solid var(--text-main-l);
   border-radius: 15px;
@@ -19,6 +21,7 @@
   user-select: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease,
     background-color 0.2s ease;
+  margin-top: 50px;
 }
 .addEssayContainer:hover {
   transform: translateY(-2px);
@@ -44,3 +47,28 @@
           </div>
         </div>
 */
+
+.myEssayButtona {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: fit-content;
+  width: fit-content;
+  background-color: var(--primary-l);
+  border: 3px solid var(--text-main-l);
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  margin-top: 50px;
+  color: var(--text-main-l);
+}
+.myEssayButtona:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--hover-dark-l);
+}

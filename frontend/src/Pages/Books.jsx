@@ -55,10 +55,10 @@ const Books = () => {
     setFilters((prev) => {
       const newFilters = { ...prev };
       // toggle the filter
-      if (newFilters[identifier] === "") {
-        newFilters[identifier] = "true"; // or any value you want to set
+      if (newFilters["subject"] === "") {
+        newFilters["subject"] = identifier; // or any value you want to set
       } else {
-        newFilters[identifier] = ""; // reset the filter
+        newFilters["subject"] = ""; // reset the filter
       }
       return newFilters;
     });

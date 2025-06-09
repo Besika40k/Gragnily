@@ -11,11 +11,11 @@ const SearchBar = ({}) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const location = useLocation();
-  const isEssays = location.pathname === "/essay";
-  const isBooks = location.pathname === "/books";
+  let isEssays = location.pathname === "/essay";
+  let isBooks = location.pathname === "/books";
   let both = false;
   if (!(isEssays || isBooks)) {
-    both = true;
+    isEssays = isBooks = true;
   }
   console.log(isEssays, isBooks, "LOCATION TESTING");
   const searchBarRef = useRef(null);
@@ -184,7 +184,7 @@ const SearchBar = ({}) => {
             <Link
               key={index}
               className={style.bookLinkStyling}
-              to={`/books/:${essay._id}`}
+              to={`/essays/${essay._id}`}
             >
               <li
                 style={{ display: "flex", gap: "10px", alignItems: "center" }}

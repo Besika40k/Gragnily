@@ -45,7 +45,7 @@ const PopularEssays = () => {
       })
       .then((data) => {
         console.log("CHAOS", data);
-        if (data.length == 0 || data.Books.length == 0) {
+        if (data.length == 0 || data.Essays.length == 0) {
           setPopular([
             {
               _id: 1,
@@ -55,7 +55,7 @@ const PopularEssays = () => {
             },
           ]);
         } else {
-          setPopular(data.Books);
+          setPopular(data.Essays);
         }
       })
       .catch((error) => {
