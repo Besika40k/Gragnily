@@ -240,11 +240,17 @@ exports.editEssay = asyncHandler(async (req, res) => {
 exports.deleteEssay = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Delete Essay' */
   const { id } = req.params;
-
+  const userId = req.userId;
   if (!id) return res.status(400).json({ message: "Essay ID is required" });
 
   try {
     const essayToDelete = await essay.findById(id);
+
+    if (essayToDelete.author_id.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this essay" });
+    }
 
     if (!essayToDelete) {
       return res.status(404).json({ message: "Essay not found" });
