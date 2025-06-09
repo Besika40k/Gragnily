@@ -11,6 +11,7 @@ const {
   generateVerificationToken,
   sendVerificationEmail,
 } = require("../Utils/verifyEmail");
+const { emailVerification } = require("../constants/emailVerification");
 
 const signUp = asyncHandler(async (req, res) => {
   /* #swagger.summary = 'Register User' */
@@ -69,7 +70,7 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
     return res.status(404).send("User not found");
   }
 
-  res.send("Email successfully verified!");
+  res.send(emailVerification);
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
@@ -167,7 +168,7 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   let authority = "ROLE_" + foundUser.role;
-console.log(process.env.MY_ENVIRONMENT);
+  console.log(process.env.MY_ENVIRONMENT);
   const isProd = process.env.MY_ENVIRONMENT == "production";
   res
     .cookie("x-access-token", token, {
