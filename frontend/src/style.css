@@ -219,6 +219,21 @@
   /* Use form-group margin for spacing within column */
 }
 
+/*
+me="emailValidationOuterDiv">
+      <div className="emailValidationInnerDiv">
+*/
+
+.emailValidationOuterDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+}
+
 /* --- Responsive Adjustments --- */
 
 /* Stack columns on medium/small screens */
