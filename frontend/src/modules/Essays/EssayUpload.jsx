@@ -209,12 +209,7 @@ const EssayUpload = () => {
         <div className="markdown-div">
           <div className="flex-div">
             <h3>აქ შეგიძლია დაწერო შენი ესე!</h3>
-            <Link
-              style={{ textDecoration: "none" }}
-              to={"/essays/6844ba9d01d27fb5f2ff1ca0"}
-            >
-              <button>როგორ გამოიყენო markdown?</button>
-            </Link>
+            <button>როგორ გამოიყენო markdown?</button>
           </div>
           <MarkdownEditor
             value={mdEditorRef.current}
