@@ -229,7 +229,7 @@ const filterSearchEssays = asyncHandler(async (req, res) => {
 
   const pages = Math.ceil(totalEssays / pageSize);
 
-  res.status(200).json({ pages, Books: Essays });
+  res.status(200).json({ pages, Essays });
 });
 
 module.exports = {
