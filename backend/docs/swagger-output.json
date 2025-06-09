@@ -892,23 +892,13 @@
         }
       }
     },
-    "/api/essays/getEssaysByUser/{userId}": {
+    "/api/essays/getUserEssays": {
       "get": {
         "tags": [
           "Essays"
         ],
         "summary": "Get Essays by User",
         "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
