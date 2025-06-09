@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../modules/AuthLayout";
-import "../style.css";
-import { useUser } from "../contexts/UserContext";
+import "../style.css"; // Make sure CSS is imported
+import { useUser } from "../contexts/UserContext"; // Import the context
 
 const SignUp = () => {
   const { updateUser } = useUser(); // Access updateUser function from context
-  const [confirmVisible, setConfirmVisible] = useState(true);
+
   const navigate = useNavigate();
-  const handleOk = () => {
-    navigate("/login");
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const username = event.target.username;
@@ -75,7 +72,7 @@ const SignUp = () => {
               email: email.valu,
             };
             updateUser(tempUserData);
-            setConfirmVisible(false);
+            navigate("/login"); // Success – redirect to homepage
           } else {
             switch (data.message) {
               case "IN_USE_USER":
@@ -102,84 +99,70 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      {!confirmVisible ? (
-        <div className="emailValidationOuterDiv">
-          <h2>
-            ემაილზე მალე მოგივათ ანგარიშის დასადასტურებელი ლინკი, გთხოვთ გაიაროთ
-            ავტორიზაცია რის შემდეგაც შეგიძლიათ შეხვიდეთ ანგარიშზე
-          </h2>
-          <button onClick={handleOk} className="btn-auth">
-            ანგარიშზე შესვლა
-          </button>
-        </div>
-      ) : (
-        <>
-          <h2>შექმენი შენი ანგარიში</h2>
-          <form onSubmit={handleSubmit}>
-            {/* New container for the columns */}
-            <div className="form-columns">
-              {/* Left Column */}
-              <div className="form-column">
-                <div className="form-group">
-                  <label htmlFor="username">სახელი</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    required
-                    placeholder="აირჩიე სახელი"
-                  />
-                </div>
+      <h2>შექმენი შენი ანგარიში</h2>
+      <form onSubmit={handleSubmit}>
+        {/* New container for the columns */}
+        <div className="form-columns">
+          {/* Left Column */}
+          <div className="form-column">
+            <div className="form-group">
+              <label htmlFor="username">სახელი</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                placeholder="აირჩიე სახელი"
+              />
+            </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">ემაილი</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    placeholder="you@example.com"
-                  />
-                </div>
-              </div>
+            <div className="form-group">
+              <label htmlFor="email">ემაილი</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
 
-              {/* Right Column */}
-              <div className="form-column">
-                <div className="form-group">
-                  <label htmlFor="password">პაროლი</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    placeholder="შექმენი პაროლი"
-                  />
-                </div>
+          {/* Right Column */}
+          <div className="form-column">
+            <div className="form-group">
+              <label htmlFor="password">პაროლი</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                placeholder="შექმენი პაროლი"
+              />
+            </div>
 
-                <div className="form-group">
-                  <label htmlFor="confirm-password">დაადასტურე პაროლი</label>
-                  <input
-                    type="password"
-                    id="confirm-password"
-                    name="confirm_password"
-                    required
-                    placeholder="შეიყვანე პაროლი ხელთავიდან"
-                  />
-                </div>
-              </div>
-            </div>{" "}
-            {/* End of form-columns */}
-            {/* Button remains below the columns */}
-            <button type="submit" className="btn-auth">
-              რეგისტრაცია
-            </button>
-          </form>
+            <div className="form-group">
+              <label htmlFor="confirm-password">დაადასტურე პაროლი</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm_password"
+                required
+                placeholder="შეიყვანე პაროლი ხელთავიდან"
+              />
+            </div>
+          </div>
+        </div>{" "}
+        {/* End of form-columns */}
+        {/* Button remains below the columns */}
+        <button type="submit" className="btn-auth">
+          რეგისტრაცია
+        </button>
+      </form>
 
-          <p className="toggle-link">
-            უკვე გაქვს ანგარიში? <Link to="/login">შესვლა</Link>
-          </p>
-        </>
-      )}
+      <p className="toggle-link">
+        უკვე გაქვს ანგარიში? <Link to="/login">შესვლა</Link>
+      </p>
     </AuthLayout>
   );
 };
