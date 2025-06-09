@@ -1,25 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./SearchBar.module.css";
 import SearchIcon from "./SearchIcon";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const SearchBar = ({
-  popularity = "",
-  name = "",
-  date = "",
-  author = "",
-  subject = "",
-}) => {
+const SearchBar = ({}) => {
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState([]);
+  const [essays, setEssays] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const location = useLocation();
+  const isEssays = location.pathname === "/essay";
+  const isBooks = location.pathname === "/books";
+  let both = false;
+  if (!(isEssays || isBooks)) {
+    both = true;
+  }
+  console.log(isEssays, isBooks, "LOCATION TESTING");
   const searchBarRef = useRef(null);
 
   const handleSearch = () => {
     if (!search.trim()) {
       setBooks([]);
+      setArticles([]);
       setIsSearchOpen(false);
       return;
     }
@@ -28,42 +32,58 @@ const SearchBar = ({
     setLoading(true);
 
     const params = {
-      page: 0,
-      limit: 4,
-      popularity,
-      name,
-      date,
-      subject,
-      searchInput: search.trim(),
+      query: search.trim(),
     };
     const queryString = new URLSearchParams(params).toString();
     console.log("searching for", queryString);
-    fetch(
-      `https://gragnily.onrender.com/api/search/bookFilter?${queryString}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    )
+    fetch(`https://gragnily.onrender.com/api/search/?${queryString}`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to fetch books", response.status);
+          throw new Error("Failed to fetch search", response.status);
         }
         return response.json();
       })
       .then((data) => {
         console.log("CHAOS", data);
-        if (data.length == 0 || data.Books.length == 0) {
-          setBooks([
-            {
-              _id: 1,
-              cover_image_url:
-                "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
-              title: "ასეთი წიგნი ვერ მოიძებნა",
-            },
-          ]);
+        if (data.books.length == 0 || data.essays.length == 0) {
+          if (data.books.length == 0) {
+            setBooks([
+              {
+                _id: 1,
+                cover_image_url:
+                  "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
+                title: "ასეთი წიგნი ვერ მოიძებნა",
+              },
+            ]);
+          } else {
+            if (isBooks) {
+              setBooks(data.books);
+            }
+          }
+          if (data.essays.length == 0) {
+            setEssays([
+              {
+                _id: 1,
+                cover_image_url:
+                  "https://ecdn.teacherspayteachers.com/thumbitem/Design-your-own-Book-Cover-Printable-Blank-Book-10355131-1698669978/original-10355131-1.jpg",
+                title: "ასეთი ესე ვერ მოიძებნა",
+              },
+            ]);
+          } else {
+            if (isEssays) {
+              setEssays(data.essays);
+            }
+          }
         } else {
-          setBooks(data.Books);
+          if (isBooks) {
+            setBooks(data.books);
+          }
+          if (isEssays) {
+            setEssays(data.essays);
+          }
         }
         setLoading(false);
       })
@@ -138,22 +158,46 @@ const SearchBar = ({
 
       <ul className={foundItemsClass}>
         {loading && <p>Loading...</p>}
-        {books?.map((book, index) => (
-          <Link
-            key={index}
-            className={style.bookLinkStyling}
-            to={`/books/:${book._id}`}
-          >
-            <li style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <img
-                src={`${book.cover_image_url}`}
-                alt="bookimg"
-                style={{ borderRadius: "5px", width: "30px" }}
-              />
-              <p>{book.title}</p>
-            </li>
-          </Link>
-        ))}
+        {books
+          ?.slice(0, isBooks && !isEssays ? 4 : isBooks && isEssays ? 2 : 0)
+          .map((book, index) => (
+            <Link
+              key={index}
+              className={style.bookLinkStyling}
+              to={`/books/:${book._id}`}
+            >
+              <li
+                style={{ display: "flex", gap: "10px", alignItems: "center" }}
+              >
+                <img
+                  src={`${book.cover_image_url}`}
+                  alt="bookimg"
+                  style={{ borderRadius: "5px", width: "30px" }}
+                />
+                <p>{book.title}</p>
+              </li>
+            </Link>
+          ))}
+        {essays
+          ?.slice(0, isEssays && !isBooks ? 4 : isEssays && isBooks ? 2 : 0)
+          .map((essay, index) => (
+            <Link
+              key={index}
+              className={style.bookLinkStyling}
+              to={`/books/:${essay._id}`}
+            >
+              <li
+                style={{ display: "flex", gap: "10px", alignItems: "center" }}
+              >
+                <img
+                  src={`${essay.cover_image_url}`}
+                  alt="bookimg"
+                  style={{ borderRadius: "5px", width: "30px" }}
+                />
+                <p>{essay.title}</p>
+              </li>
+            </Link>
+          ))}
       </ul>
     </div>
   );
