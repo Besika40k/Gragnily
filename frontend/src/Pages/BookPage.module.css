@@ -30,6 +30,7 @@
 }
 .bookRightDiv {
   width: 40%;
+  margin-left: 50px;
 }
 .bookRightDiv * {
   margin-top: 10px;
