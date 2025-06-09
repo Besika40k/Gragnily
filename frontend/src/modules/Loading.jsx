@@ -3,7 +3,7 @@ import "./LoadingStyle.css"; // Assuming you have a CSS file for styles
 const Loading = () => {
   return (
     <div className="topDogDiv">
-      <div class="loader">
+      <div className="loader">
         <div>
           <ul>
             <li>

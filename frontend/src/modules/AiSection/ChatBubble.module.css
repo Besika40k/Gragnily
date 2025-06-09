@@ -1,6 +1,6 @@
 .containerBubbleRight,
 .containerBubbleLeft {
-  width: 90%;
+  width: 100%;
   height: fit-content;
   max-height: 8;
   display: flex;
@@ -34,11 +34,11 @@
 .messageRightDiv {
   background-color: #679089;
   border-radius: 10px;
-  padding: 10px;
+  padding: 20px;
   color: white;
   font-size: 0.7em;
-  max-width: 65%; /* ✅ limit width of the bubble */
-  word-wrap: break-word; /* ✅ wrap long words */
+  max-width: 65%;
+  word-wrap: break-word;
   white-space: pre-wrap;
 }
 .messageLeftDiv {

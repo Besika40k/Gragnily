@@ -43,7 +43,7 @@ const EssayItem = ({
             fill={`url(#${patternId})`}
           />
         </svg>
-        <h3>{title}</h3>
+        <h3>{title.length > 40 ? title.slice(0, 40) + "…" : title}</h3>
       </div>
     </Link>
   );

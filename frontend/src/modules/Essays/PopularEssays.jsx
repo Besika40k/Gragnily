@@ -122,7 +122,11 @@ const PopularEssays = () => {
                       fill={`url(#${patternId})`}
                     />
                   </svg>
-                  <h3>{item.title}</h3>
+                  <h3>
+                    {item.title.length > 40
+                      ? item.title.slice(0, 40) + "…"
+                      : item.title}
+                  </h3>
                 </div>
               </Link>
             );

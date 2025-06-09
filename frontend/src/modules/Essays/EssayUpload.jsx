@@ -61,7 +61,7 @@ const EssayUpload = () => {
       formSubject.current.style.boxShadow = "";
     }
 
-    if (tags && !/^#\w+( +#\w+)*$/.test(tags)) {
+    if (tags && !/^#([\w\u10A0-\u10FF]+( +#[\w\u10A0-\u10FF]+)*)$/.test(tags)) {
       invalidTag.current.innerText =
         "ტეგები უნდა დაიწყოს სიმბოლოთი # და გამოყოფილი იყოს ერთი სივრცით (მაგ: #ისტორია #მათემატიკა)";
       invalidTag.current.style.display = "block";
@@ -83,10 +83,10 @@ const EssayUpload = () => {
     }
 
     if (!coverImageFile) {
-      const response = await fetch("../../assets/defaultEssayimg.webp");
+      const response = await fetch("/assets/defaultEssayimg.png");
       const blob = await response.blob();
-
-      coverImageFile = new File([blob], "default.jpg", { type: blob.type });
+      console.log(blob.type);
+      coverImageFile = new File([blob], "default.png", { type: blob.type });
     }
 
     if (!valid) {

@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import style from "./ChatBubble.module.css";
+import ReactMarkdown from "react-markdown";
+
 const ChatBubble = ({ text = "", ai = false, loader = false }) => {
   return (
     <div
@@ -11,7 +13,18 @@ const ChatBubble = ({ text = "", ai = false, loader = false }) => {
           <div className={style.loader}></div>
         ) : (
           <p className={ai ? style.messageLeftP : style.messageRightP}>
-            {text}
+            <ReactMarkdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <p className={style.paragraph} {...props} />
+                ),
+                h1: ({ node, ...props }) => (
+                  <h1 className={style.heading} {...props} />
+                ),
+              }}
+            >
+              {text}
+            </ReactMarkdown>
           </p>
         )}
       </div>
